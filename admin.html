@@ -2,513 +2,384 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAGO &mdash; Atelier Admin</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>KAGO Admin</title>
 <style>
-:root{
-  --burgundy:#6B1E2E; --burgundy-d:#4A1220; --burgundy-m:#8C2A3E;
-  --coffee:#3E2010; --coffee-m:#6B3A20; --coffee-l:#9C6845;
-  --rose:#C4788A; --rose-l:#D9A0AC; --rose-pale:#EDD5D9;
-  --beige:#F2E8DA; --beige-d:#E0CEBC; --beige-w:#F7F0E6;
-  --ink:#2C1008; --text:#5A3020; --muted:#9C7860;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--beige-w);color:var(--ink);font-family:"EB Garamond",Georgia,serif;
-     font-size:15px;letter-spacing:.025em;line-height:1.75;min-height:100vh}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:#4A1220;min-height:100vh;display:flex;flex-direction:column}
 
-/* LOGIN SCREEN */
-.login-screen{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--burgundy-d);position:relative;overflow:hidden;
+/* ── LOGIN ── */
+#loginWrap{
+  flex:1;display:flex;align-items:center;justify-content:center;padding:20px;
 }
-.login-noise{
-  position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+#loginBox{
+  background:#F7F0E6;padding:48px 36px;width:100%;max-width:340px;text-align:center;
 }
-.login-box{
-  position:relative;z-index:1;
-  background:var(--beige-w);
-  padding:52px 48px;width:100%;max-width:380px;
-  text-align:center;
+.lb-brand{font-family:Georgia,serif;font-style:italic;font-size:36px;letter-spacing:.2em;color:#6B1E2E;margin-bottom:4px}
+.lb-sub{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:#C4788A;margin-bottom:32px;display:block}
+.lb-line{width:32px;height:1px;background:#D9A0AC;margin:0 auto 32px}
+.lb-label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9C7860;display:block;margin-bottom:10px}
+#pwInput{
+  width:100%;padding:16px;border:1px solid #E0CEBC;background:#F2E8DA;
+  font-size:16px;text-align:center;letter-spacing:.14em;outline:none;
+  margin-bottom:14px;-webkit-appearance:none;border-radius:0;
 }
-.login-brand{
-  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
-  font-size:32px;letter-spacing:.22em;color:var(--burgundy);
-  margin-bottom:6px;
+#pwInput:focus{border-color:#C4788A}
+#loginBtn{
+  width:100%;padding:16px;background:#6B1E2E;color:#F7F0E6;
+  font-family:Georgia,serif;font-size:12px;letter-spacing:.3em;
+  text-transform:uppercase;border:none;cursor:pointer;
+  -webkit-appearance:none;border-radius:0;
 }
-.login-est{
-  font-size:9.5px;letter-spacing:.46em;text-transform:uppercase;
-  color:var(--rose);opacity:.7;margin-bottom:32px;display:block;
-}
-.login-rule{width:36px;height:1px;background:var(--rose-l);margin:0 auto 32px;opacity:.5}
-.login-label{
-  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--muted);display:block;margin-bottom:10px;
-}
-.login-input{
-  width:100%;padding:14px 18px;
-  border:1px solid var(--beige-d);
-  background:var(--beige);
-  font-family:"EB Garamond",serif;font-size:15px;
-  text-align:center;letter-spacing:.18em;
-  outline:none;margin-bottom:14px;
-  transition:border .3s;color:var(--ink);
-}
-.login-input:focus{border-color:var(--rose);}
-.login-btn{
-  width:100%;padding:14px;
-  background:var(--burgundy);color:var(--beige-w);
-  font-family:"EB Garamond",serif;font-size:11px;
-  letter-spacing:.26em;text-transform:uppercase;
-  border:none;cursor:pointer;transition:background .3s;
-}
-.login-btn:hover{background:var(--burgundy-m);}
-.login-error{
-  font-size:12px;color:var(--rose);
-  display:none;margin-top:12px;
-  font-family:"Cormorant Garamond",serif;font-style:italic;
-}
-.login-back{
-  display:block;margin-top:22px;
-  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;
-  transition:color .3s;
-}
-.login-back:hover{color:var(--burgundy);}
+#loginBtn:active{background:#8C2A3E}
+#loginErr{font-size:13px;color:#C4788A;display:none;margin-top:12px;font-style:italic}
+.lb-back{display:block;margin-top:20px;font-size:11px;letter-spacing:.18em;
+         text-transform:uppercase;color:#9C7860;text-decoration:none}
 
-/* ADMIN PANEL — shown after login */
-.admin-screen{display:none;}
-.admin-nav{
-  background:var(--burgundy-d);padding:16px 32px;
+/* ── ADMIN ── */
+#adminWrap{display:none;flex-direction:column;min-height:100vh;background:#F7F0E6}
+.admin-topbar{
+  background:#4A1220;padding:14px 20px;
   display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;
 }
-.admin-nav-brand{
-  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
-  font-size:20px;letter-spacing:.18em;color:rgba(242,232,218,.9);
-}
-.admin-nav-right{display:flex;align-items:center;gap:20px;}
-.admin-nav-site{
-  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(196,120,138,.65);text-decoration:none;
-  transition:color .3s;
-}
-.admin-nav-site:hover{color:var(--rose-l);}
-.admin-logout{
-  padding:8px 18px;border:1px solid rgba(196,120,138,.35);
-  color:rgba(196,120,138,.65);background:transparent;
-  font-family:"EB Garamond",serif;font-size:10px;
-  letter-spacing:.2em;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-}
-.admin-logout:hover{background:rgba(196,120,138,.12);color:var(--rose-l);}
+.admin-topbar-brand{font-family:Georgia,serif;font-style:italic;font-size:18px;
+                     letter-spacing:.14em;color:#F2E8DA}
+.admin-topbar-right{display:flex;gap:12px;align-items:center}
+.topbar-link{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+             color:rgba(196,120,138,.7);text-decoration:none}
+.topbar-link:active{color:#D9A0AC}
+.logout-btn{padding:7px 14px;border:1px solid rgba(196,120,138,.4);
+            color:rgba(196,120,138,.7);background:transparent;
+            font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.logout-btn:active{background:rgba(196,120,138,.15)}
 
-.admin-body{max-width:900px;margin:0 auto;padding:48px 32px 80px;}
-.admin-section{margin-bottom:52px;}
-.admin-section-title{
-  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
-  font-size:28px;color:var(--burgundy);margin-bottom:6px;
-}
-.admin-section-sub{
-  font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;
-  color:var(--muted);margin-bottom:28px;
-}
-.admin-rule{height:1px;background:var(--beige-d);margin-bottom:28px;}
+.admin-main{padding:24px 20px 80px;max-width:700px;margin:0 auto;width:100%}
 
 /* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--beige-d);margin-bottom:28px;}
+.tabs{display:flex;border-bottom:1px solid #E0CEBC;margin-bottom:24px;overflow-x:auto}
 .tab{
-  padding:11px 22px;font-size:11px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--muted);cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .3s;
-  background:none;border-left:none;border-right:none;border-top:none;
-  font-family:"EB Garamond",serif;
+  padding:12px 20px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:#9C7860;cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .25s;background:none;border-left:none;border-right:none;border-top:none;
+  white-space:nowrap;font-family:Georgia,serif;flex-shrink:0;
 }
-.tab.on{color:var(--burgundy);border-bottom-color:var(--burgundy);}
-.pane{display:none;}.pane.on{display:block;}
+.tab.on{color:#6B1E2E;border-bottom-color:#6B1E2E}
 
-/* GUIDE */
-.guide-tip{
-  font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;
-  color:var(--muted);padding:12px 16px;
-  border-left:2px solid var(--rose);
-  background:var(--beige);margin-bottom:22px;line-height:1.75;
-}
-.guide-step{display:flex;gap:16px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--beige-d);}
-.guide-step:last-child{border-bottom:none;margin-bottom:0;}
-.gs-num{
-  width:34px;height:34px;border:1px solid var(--rose);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  font-family:"Playfair Display",serif;font-size:14px;font-weight:700;
-  font-style:italic;color:var(--rose);
-}
-.gs-body{flex:1;}
-.gs-title{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;color:var(--coffee);margin-bottom:5px;}
-.gs-desc{font-size:13.5px;line-height:1.95;color:var(--text);}
-.gs-tip{
-  display:inline-block;margin-top:7px;padding:3px 12px;
-  background:rgba(196,120,138,.1);font-size:10px;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--rose);
-}
+.pane{display:none}.pane.on{display:block}
+
+/* INFO BOX */
+.info{background:#F2E8DA;padding:14px 16px;border-left:3px solid #C4788A;
+      margin-bottom:20px;font-style:italic;font-size:14px;color:#6B3A20;line-height:1.7}
+
+/* GUIDE STEPS */
+.gstep{display:flex;gap:14px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #E0CEBC}
+.gstep:last-child{border-bottom:none}
+.gnum{width:32px;height:32px;border:1px solid #C4788A;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      font-style:italic;font-size:15px;color:#C4788A}
+.gtitle{font-size:15px;font-weight:bold;color:#3E2010;margin-bottom:4px}
+.gdesc{font-size:13px;line-height:1.85;color:#6B3A20}
+.gtip{display:inline-block;margin-top:6px;padding:3px 10px;
+      background:rgba(196,120,138,.12);font-size:10px;letter-spacing:.15em;
+      text-transform:uppercase;color:#C4788A}
 
 /* FORM */
-.field-label{
-  display:block;font-size:10px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--muted);
-  margin-bottom:5px;margin-top:14px;
+.flabel{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+        color:#9C7860;margin:14px 0 5px}
+.finput{
+  width:100%;padding:13px 14px;border:1px solid #E0CEBC;background:#F2E8DA;
+  font-family:Georgia,serif;font-size:15px;color:#2C1008;outline:none;
+  -webkit-appearance:none;border-radius:0;
 }
-.field-input{
-  width:100%;padding:11px 14px;
-  border:1px solid var(--beige-d);
-  background:var(--beige);
-  font-family:"EB Garamond",serif;font-size:14px;color:var(--ink);
-  outline:none;transition:border .3s;
+.finput:focus{border-color:#C4788A}
+.ffile{
+  width:100%;padding:13px 14px;border:1px dashed #E0CEBC;background:#F2E8DA;
+  font-size:13px;color:#9C7860;margin-top:5px;
 }
-.field-input:focus{border-color:var(--rose);}
-.field-file{
-  width:100%;padding:11px 14px;
-  border:1px dashed var(--beige-d);
-  background:var(--beige);
-  font-family:"EB Garamond",serif;font-size:13px;color:var(--muted);
-  cursor:pointer;margin-top:5px;
+.fcheck{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:14px;color:#6B3A20}
+.fcheck input{width:18px;height:18px;flex-shrink:0}
+.preview-box{display:none;margin-top:12px}
+.preview-box img{width:100%;max-height:220px;object-fit:cover}
+.add-btn{
+  width:100%;padding:15px;background:#6B1E2E;color:#F7F0E6;
+  font-family:Georgia,serif;font-size:12px;letter-spacing:.26em;
+  text-transform:uppercase;border:none;cursor:pointer;margin-top:12px;
+  -webkit-appearance:none;border-radius:0;
 }
-.check-row{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:14px;color:var(--text);}
-.preview-wrap{display:none;margin-top:12px;}
-.preview-wrap img{width:100%;max-height:240px;object-fit:cover;}
-.submit-btn{
-  margin-top:14px;padding:13px 32px;
-  background:var(--burgundy);color:var(--beige-w);
-  border:none;font-family:"EB Garamond",serif;
-  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-  cursor:pointer;transition:background .3s;
-}
-.submit-btn:hover{background:var(--burgundy-m);}
-.success-msg{
-  display:none;margin-top:14px;padding:12px 16px;
-  background:rgba(196,120,138,.1);border-left:2px solid var(--rose);
-  font-family:"Cormorant Garamond",serif;font-style:italic;
-  font-size:15px;color:var(--burgundy);
+.add-btn:active{background:#8C2A3E}
+.ok-msg{
+  display:none;margin-top:14px;padding:13px 16px;
+  background:rgba(196,120,138,.12);border-left:3px solid #C4788A;
+  font-style:italic;font-size:15px;color:#6B1E2E;
 }
 
 /* MANAGE LIST */
-.outfit-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
-.outfit-row{
-  display:flex;align-items:center;gap:14px;
-  padding:13px 16px;background:var(--beige);
-  border:1px solid var(--beige-d);
+.olist{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.orow{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;background:#F2E8DA;border:1px solid #E0CEBC;
 }
-.outfit-thumb{width:42px;height:56px;object-fit:cover;flex-shrink:0;}
-.outfit-ph{
-  width:42px;height:56px;flex-shrink:0;background:var(--beige-d);
-  display:flex;align-items:center;justify-content:center;
-  font-family:"Playfair Display",serif;font-size:11px;
-  font-style:italic;color:var(--rose);
-}
-.outfit-info{flex:1;min-width:0;}
-.outfit-brand{
-  font-family:"Playfair Display",serif;font-size:14px;font-weight:700;
-  color:var(--coffee);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.outfit-name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.outfit-feat{font-size:10.5px;color:var(--rose);margin-top:2px;}
-.remove-btn{
-  background:none;border:1px solid rgba(136,59,67,.3);
-  color:rgba(136,59,67,.7);padding:6px 12px;
-  font-size:10.5px;cursor:pointer;transition:all .3s;flex-shrink:0;
-}
-.remove-btn:hover{background:rgba(136,59,67,.1);}
-.empty-msg{
-  font-family:"Cormorant Garamond",serif;font-style:italic;
-  font-size:16px;color:var(--muted);text-align:center;
-  padding:32px;border:1px dashed var(--beige-d);
-}
+.othumb{width:40px;height:52px;object-fit:cover;flex-shrink:0}
+.oph{width:40px;height:52px;flex-shrink:0;background:#E0CEBC;
+     display:flex;align-items:center;justify-content:center;
+     font-style:italic;font-size:11px;color:#C4788A}
+.oinfo{flex:1;min-width:0}
+.obrand{font-size:13px;font-weight:bold;color:#3E2010;
+        white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oname{font-size:11px;color:#9C7860;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ofeat{font-size:10px;color:#C4788A;margin-top:2px}
+.odel{background:none;border:1px solid rgba(136,59,67,.35);color:rgba(136,59,67,.7);
+      padding:6px 10px;font-size:10px;cursor:pointer;flex-shrink:0;
+      -webkit-appearance:none;border-radius:0}
+.odel:active{background:rgba(136,59,67,.1)}
+.empty{text-align:center;padding:30px;font-style:italic;color:#9C7860;
+       border:1px dashed #E0CEBC;font-size:15px}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen" id="loginScreen">
-  <div class="login-noise"></div>
-  <div class="login-box">
-    <div class="login-brand">KAGO</div>
-    <span class="login-est">Atelier Admin</span>
-    <div class="login-rule"></div>
-    <label class="login-label">Enter your password</label>
-    <input class="login-input" type="password" id="passInput"
-           placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-           onkeypress="if(event.key==='Enter')checkPass()">
-    <button class="login-btn" onclick="checkPass()">Enter the Atelier</button>
-    <p class="login-error" id="loginError">Incorrect password. Please try again.</p>
-    <a class="login-back" href="index.html">&larr; Return to website</a>
+<!-- LOGIN -->
+<div id="loginWrap">
+  <div id="loginBox">
+    <div class="lb-brand">KAGO</div>
+    <span class="lb-sub">Atelier Admin</span>
+    <div class="lb-line"></div>
+    <label class="lb-label">Enter password</label>
+    <input id="pwInput" type="password" placeholder="Password"
+           autocomplete="current-password"
+           onkeypress="if(event.key==='Enter')doLogin()">
+    <button id="loginBtn" onclick="doLogin()">Enter the Atelier</button>
+    <p id="loginErr">Incorrect password. Please try again.</p>
+    <a class="lb-back" href="index.html">&larr; Return to website</a>
   </div>
 </div>
 
-<!-- ADMIN SCREEN -->
-<div class="admin-screen" id="adminScreen">
-  <div class="admin-nav">
-    <div class="admin-nav-brand">KAGO &mdash; Atelier Admin</div>
-    <div class="admin-nav-right">
-      <a class="admin-nav-site" href="index.html" target="_blank">View Live Site &rarr;</a>
-      <button class="admin-logout" onclick="logout()">Log Out</button>
+<!-- ADMIN -->
+<div id="adminWrap">
+  <div class="admin-topbar">
+    <div class="admin-topbar-brand">KAGO Admin</div>
+    <div class="admin-topbar-right">
+      <a class="topbar-link" href="index.html" target="_blank">View Site</a>
+      <button class="logout-btn" onclick="doLogout()">Log Out</button>
     </div>
   </div>
 
-  <div class="admin-body">
+  <div class="admin-main">
+    <div class="tabs">
+      <button class="tab on" onclick="showTab(this,'pGuide')">Photo Guide</button>
+      <button class="tab" onclick="showTab(this,'pAdd')">Add a Look</button>
+      <button class="tab" onclick="showTab(this,'pManage')">Manage Looks</button>
+    </div>
 
-    <!-- LOOKBOOK MANAGEMENT -->
-    <div class="admin-section">
-      <div class="admin-section-title">Lookbook Management</div>
-      <div class="admin-section-sub">Add, edit and remove looks from the website lookbook.</div>
-      <div class="admin-rule"></div>
-
-      <div class="tabs">
-        <button class="tab on" onclick="switchTab(this,'pane-guide')">Photo Guide</button>
-        <button class="tab" onclick="switchTab(this,'pane-add')">Add a Look</button>
-        <button class="tab" onclick="switchTab(this,'pane-manage')">Manage Looks</button>
-      </div>
-
-      <!-- GUIDE -->
-      <div class="pane on" id="pane-guide">
-        <div class="guide-tip">Read this before uploading. Following these steps ensures your photos look perfect on the website.</div>
-        <div class="guide-step">
-          <div class="gs-num">1</div>
-          <div class="gs-body">
-            <div class="gs-title">Prepare your photo</div>
-            <div class="gs-desc">Portrait orientation — taller than wide. The website cards use a 3 to 4 ratio. Ideal size is 900 by 1200 pixels or larger. JPEG or PNG format. Keep the file under 5MB. A clean background — white, cream, stone or dark — photographs best on the cards.</div>
-            <span class="gs-tip">Portrait JPEG &bull; 900&times;1200px or larger</span>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="gs-num">2</div>
-          <div class="gs-body">
-            <div class="gs-title">Go to Add a Look</div>
-            <div class="gs-desc">Tap the Add a Look tab above. Fill in the Brand, Look Name, Piece Description, Price and Season. Brand and Look Name are required. All other fields are optional but improve the client experience.</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="gs-num">3</div>
-          <div class="gs-body">
-            <div class="gs-title">Upload your photo</div>
-            <div class="gs-desc">Tap Choose Photo and select your image from your camera roll or files. A preview appears immediately so you can confirm it looks right before saving. You can upload from your iPad camera roll directly.</div>
-            <span class="gs-tip">A preview appears immediately after selecting</span>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="gs-num">4</div>
-          <div class="gs-body">
-            <div class="gs-title">Feature on the landing page</div>
-            <div class="gs-desc">Tick Show on landing page if you want this look in the 4-card preview at the top of the website. Only 4 featured looks appear there. Your strongest and most editorial looks should be featured. Leave unticked for looks that only appear in the full collection below.</div>
-            <span class="gs-tip">Feature your 4 strongest looks on the landing page</span>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="gs-num">5</div>
-          <div class="gs-body">
-            <div class="gs-title">Add to Lookbook</div>
-            <div class="gs-desc">Press the button. The card appears on the website immediately. Go to Manage Looks to remove the placeholder looks and replace them one by one with your real photographs. The lookbook holds up to 10 looks total.</div>
-            <span class="gs-tip">Changes appear on the website instantly</span>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="gs-num">6</div>
-          <div class="gs-body">
-            <div class="gs-title">Important note about photos</div>
-            <div class="gs-desc">Photos are saved in your browser storage. If you clear your browser or switch devices, you will need to re-upload them. For a permanent solution when you are ready, come back to Claude and we will embed the photos directly into the website files so they are always there.</div>
-            <span class="gs-tip">Re-upload if you switch browsers or clear cache</span>
-          </div>
+    <!-- GUIDE -->
+    <div class="pane on" id="pGuide">
+      <div class="info">Read before uploading. These steps ensure your photos look perfect on the website.</div>
+      <div class="gstep">
+        <div class="gnum">1</div>
+        <div>
+          <div class="gtitle">Prepare your photo</div>
+          <div class="gdesc">Portrait orientation — taller than wide. Ideal: 900&times;1200px or larger. JPEG or PNG. Under 5MB. Use a clean background — white, cream, stone or dark.</div>
+          <span class="gtip">Portrait JPEG &bull; 900&times;1200px minimum</span>
         </div>
       </div>
-
-      <!-- ADD LOOK -->
-      <div class="pane" id="pane-add">
-        <div class="guide-tip">Fill in the details, choose a photo, and press Add. The look appears on the website immediately.</div>
-        <label class="field-label">Brand / Fashion House *</label>
-        <input class="field-input" id="fBrand" placeholder="e.g. Loro Piana">
-        <label class="field-label">Look Name *</label>
-        <input class="field-input" id="fName" placeholder="e.g. The Cashmere Power Suit">
-        <label class="field-label">Piece Description</label>
-        <input class="field-input" id="fPiece" placeholder="e.g. Cashmere Tailored Suit, Ivory and Camel">
-        <label class="field-label">Price</label>
-        <input class="field-input" id="fPrice" placeholder="e.g. From &pound;8,400 or Upon Request">
-        <label class="field-label">Season or Collection</label>
-        <input class="field-input" id="fSeason" placeholder="e.g. SS 2026 or Archive">
-        <label class="field-label">Photo &mdash; JPEG or PNG, portrait orientation</label>
-        <input class="field-file" type="file" id="fPhoto" accept="image/*">
-        <div class="preview-wrap" id="previewWrap">
-          <img id="previewImg" alt="Preview">
+      <div class="gstep">
+        <div class="gnum">2</div>
+        <div>
+          <div class="gtitle">Tap &ldquo;Add a Look&rdquo; tab above</div>
+          <div class="gdesc">Fill in Brand, Look Name, Price and Season. Brand and Look Name are required. All other fields are optional.</div>
         </div>
-        <div class="check-row">
-          <input type="checkbox" id="fFeatured">
-          <label for="fFeatured">Show on landing page (featured look)</label>
-        </div>
-        <button class="submit-btn" onclick="addOutfit()">Add to Lookbook &rsaquo;</button>
-        <div class="success-msg" id="addSuccess">Look added successfully. Switch to Manage Looks to see it.</div>
       </div>
-
-      <!-- MANAGE -->
-      <div class="pane" id="pane-manage">
-        <div class="guide-tip">All looks currently in the lookbook. Remove placeholder looks and replace them with your real photographs. The lookbook holds a maximum of 10 looks.</div>
-        <div class="outfit-list" id="outfitList"></div>
+      <div class="gstep">
+        <div class="gnum">3</div>
+        <div>
+          <div class="gtitle">Upload your photo</div>
+          <div class="gdesc">Tap Choose Photo and select from your camera roll or files. A preview appears immediately so you can confirm before saving.</div>
+          <span class="gtip">Preview appears immediately after selecting</span>
+        </div>
+      </div>
+      <div class="gstep">
+        <div class="gnum">4</div>
+        <div>
+          <div class="gtitle">Feature on landing page</div>
+          <div class="gdesc">Tick &ldquo;Show on landing page&rdquo; for your 4 strongest looks. These appear in the preview grid at the top of the website. Leave unticked for the full collection only.</div>
+          <span class="gtip">Maximum 4 featured looks on the landing page</span>
+        </div>
+      </div>
+      <div class="gstep">
+        <div class="gnum">5</div>
+        <div>
+          <div class="gtitle">Tap &ldquo;Add to Lookbook&rdquo;</div>
+          <div class="gdesc">The look appears on the website immediately. Go to Manage Looks to remove the placeholder looks one by one as you replace them with real photos.</div>
+          <span class="gtip">Changes appear on the website instantly</span>
+        </div>
       </div>
     </div>
 
+    <!-- ADD -->
+    <div class="pane" id="pAdd">
+      <div class="info">Fill in the details, choose a photo, and tap Add. The look appears on the website immediately.</div>
+      <label class="flabel">Brand / Fashion House *</label>
+      <input class="finput" id="fBrand" placeholder="e.g. Loro Piana" autocorrect="off">
+      <label class="flabel">Look Name *</label>
+      <input class="finput" id="fName" placeholder="e.g. The Cashmere Power Suit" autocorrect="off">
+      <label class="flabel">Piece Description</label>
+      <input class="finput" id="fPiece" placeholder="e.g. Cashmere Tailored Suit, Ivory" autocorrect="off">
+      <label class="flabel">Price</label>
+      <input class="finput" id="fPrice" placeholder="e.g. From &pound;8,400 or Upon Request" autocorrect="off">
+      <label class="flabel">Season or Collection</label>
+      <input class="finput" id="fSeason" placeholder="e.g. SS 2026 or Archive" autocorrect="off">
+      <label class="flabel">Photo &mdash; JPEG or PNG, portrait orientation</label>
+      <input class="ffile" type="file" id="fPhoto" accept="image/*">
+      <div class="preview-box" id="previewBox">
+        <img id="previewImg" alt="Preview">
+      </div>
+      <div class="fcheck">
+        <input type="checkbox" id="fFeatured">
+        <label for="fFeatured">Show on landing page (featured look)</label>
+      </div>
+      <button class="add-btn" onclick="doAdd()">Add to Lookbook &rsaquo;</button>
+      <div class="ok-msg" id="okMsg">Look added. Switch to Manage Looks to see it.</div>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="pane" id="pManage">
+      <div class="info">All looks currently in the lookbook. Remove placeholder looks and replace with your real photographs. Maximum 10 looks total.</div>
+      <div class="olist" id="oList"></div>
+    </div>
   </div>
 </div>
 
 <script>
-(function () {
-  'use strict';
+var PASS = 'Thumbmaster@47';
+var KEY  = 'kago_outfits_v1';
 
-  var PASS = 'Thumbmaster@47';
-  var STORAGE_KEY = 'kago_outfits_v1';
+var DEFAULTS = [
+  {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit \u00b7 Ivory & Camel',price:'From \u00a38,400',season:'AW 2026',image:null,featured:true,init:'LP'},
+  {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',piece:'Linen Blazer \u00b7 Trousers \u00b7 Tonal Look',price:'From \u00a35,200',season:'SS 2026',image:null,featured:true,init:'BC'},
+  {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',piece:'Fitted Blazer \u00b7 Sheath Dress \u00b7 Black',price:'From \u00a34,800',season:'Archive 2025',image:null,featured:true,init:'AMQ'},
+  {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',piece:'Le Smoking Tuxedo \u00b7 Evening Look',price:'From \u00a36,000',season:'AW 2026',image:null,featured:true,init:'YSL'},
+  {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From \u00a33,800',season:'Collection 2026',image:null,featured:false,init:'RL'},
+  {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',piece:'Bar Jacket \u00b7 Pencil Skirt \u00b7 Archive',price:'Upon Request',season:'Archive',image:null,featured:false,init:'CD'}
+];
 
-  var DEFAULTS = [
-    {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit · Ivory & Camel',price:'From £8,400',season:'AW 2026',image:null,featured:true,ph:'p-lp',init:'LP'},
-    {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',piece:'Linen Blazer · Trousers · Tonal Look',price:'From £5,200',season:'SS 2026',image:null,featured:true,ph:'p-bc',init:'BC'},
-    {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',piece:'Fitted Blazer · Sheath Dress · Black',price:'From £4,800',season:'Archive 2025',image:null,featured:true,ph:'p-amq',init:'AMQ'},
-    {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',piece:'Le Smoking Tuxedo · Evening Look',price:'From £6,000',season:'AW 2026',image:null,featured:true,ph:'p-ysl',init:'YSL'},
-    {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From £3,800',season:'Collection 2026',image:null,featured:false,ph:'p-rl',init:'RL'},
-    {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',piece:'Bar Jacket · Pencil Skirt · Archive',price:'Upon Request',season:'Archive',image:null,featured:false,ph:'p-dior',init:'CD'}
-  ];
+function getOutfits(){
+  try{ var s=localStorage.getItem(KEY); return s?JSON.parse(s):DEFAULTS; }
+  catch(e){ return DEFAULTS; }
+}
+function saveOutfits(list){
+  try{ localStorage.setItem(KEY,JSON.stringify(list)); }catch(e){}
+}
 
-  function getOutfits() {
-    try {
-      var s = localStorage.getItem(STORAGE_KEY);
-      return s ? JSON.parse(s) : DEFAULTS;
-    } catch(e) { return DEFAULTS; }
+function doLogin(){
+  var v = document.getElementById('pwInput').value;
+  if(v === PASS){
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminWrap').style.display = 'flex';
+    buildManage();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
   }
+}
 
-  function saveOutfits(list) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch(e) {}
-  }
+function doLogout(){
+  document.getElementById('adminWrap').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+}
 
-  /* ── LOGIN ── */
-  function checkPass() {
-    var val = document.getElementById('passInput').value;
-    if (val === PASS) {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('adminScreen').style.display = 'block';
-      renderOutfitList();
-    } else {
-      document.getElementById('loginError').style.display = 'block';
-      document.getElementById('passInput').value = '';
-    }
-  }
-  window.checkPass = checkPass;
+function showTab(btn, paneId){
+  document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('on'); });
+  document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('on'); });
+  btn.classList.add('on');
+  document.getElementById(paneId).classList.add('on');
+  if(paneId === 'pManage') buildManage();
+}
 
-  function logout() {
-    document.getElementById('adminScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('passInput').value = '';
-    document.getElementById('loginError').style.display = 'none';
-  }
-  window.logout = logout;
+document.getElementById('fPhoto').addEventListener('change', function(){
+  var file = this.files[0];
+  if(!file) return;
+  var r = new FileReader();
+  r.onload = function(e){
+    document.getElementById('previewImg').src = e.target.result;
+    document.getElementById('previewBox').style.display = 'block';
+  };
+  r.readAsDataURL(file);
+});
 
-  /* ── TABS ── */
-  function switchTab(btn, paneId) {
-    document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('on'); });
-    document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('on'); });
-    btn.classList.add('on');
-    var p = document.getElementById(paneId);
-    if (p) { p.classList.add('on'); if (paneId === 'pane-manage') renderOutfitList(); }
-  }
-  window.switchTab = switchTab;
+function doAdd(){
+  var brand = document.getElementById('fBrand').value.trim();
+  var name  = document.getElementById('fName').value.trim();
+  if(!brand || !name){ alert('Brand and Look Name are required.'); return; }
+  var piece    = document.getElementById('fPiece').value.trim();
+  var price    = document.getElementById('fPrice').value.trim() || 'Upon Request';
+  var season   = document.getElementById('fSeason').value.trim() || '2026';
+  var featured = document.getElementById('fFeatured').checked;
+  var file     = document.getElementById('fPhoto').files[0];
+  var id       = 'u_' + Date.now();
 
-  /* ── PHOTO PREVIEW ── */
-  document.addEventListener('change', function(e) {
-    if (e.target.id === 'fPhoto') {
-      var file = e.target.files[0];
-      if (!file) return;
-      var r = new FileReader();
-      r.onload = function(ev) {
-        document.getElementById('previewImg').src = ev.target.result;
-        document.getElementById('previewWrap').style.display = 'block';
-      };
-      r.readAsDataURL(file);
-    }
-  });
-
-  /* ── ADD OUTFIT ── */
-  function addOutfit() {
-    var brand  = document.getElementById('fBrand').value.trim();
-    var name   = document.getElementById('fName').value.trim();
-    if (!brand || !name) { alert('Please enter a brand and look name.'); return; }
-    var piece    = document.getElementById('fPiece').value.trim();
-    var price    = document.getElementById('fPrice').value.trim() || 'Upon Request';
-    var season   = document.getElementById('fSeason').value.trim() || '2026';
-    var featured = document.getElementById('fFeatured').checked;
-    var file     = document.getElementById('fPhoto').files[0];
-    var id       = 'u_' + Date.now();
-
-    function save(imgSrc) {
-      var outfits = getOutfits();
-      outfits.push({
-        id: id, brand: brand, name: name, piece: piece,
-        price: price, season: season, image: imgSrc || null,
-        featured: featured, ph: 'p-def', init: brand.substring(0,2).toUpperCase()
-      });
-      saveOutfits(outfits);
-      ['fBrand','fName','fPiece','fPrice','fSeason','fPhoto'].forEach(function(f){
-        document.getElementById(f).value = '';
-      });
-      document.getElementById('fFeatured').checked = false;
-      document.getElementById('previewWrap').style.display = 'none';
-      document.getElementById('addSuccess').style.display = 'block';
-      setTimeout(function(){
-        document.getElementById('addSuccess').style.display = 'none';
-      }, 4000);
-      renderOutfitList();
-    }
-
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function(e) { save(e.target.result); };
-      reader.readAsDataURL(file);
-    } else {
-      save(null);
-    }
-  }
-  window.addOutfit = addOutfit;
-
-  /* ── MANAGE LIST ── */
-  function renderOutfitList() {
-    var list = document.getElementById('outfitList');
-    if (!list) return;
-    var outfits = getOutfits();
-    list.innerHTML = '';
-    if (outfits.length === 0) {
-      list.innerHTML = '<div class="empty-msg">No looks in the lookbook yet. Add your first look above.</div>';
-      return;
-    }
-    outfits.forEach(function(o) {
-      var row = document.createElement('div');
-      row.className = 'outfit-row';
-      var thumb = o.image
-        ? '<img class="outfit-thumb" src="' + o.image + '" alt="">'
-        : '<div class="outfit-ph">' + (o.init || 'K') + '</div>';
-      var feat = o.featured ? '<div class="outfit-feat">★ Featured on landing page</div>' : '';
-      row.innerHTML = thumb +
-        '<div class="outfit-info">' +
-          '<div class="outfit-brand">' + o.brand + '</div>' +
-          '<div class="outfit-name">' + o.name + ' &middot; ' + o.season + '</div>' +
-          feat +
-        '</div>';
-      var btn = document.createElement('button');
-      btn.className = 'remove-btn';
-      btn.textContent = 'Remove';
-      btn.addEventListener('click', function() {
-        if (!confirm('Remove ' + o.name + ' from the lookbook?')) return;
-        saveOutfits(getOutfits().filter(function(x){ return x.id !== o.id; }));
-        renderOutfitList();
-      });
-      row.appendChild(btn);
-      list.appendChild(row);
+  function save(img){
+    var list = getOutfits();
+    list.push({id:id,brand:brand,name:name,piece:piece,price:price,
+               season:season,image:img||null,featured:featured,
+               init:brand.substring(0,2).toUpperCase()});
+    saveOutfits(list);
+    ['fBrand','fName','fPiece','fPrice','fSeason','fPhoto'].forEach(function(f){
+      document.getElementById(f).value='';
     });
+    document.getElementById('fFeatured').checked = false;
+    document.getElementById('previewBox').style.display = 'none';
+    var ok = document.getElementById('okMsg');
+    ok.style.display = 'block';
+    setTimeout(function(){ ok.style.display='none'; },4000);
+    buildManage();
   }
 
-})();
+  if(file){
+    var r = new FileReader();
+    r.onload = function(e){ save(e.target.result); };
+    r.readAsDataURL(file);
+  } else {
+    save(null);
+  }
+}
+
+function buildManage(){
+  var el = document.getElementById('oList');
+  var list = getOutfits();
+  el.innerHTML = '';
+  if(!list.length){
+    el.innerHTML = '<div class="empty">No looks yet. Add your first look above.</div>';
+    return;
+  }
+  list.forEach(function(o){
+    var row = document.createElement('div');
+    row.className = 'orow';
+    var thumb = o.image
+      ? '<img class="othumb" src="'+o.image+'" alt="">'
+      : '<div class="oph">'+(o.init||'K')+'</div>';
+    var feat = o.featured ? '<div class="ofeat">\u2605 Featured on landing</div>' : '';
+    row.innerHTML = thumb +
+      '<div class="oinfo">'+
+        '<div class="obrand">'+o.brand+'</div>'+
+        '<div class="oname">'+o.name+' &middot; '+o.season+'</div>'+
+        feat+
+      '</div>';
+    var del = document.createElement('button');
+    del.className = 'odel';
+    del.textContent = 'Remove';
+    del.onclick = function(){
+      if(!confirm('Remove "'+o.name+'" from the lookbook?')) return;
+      saveOutfits(getOutfits().filter(function(x){ return x.id!==o.id; }));
+      buildManage();
+    };
+    row.appendChild(del);
+    el.appendChild(row);
+  });
+}
 </script>
 </body>
 </html>
