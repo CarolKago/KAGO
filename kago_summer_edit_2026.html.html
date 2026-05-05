@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAGO — The Summer Edit, London 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
+<style>
+:root{
+  --burgundy:#6B1E2E; --burgundy-d:#4A1220; --burgundy-m:#8C2A3E;
+  --coffee:#3E2010; --coffee-m:#6B3A20; --coffee-l:#9C6845;
+  --rose:#C4788A; --rose-l:#D9A0AC; --rose-pale:#EDD5D9;
+  --beige:#F2E8DA; --beige-d:#E0CEBC; --beige-w:#F7F0E6;
+  --ink:#2C1008; --text:#5A3020; --muted:#9C7860;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--beige-w);color:var(--ink);font-family:"EB Garamond",Georgia,serif;font-size:15px;letter-spacing:.025em;line-height:1.75}
+a{color:var(--burgundy);text-decoration:none;border-bottom:1px solid rgba(107,30,46,.25);transition:border-color .3s,color .3s}
+a:hover{color:var(--rose);border-color:var(--rose)}
+img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* COVER */
+.cover{
+  background:var(--burgundy-d);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:60px 40px;
+  position:relative;overflow:hidden;
+}
+.cover::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 60%,#5A1828 0%,#2A0A12 70%);
+}
+.cover-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+.cover-inner{position:relative;z-index:2;max-width:640px}
+.cover-rule{width:48px;height:1px;background:rgba(196,120,138,.45);margin:0 auto 28px}
+.cover-eye{
+  font-size:10px;letter-spacing:.52em;text-transform:uppercase;
+  color:rgba(217,160,172,.6);margin-bottom:20px;
+}
+.cover-title{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:clamp(42px,7vw,80px);line-height:1;
+  color:rgba(242,232,218,.92);margin-bottom:12px;letter-spacing:.06em;
+}
+.cover-subtitle{
+  font-family:"Playfair Display",serif;font-weight:900;
+  font-size:clamp(36px,6vw,68px);line-height:1;
+  color:rgba(196,120,138,.75);letter-spacing:.2em;
+}
+.cover-meta{
+  font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;
+  color:rgba(217,160,172,.45);margin-top:22px;line-height:1.7;
+}
+.cover-rule-bot{width:48px;height:1px;background:rgba(196,120,138,.35);margin:26px auto 0}
+
+/* INTRO */
+.intro{max-width:680px;margin:0 auto;padding:90px 40px 60px;text-align:center}
+.intro-eye{
+  font-size:10px;letter-spacing:.44em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;gap:18px;
+}
+.intro-eye::before,.intro-eye::after{
+  content:"";width:36px;height:1px;background:var(--rose-l);opacity:.5;
+}
+.intro-title{
+  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
+  font-size:clamp(30px,4vw,52px);color:var(--burgundy);
+  line-height:1.1;margin-bottom:22px;
+}
+.intro-body{
+  font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;
+  font-weight:300;color:var(--text);line-height:1.9;
+}
+
+/* LOOK SECTION */
+.look{
+  max-width:1100px;margin:0 auto;
+  padding:70px 40px;
+  border-top:1px solid var(--beige-d);
+}
+.look:first-of-type{border-top:none}
+.look-num{
+  font-family:"EB Garamond",serif;font-size:11px;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--rose);margin-bottom:12px;
+  display:flex;align-items:center;gap:14px;
+}
+.look-num::before{content:"";width:24px;height:1px;background:var(--rose-l);opacity:.6}
+.look-headline{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:clamp(28px,3.5vw,50px);color:var(--burgundy);
+  line-height:1.1;margin-bottom:6px;
+}
+.look-occasion{
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--coffee-l);margin-bottom:36px;
+}
+.look-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:4px;
+  margin-bottom:48px;
+}
+.look-grid.single{grid-template-columns:1fr;max-width:520px}
+.look-main-img{
+  aspect-ratio:3/4;overflow:hidden;position:relative;
+  background:var(--beige-d);
+}
+.look-side{display:flex;flex-direction:column;gap:4px}
+.look-side-img{
+  flex:1;overflow:hidden;position:relative;
+  background:var(--beige-d);min-height:160px;
+}
+/* Placeholder styling when no real images */
+.img-ph{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  font-family:"Playfair Display",serif;
+}
+.img-ph::before{
+  content:attr(data-house);
+  font-size:clamp(28px,4vw,52px);font-weight:900;font-style:italic;
+  opacity:.12;letter-spacing:-.02em;
+}
+/* Each look gets its own tonal gradient */
+.g-lp{background:linear-gradient(160deg,#D4C8B8,#C0B09A)}
+.g-bc{background:linear-gradient(160deg,#EAE0D2,#D4C4AE)}
+.g-row{background:linear-gradient(160deg,#F0E8DC,#E0D0BE)}
+.g-ysl{background:linear-gradient(160deg,#2A1A10,#1A0E08)}
+.g-lp2{background:linear-gradient(160deg,#E8DDD0,#D8CABC)}
+.g-dark{background:linear-gradient(160deg,#1E0E08,#120806)}
+.g-rose{background:linear-gradient(160deg,#EDD5D9,#D9A0AC)}
+.g-coffee{background:linear-gradient(160deg,#4A2C18,#2C1A0C)}
+.g-cream{background:linear-gradient(160deg,#F4EDE0,#E8DDD0)}
+
+.look-detail{display:grid;grid-template-columns:1fr 1fr;gap:36px 52px;margin-bottom:36px}
+.detail-group{}
+.detail-label{
+  font-size:9.5px;letter-spacing:.38em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:10px;display:block;
+}
+.detail-item{
+  display:flex;flex-direction:column;gap:2px;margin-bottom:14px;
+  padding-bottom:14px;border-bottom:1px solid var(--beige-d);
+}
+.detail-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.detail-house{
+  font-family:"Playfair Display",serif;font-size:15px;font-weight:700;
+  color:var(--coffee);
+}
+.detail-piece{font-size:13.5px;color:var(--text);line-height:1.5}
+.detail-price{font-family:"Cormorant Garamond",serif;font-size:14px;font-style:italic;color:var(--rose)}
+.detail-link{
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--burgundy-m);margin-top:4px;display:inline-block;
+}
+
+.look-story{
+  background:var(--beige);padding:36px 40px;
+  border-left:2px solid var(--rose);
+  margin-top:32px;
+}
+.look-story-text{
+  font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;
+  font-weight:300;color:var(--text);line-height:1.9;
+}
+.look-story-text em{color:var(--burgundy);font-style:italic}
+
+/* DIVIDER */
+.divider{
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 40px;gap:22px;max-width:1100px;margin:0 auto;
+}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--beige-d)}
+.divider-mark{
+  font-family:"Playfair Display",serif;font-size:11px;font-style:italic;
+  letter-spacing:.26em;color:rgba(107,30,46,.38);white-space:nowrap;
+}
+
+/* FOOTER */
+.editorial-footer{
+  background:var(--burgundy-d);padding:70px 40px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.editorial-footer::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 100%,#3A0E18 0%,#2A0A12 100%);
+}
+.ef-inner{position:relative;z-index:1;max-width:560px;margin:0 auto}
+.ef-brand{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:34px;letter-spacing:.22em;color:rgba(242,232,218,.88);
+  margin-bottom:8px;
+}
+.ef-est{font-size:10px;letter-spacing:.46em;text-transform:uppercase;color:rgba(196,120,138,.55);margin-bottom:24px}
+.ef-rule{width:40px;height:1px;background:rgba(196,120,138,.3);margin:0 auto 24px}
+.ef-note{
+  font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;
+  color:rgba(217,160,172,.45);line-height:1.85;
+}
+.ef-contact{
+  margin-top:28px;font-size:11px;letter-spacing:.18em;
+  color:rgba(196,120,138,.5);text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-inner">
+    <div class="cover-rule"></div>
+    <div class="cover-eye">Kago Private Atelier &middot; Curated Summer Edit</div>
+    <div class="cover-title">The Summer</div>
+    <div class="cover-subtitle">LONDON</div>
+    <p class="cover-meta">
+      Five complete looks for the discerning woman.<br>
+      Summer 2026 &middot; Curated for warmth, power and occasion.
+    </p>
+    <div class="cover-rule-bot"></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-eye">A Note from the Atelier</div>
+  <h1 class="intro-title">Dressed for a London<br>Summer That Means Something</h1>
+  <p class="intro-body">
+    London in summer is not Ibiza. It is Serpentine Gallery openings, Glyndebourne,
+    private members&rsquo; terrace lunches, boardroom windows left ajar. It calls for
+    clothing that is cool to the touch but never casual in intention.
+    These five looks are curated specifically for a woman who moves between worlds
+    with the same assurance &mdash; the professional, the collector, the host,
+    the woman who arrives and is simply, quietly, the best-dressed in every room.
+  </p>
+</div>
+
+<div class="divider"><span class="divider-mark">Look One</span></div>
+
+<!-- ═══ LOOK 1 ═══ -->
+<div class="look" id="look-1">
+  <div class="look-num">01 of 05</div>
+  <div class="look-headline">The Terrace Edit</div>
+  <div class="look-occasion">Private Members&rsquo; Club &middot; Al Fresco Lunch &middot; Afternoon Meetings</div>
+
+  <div class="look-grid">
+    <div class="look-main-img">
+      <div class="img-ph g-bc" data-house="BC"></div>
+    </div>
+    <div class="look-side">
+      <div class="look-side-img">
+        <div class="img-ph g-lp" data-house="LP"></div>
+      </div>
+      <div class="look-side-img">
+        <div class="img-ph g-rose" data-house="CL"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-detail">
+    <div class="detail-group">
+      <span class="detail-label">The Look</span>
+      <div class="detail-item">
+        <div class="detail-house">Brunello Cucinelli</div>
+        <div class="detail-piece">Double-breasted linen blazer, sand &mdash; nipped waist, elongated lapels, mother-of-pearl buttons. The defining piece. Worn open over nothing beneath.</div>
+        <div class="detail-price">~&pound;2,800</div>
+        <a class="detail-link" href="https://shop.brunellocucinelli.com/en-gb/women/ready-to-wear/blazers/" target="_blank">Shop Brunello Cucinelli &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Goldie linen wide-leg trousers in undyed natural &mdash; high-waisted, pressed crease, extraordinary drape. These are not trousers. They are architecture.</div>
+        <div class="detail-price">~&pound;1,750</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/trousers-and-shorts" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Linen-silk camisole in raw ivory &mdash; worn under the open blazer. The only layer needed. Lets the air in and keeps the elegance intact.</div>
+        <div class="detail-price">~&pound;620</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/tops" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+    <div class="detail-group">
+      <span class="detail-label">Shoes, Bag &amp; Accessories</span>
+      <div class="detail-item">
+        <div class="detail-house">Christian Louboutin</div>
+        <div class="detail-piece">Just Nothing mule, 55mm &mdash; TPU and patent calf leather in blush. The barely-there heel that says everything. Polished, not precious.</div>
+        <div class="detail-price">~&pound;595</div>
+        <a class="detail-link" href="https://uk.christianlouboutin.com/uk_en/ladies/shoes/mules/" target="_blank">Shop Louboutin &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Bottega Veneta</div>
+        <div class="detail-piece">Andiamo bag in natural tan intrecciato &mdash; the working woman&rsquo;s bag. Holds a laptop, a brief, and a bottle of sparkling water. Utterly, quietly magnificent.</div>
+        <div class="detail-price">~&pound;4,200</div>
+        <a class="detail-link" href="https://www.bottegaveneta.com/en-gb/bags/andiamo" target="_blank">Shop Bottega Veneta &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Straw wide-brim hat in natural raffia &mdash; because summer in London occasionally offers sun, and a woman like this is always prepared. Quietly extraordinary.</div>
+        <div class="detail-price">~&pound;580</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/accessories/hats" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-story">
+    <p class="look-story-text">
+      She arrives at Annabel&rsquo;s at 12:45 for a lunch that was &ldquo;casual&rdquo; only in the calendar description.
+      The sand linen blazer catches the light coming through the garden doors. Nothing matches exactly.
+      Everything coordinates precisely. <em>This is the difference between dressing and styling.</em>
+      She orders sparkling water. She is the most powerful woman at the table.
+      Nobody needed to be told.
+    </p>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-mark">Look Two</span></div>
+
+<!-- ═══ LOOK 2 ═══ -->
+<div class="look" id="look-2">
+  <div class="look-num">02 of 05</div>
+  <div class="look-headline">The Garden Evening</div>
+  <div class="look-occasion">Serpentine Gallery &middot; Garden Party &middot; Summer Opening &middot; Champagne at Dusk</div>
+
+  <div class="look-grid">
+    <div class="look-main-img">
+      <div class="img-ph g-row" data-house="The Row"></div>
+    </div>
+    <div class="look-side">
+      <div class="look-side-img">
+        <div class="img-ph g-rose" data-house="CL"></div>
+      </div>
+      <div class="look-side-img">
+        <div class="img-ph g-cream" data-house="BV"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-detail">
+    <div class="detail-group">
+      <span class="detail-label">The Look</span>
+      <div class="detail-item">
+        <div class="detail-house">The Row</div>
+        <div class="detail-piece">Guinevere silk charmeuse slip dress in ivory &mdash; bias-cut, midi-length, almost indecently elegant. It moves like nothing else on earth. The sort of dress that turns a garden party into a private film.</div>
+        <div class="detail-price">~&pound;2,100</div>
+        <a class="detail-link" href="https://www.therow.com/collections/women-dresses" target="_blank">Shop The Row &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">The Row</div>
+        <div class="detail-piece">Cashmere-silk wrap in cognac or dusty rose &mdash; draped over the shoulders when the sun drops behind the pavilion. A masterclass in the power of a single statement layer.</div>
+        <div class="detail-price">~&pound;980</div>
+        <a class="detail-link" href="https://www.therow.com/collections/women-accessories" target="_blank">Shop The Row &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Linen flower pin in natural straw &mdash; the Cardo Pin. Worn at the décolletage. One detail that signals you know exactly what you are doing and have done it for years.</div>
+        <div class="detail-price">~&pound;220</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/accessories/jewellery" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+    <div class="detail-group">
+      <span class="detail-label">Shoes, Bag &amp; Accessories</span>
+      <div class="detail-item">
+        <div class="detail-house">Christian Louboutin</div>
+        <div class="detail-piece">Miss Z strappy sandal, 100mm &mdash; in Vintage Rose laminated leather. The signature Louboutin silhouette: long, tapered, impossibly sleek. The red sole catches the garden light.</div>
+        <div class="detail-price">~&pound;875</div>
+        <a class="detail-link" href="https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/" target="_blank">Shop Louboutin &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Bottega Veneta</div>
+        <div class="detail-piece">Andiamo clutch on chain &mdash; in powder pink or cream intrecciato. Evening-scale Bottega. Fits a card, phone, and lipstick. Held in the crook of the arm like a secret.</div>
+        <div class="detail-price">~&pound;2,100</div>
+        <a class="detail-link" href="https://www.bottegaveneta.com/en-gb/bags/andiamo" target="_blank">Shop Bottega Veneta &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Cartier</div>
+        <div class="detail-piece">Tank Must watch in gold &mdash; the only jewellery needed. The wrist statement that closes the look. Not a watch. A declaration of certainty about time, taste, and one&rsquo;s own standards.</div>
+        <div class="detail-price">From &pound;2,800</div>
+        <a class="detail-link" href="https://www.cartier.com/en-gb/collections/watches/women-watches/" target="_blank">Shop Cartier &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-story">
+    <p class="look-story-text">
+      The silk catches the last light of a London July evening at 8:47pm.
+      She is holding a glass of Ruinart Blanc de Blancs and saying very little.
+      The art on the walls is interesting. <em>She is more interesting.</em>
+      Three people ask who she is. One of them is the artist.
+    </p>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-mark">Look Three</span></div>
+
+<!-- ═══ LOOK 3 ═══ -->
+<div class="look" id="look-3">
+  <div class="look-num">03 of 05</div>
+  <div class="look-headline">The Power Meridian</div>
+  <div class="look-occasion">Client Board &middot; Advisory Meeting &middot; City Lunch &middot; Canary Wharf or Mayfair</div>
+
+  <div class="look-grid">
+    <div class="look-main-img">
+      <div class="img-ph g-lp2" data-house="LP"></div>
+    </div>
+    <div class="look-side">
+      <div class="look-side-img">
+        <div class="img-ph g-coffee" data-house="CL"></div>
+      </div>
+      <div class="look-side-img">
+        <div class="img-ph g-dark" data-house="BV"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-detail">
+    <div class="detail-group">
+      <span class="detail-label">The Look</span>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Spagna linen-silk jacket in chalk white &mdash; the SS2025 hero piece. Pinched waist, clean collar, extraordinary weight. Not a blazer. A decision. Worn with its matching straight-leg trouser.</div>
+        <div class="detail-price">~&pound;3,200 (jacket)</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/lp-spring-summer/woman" target="_blank">Shop Loro Piana SS &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Hector silk-linen trousers in chalk white &mdash; matching the jacket. Straight cut, self-pressing line, high-rise. The co-ordinated suit without the costuming. Impossibly light for a June board meeting.</div>
+        <div class="detail-price">~&pound;1,930</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/trousers-and-shorts" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Fine silk jersey tank in ivory beneath &mdash; an inch of tonal layering that elevates the suit from office to occasion. The detail no one sees but everyone feels.</div>
+        <div class="detail-price">~&pound;450</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/tops" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+    <div class="detail-group">
+      <span class="detail-label">Shoes, Bag &amp; Accessories</span>
+      <div class="detail-item">
+        <div class="detail-house">Christian Louboutin</div>
+        <div class="detail-piece">So Kate pump, 120mm &mdash; in black patent. The defining heel of a woman who chairs meetings. Sharp at the toe. Utterly relentless. The only punctuation this suit requires.</div>
+        <div class="detail-price">~&pound;695</div>
+        <a class="detail-link" href="https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/" target="_blank">Shop Louboutin &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Bottega Veneta</div>
+        <div class="detail-piece">Andiamo large in black intrecciato &mdash; the professional&rsquo;s choice. Documents, laptop, agenda. Zero branding. Absolute authority. The bag that signals you do not need to signal anything.</div>
+        <div class="detail-price">~&pound;6,800</div>
+        <a class="detail-link" href="https://www.bottegaveneta.com/en-gb/bags/andiamo" target="_blank">Shop Bottega Veneta &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Traveller sunglasses in dark tortoise &mdash; worn in the taxi, removed at the door. Named after the iconic garment. Japanese acetate, advanced lenses. The look is complete the moment they come off.</div>
+        <div class="detail-price">~&pound;490</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/accessories/eyewear" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-story">
+    <p class="look-story-text">
+      The chalk-white suit walks into the room before she does.
+      Nobody calls the meeting to order. <em>She does.</em>
+      There are fourteen people at the table. She is the only one in linen-silk.
+      The rest are in polyester they are pretending is wool. She notices.
+      She says nothing. She does not need to.
+    </p>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-mark">Look Four</span></div>
+
+<!-- ═══ LOOK 4 ═══ -->
+<div class="look" id="look-4">
+  <div class="look-num">04 of 05</div>
+  <div class="look-headline">The Archive Weekend</div>
+  <div class="look-occasion">Portobello Market &middot; Auction Preview &middot; Saturday in Chelsea &middot; Collector&rsquo;s Afternoon</div>
+
+  <div class="look-grid">
+    <div class="look-main-img">
+      <div class="img-ph g-cream" data-house="The Row"></div>
+    </div>
+    <div class="look-side">
+      <div class="look-side-img">
+        <div class="img-ph g-lp" data-house="LP"></div>
+      </div>
+      <div class="look-side-img">
+        <div class="img-ph g-rose" data-house="CL"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-detail">
+    <div class="detail-group">
+      <span class="detail-label">The Look</span>
+      <div class="detail-item">
+        <div class="detail-house">The Row</div>
+        <div class="detail-piece">Nori wide-leg trouser in cream cotton &mdash; fluid, unstructured, deeply considered. The weekend trouser that makes every other brand&rsquo;s trousers look like they are trying too hard.</div>
+        <div class="detail-price">~&pound;940</div>
+        <a class="detail-link" href="https://www.therow.com/collections/women-trousers" target="_blank">Shop The Row &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Linen-silk blouse in natural ecru &mdash; oversized sleeve, clean drop shoulder, worn half-tucked. The SS2025 collection. Breathable in a way that feels almost unfair to the rest of the wardrobe.</div>
+        <div class="detail-price">~&pound;1,100</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/shirts-and-blouses" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Straw bucket hat with leather trim &mdash; from the SS2025 lookbook. The collector goes to Portobello prepared. The hat is not an accessory. It is the statement that says: I have been doing this longer than you think.</div>
+        <div class="detail-price">~&pound;490</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/accessories/hats" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+    <div class="detail-group">
+      <span class="detail-label">Shoes, Bag &amp; Accessories</span>
+      <div class="detail-item">
+        <div class="detail-house">Christian Louboutin</div>
+        <div class="detail-piece">Her In Roma flat sandal in Saharienne nubuck &mdash; the elevated flat. A 70mm architectural sole on a barely-there upper. For hours of walking through Notting Hill without ever compromising the look.</div>
+        <div class="detail-price">~&pound;595</div>
+        <a class="detail-link" href="https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/" target="_blank">Shop Louboutin &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Bottega Veneta</div>
+        <div class="detail-piece">Cabat tote in natural intrecciato &mdash; the original quiet luxury bag. Big enough for auction catalogues, a vintage silk scarf, and a small treasure found in a Camden dealer&rsquo;s back room. Timeless since 1966.</div>
+        <div class="detail-price">~&pound;5,200</div>
+        <a class="detail-link" href="https://www.bottegaveneta.com/en-gb/bags/totes" target="_blank">Shop Bottega Veneta &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Silk foulard in field botanicals &mdash; tied at the wrist or worn in the hat. The SS2025 heritage motif scarves paying homage to the Maison&rsquo;s textile archive. One square of silk. Unmistakable.</div>
+        <div class="detail-price">~&pound;380</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/accessories/foulards" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-story">
+    <p class="look-story-text">
+      She is not at Portobello to browse. She is there to acquire.
+      The dealers know her. They bring things out from the back.
+      The cream trouser hems skim the cobblestones without touching.
+      She finds a 1968 Chanel chain belt in a velvet tray.
+      <em>She negotiates quietly. She wins.</em>
+      She was going to win before she arrived.
+    </p>
+  </div>
+</div>
+
+<div class="divider"><span class="divider-mark">Look Five</span></div>
+
+<!-- ═══ LOOK 5 ═══ -->
+<div class="look" id="look-5">
+  <div class="look-num">05 of 05</div>
+  <div class="look-headline">The Evening Reckoning</div>
+  <div class="look-occasion">Private Dinner &middot; Mayfair Restaurant &middot; Opera &middot; The Moment She Walks In</div>
+
+  <div class="look-grid">
+    <div class="look-main-img">
+      <div class="img-ph g-ysl" data-house="YSL"></div>
+    </div>
+    <div class="look-side">
+      <div class="look-side-img">
+        <div class="img-ph g-dark" data-house="CL"></div>
+      </div>
+      <div class="look-side-img">
+        <div class="img-ph g-coffee" data-house="BV"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-detail">
+    <div class="detail-group">
+      <span class="detail-label">The Look</span>
+      <div class="detail-item">
+        <div class="detail-house">Saint Laurent</div>
+        <div class="detail-piece">Le Smoking tuxedo jacket in black crepe &mdash; the one that started everything. Sculpted lapel, nipped waist, worn over nothing but a black silk camisole. The jacket that is an entire philosophy of dressing in one garment.</div>
+        <div class="detail-price">~&pound;3,800</div>
+        <a class="detail-link" href="https://www.ysl.com/en-gb/clothing/women-jackets-and-coats" target="_blank">Shop Saint Laurent &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Saint Laurent</div>
+        <div class="detail-piece">High-waisted straight trouser in black satin-crepe &mdash; the tuxedo trouser that pairs with the jacket into London evening. Cigarette-cut, side-seam pressed. Worn with the faintest heel. Lethal.</div>
+        <div class="detail-price">~&pound;1,200</div>
+        <a class="detail-link" href="https://www.ysl.com/en-gb/clothing/women-trousers" target="_blank">Shop Saint Laurent &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Loro Piana</div>
+        <div class="detail-piece">Fine silk charmeuse camisole in black &mdash; the single piece worn under the open jacket. The sliver of silk between black satin and bare skin. The detail that turns a suit into a statement.</div>
+        <div class="detail-price">~&pound;490</div>
+        <a class="detail-link" href="https://uk.loropiana.com/en/c/woman/tops" target="_blank">Shop Loro Piana &rsaquo;</a>
+      </div>
+    </div>
+    <div class="detail-group">
+      <span class="detail-label">Shoes, Bag &amp; Accessories</span>
+      <div class="detail-item">
+        <div class="detail-house">Christian Louboutin</div>
+        <div class="detail-piece">Pigalle Follies pump, 100mm &mdash; in black patent. The most precise heel ever designed. The one that turns a walk across a restaurant into a statement of intent. Nothing else is appropriate. Nothing else is necessary.</div>
+        <div class="detail-price">~&pound;745</div>
+        <a class="detail-link" href="https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/" target="_blank">Shop Louboutin &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Saint Laurent</div>
+        <div class="detail-piece">Sac de Jour nano in black matte crocodile-embossed leather &mdash; held in the hand, not the shoulder. Because this evening she is not carrying anything. She is presenting it. One bag. Zero compromise.</div>
+        <div class="detail-price">~&pound;1,950</div>
+        <a class="detail-link" href="https://www.ysl.com/en-gb/bags" target="_blank">Shop Saint Laurent &rsaquo;</a>
+      </div>
+      <div class="detail-item">
+        <div class="detail-house">Cartier / No further jewellery</div>
+        <div class="detail-piece">Tank Must in yellow gold &mdash; the only thing on her wrists. No rings. No necklace. No earrings. Nothing competes with the suit. The watch is permission. Everything else would be noise.</div>
+        <div class="detail-price">From &pound;2,800</div>
+        <a class="detail-link" href="https://www.cartier.com/en-gb/collections/watches/women-watches/" target="_blank">Shop Cartier &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="look-story">
+    <p class="look-story-text">
+      She does not enter the restaurant. The restaurant becomes the place she is in.
+      The maître d&rsquo; escorts her to the table before she asks.
+      The man she is dining with stands up when she arrives.
+      <em>They all do.</em>
+      The tuxedo is summer because she made it summer.
+      That is what dressing with intention means.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="editorial-footer">
+  <div class="ef-inner">
+    <div class="ef-brand">KAGO</div>
+    <div class="ef-est">Private Atelier &middot; EST 2026</div>
+    <div class="ef-rule"></div>
+    <p class="ef-note">
+      All pieces are sourced directly from the maisons listed.<br>
+      Pricing in GBP is approximate and subject to change.<br>
+      For private styling enquiries and acquisition assistance,<br>contact the atelier directly.
+    </p>
+    <div class="ef-contact">styling@kagosatelier.com &middot; archive@kagosatelier.com</div>
+  </div>
+</div>
+
+</body>
+</html>
