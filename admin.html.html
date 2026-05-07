@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>KAGO Admin</title>
+<!-- Supabase JS client from CDN - no npm needed -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── TOKENS ── */
+:root{
+  --bg:#F7F0E6; --surface:#F2E8DA; --border:#E0CEBC;
+  --burg:#6B1E2E; --burg-d:#4A1220; --burg-m:#8C2A3E;
+  --coffee:#3E2010; --rose:#C4788A; --rose-l:#D9A0AC;
+  --green:#2D6A4F; --amber:#B5671A; --red:#8B2020;
+  --text:#2C1008; --muted:#9C7860;
+  --sidebar:220px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:Georgia,serif;font-size:14px;color:var(--text);background:var(--bg)}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+a{color:var(--burg);text-decoration:none}
+
+/* ── AUTH SCREEN ── */
+#authScreen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:var(--burg-d);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+}
+.auth-box{background:var(--bg);padding:48px 36px;width:100%;max-width:360px;text-align:center}
+.auth-brand{font-style:italic;font-size:38px;letter-spacing:.2em;color:var(--burg);margin-bottom:4px}
+.auth-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:28px}
+.auth-rule{width:32px;height:1px;background:var(--rose-l);margin:0 auto 28px}
+.auth-field-label{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;text-align:left}
+.auth-input{
+  width:100%;padding:14px;border:1px solid var(--border);background:var(--surface);
+  font-size:15px;outline:none;margin-bottom:12px;border-radius:0;-webkit-appearance:none;
+  transition:border .2s;
+}
+.auth-input:focus{border-color:var(--rose)}
+.auth-btn{
+  width:100%;padding:15px;background:var(--burg);color:var(--bg);
+  font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  border:none;cursor:pointer;border-radius:0;-webkit-appearance:none;
+  transition:background .2s;
+}
+.auth-btn:hover{background:var(--burg-m)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-err{color:var(--red);font-style:italic;font-size:13px;display:none;margin-top:10px}
+.auth-back{display:block;margin-top:20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* ── APP LAYOUT ── */
+#appScreen{display:none;height:100vh;overflow:hidden}
+.app-layout{display:flex;height:100%;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--burg-d);
+  display:flex;flex-direction:column;
+  overflow-y:auto;height:100%;
+}
+.sb-brand{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-brand-name{font-style:italic;font-size:22px;letter-spacing:.16em;color:rgba(242,232,218,.9)}
+.sb-brand-role{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(196,120,138,.55);display:block;margin-top:3px}
+.sb-section{padding:20px 0 0}
+.sb-section-label{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:rgba(196,120,138,.45);padding:0 20px;margin-bottom:6px}
+.sb-link{
+  display:flex;align-items:center;gap:10px;padding:11px 20px;
+  color:rgba(242,232,218,.55);cursor:pointer;transition:all .2s;
+  border:none;background:none;width:100%;text-align:left;font-size:13px;
+  border-left:2px solid transparent;
+}
+.sb-link:hover{color:rgba(242,232,218,.85);background:rgba(255,255,255,.04)}
+.sb-link.active{color:rgba(242,232,218,.95);background:rgba(196,120,138,.12);border-left-color:var(--rose)}
+.sb-icon{width:16px;text-align:center;font-size:14px;flex-shrink:0}
+.sb-badge{
+  margin-left:auto;background:var(--burg-m);color:var(--bg);
+  font-size:10px;padding:1px 7px;border-radius:10px;font-style:normal;
+}
+.sb-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-user{font-size:11px;color:rgba(196,120,138,.5);margin-bottom:8px;word-break:break-all}
+.sb-logout{
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(196,120,138,.5);background:none;border:1px solid rgba(196,120,138,.2);
+  padding:7px 14px;cursor:pointer;width:100%;transition:all .2s;
+}
+.sb-logout:hover{color:var(--rose-l);border-color:rgba(196,120,138,.4)}
+
+/* ── MAIN CONTENT ── */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{
+  background:rgba(247,240,230,.96);backdrop-filter:blur(10px);
+  padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;z-index:50;
+}
+.topbar-title{font-style:italic;font-size:20px;color:var(--burg)}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-site{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.notif-btn{
+  width:34px;height:34px;border:1px solid var(--border);background:var(--surface);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:16px;position:relative;transition:border-color .2s;
+}
+.notif-btn:hover{border-color:var(--rose)}
+.notif-dot{
+  position:absolute;top:4px;right:4px;width:7px;height:7px;
+  background:var(--burg-m);border-radius:50%;
+}
+.content-area{padding:28px;flex:1}
+
+/* ── COMMON COMPONENTS ── */
+.page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+.page-title{font-style:italic;font-size:26px;color:var(--burg)}
+.page-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;border:none;transition:all .2s;font-family:Georgia,serif;
+  border-radius:0;-webkit-appearance:none;
+}
+.btn-primary{background:var(--burg);color:var(--bg)}
+.btn-primary:hover{background:var(--burg-m)}
+.btn-outline{background:transparent;border:1px solid var(--burg);color:var(--burg)}
+.btn-outline:hover{background:var(--burg);color:var(--bg)}
+.btn-danger{background:transparent;border:1px solid var(--red);color:var(--red)}
+.btn-danger:hover{background:var(--red);color:var(--bg)}
+.btn-sm{padding:7px 14px;font-size:10px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--surface);border:1px solid var(--border);padding:20px 22px}
+.stat-label{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value{font-style:italic;font-size:32px;color:var(--burg);line-height:1;margin-bottom:4px}
+.stat-change{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px}
+.stat-change.down{color:var(--red)}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);overflow:hidden}
+.table-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.table-title{font-size:13px;font-weight:bold;color:var(--coffee)}
+.search-input{padding:8px 14px;border:1px solid var(--border);background:var(--bg);font-size:13px;outline:none;min-width:200px}
+.search-input:focus{border-color:var(--rose)}
+table{width:100%;border-collapse:collapse}
+th{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg)}
+td{padding:13px 16px;border-bottom:1px solid rgba(224,206,188,.5);font-size:13px;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(242,232,218,.5)}
+.status-badge{display:inline-block;padding:3px 10px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;border-radius:2px}
+.status-new{background:rgba(177,76,36,.1);color:var(--burg-m)}
+.status-contacted{background:rgba(181,103,26,.1);color:var(--amber)}
+.status-confirmed{background:rgba(45,106,79,.1);color:var(--green)}
+.status-completed{background:rgba(62,32,16,.1);color:var(--coffee)}
+.status-cancelled{background:rgba(139,32,32,.1);color:var(--red)}
+
+/* MODAL */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(74,18,32,.75);
+  z-index:1000;align-items:center;justify-content:center;padding:20px;
+}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--bg);width:100%;max-width:540px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
+.modal-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--surface)}
+.modal-title{font-style:italic;font-size:20px;color:var(--burg)}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);line-height:1}
+.modal-close:hover{color:var(--burg)}
+.modal-body{padding:22px;flex:1}
+.modal-footer{padding:16px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:var(--surface)}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid.full{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.span2{grid-column:span 2}
+.field-label{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.field-input,.field-select,.field-textarea{
+  padding:11px 13px;border:1px solid var(--border);background:var(--surface);
+  font-size:14px;outline:none;border-radius:0;-webkit-appearance:none;
+  transition:border .2s;color:var(--text);
+}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--rose)}
+.field-textarea{resize:vertical;min-height:80px}
+.field-file{padding:10px 13px;border:1px dashed var(--border);background:var(--surface);font-size:13px;color:var(--muted);cursor:pointer;width:100%}
+.field-check{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:14px}
+.field-check input{width:16px;height:16px;flex-shrink:0;cursor:pointer}
+.preview-img{width:100%;max-height:200px;object-fit:cover;display:none;margin-top:10px;border:1px solid var(--border)}
+
+/* TOAST */
+#toastArea{position:fixed;bottom:24px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:10px}
+.toast{
+  padding:13px 18px;min-width:260px;max-width:380px;
+  display:flex;align-items:center;gap:12px;font-size:13px;
+  animation:toastIn .3s ease;
+}
+.toast-ok{background:var(--green);color:#fff}
+.toast-err{background:var(--red);color:#fff}
+.toast-info{background:var(--burg);color:var(--bg)}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px}
+.empty-icon{font-size:40px;margin-bottom:16px;opacity:.3}
+.empty-title{font-style:italic;font-size:22px;color:var(--muted);margin-bottom:8px}
+.empty-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* LOADING */
+.loading-row td{text-align:center;padding:40px;color:var(--muted);font-style:italic}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--burg);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* LOOKBOOK GRID */
+.looks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.look-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;position:relative}
+.look-card-img{aspect-ratio:3/4;overflow:hidden;background:var(--border);display:flex;align-items:center;justify-content:center}
+.look-card-img img{width:100%;height:100%;object-fit:cover}
+.look-card-ph{font-style:italic;font-size:32px;color:rgba(107,30,46,.2)}
+.look-card-body{padding:13px}
+.look-card-brand{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:3px}
+.look-card-name{font-style:italic;font-size:15px;color:var(--coffee);margin-bottom:4px}
+.look-card-price{font-size:12px;color:var(--muted);margin-bottom:10px}
+.look-card-actions{display:flex;gap:6px}
+.look-card-feat{position:absolute;top:8px;right:8px;background:var(--burg);color:var(--bg);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px}
+
+/* ACTIVITY LOG */
+.log-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(224,206,188,.4)}
+.log-item:last-child{border-bottom:none}
+.log-icon{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.log-icon.add{background:rgba(45,106,79,.12);color:var(--green)}
+.log-icon.edit{background:rgba(181,103,26,.12);color:var(--amber)}
+.log-icon.del{background:rgba(139,32,32,.12);color:var(--red)}
+.log-icon.auth{background:rgba(107,30,46,.12);color:var(--burg)}
+.log-action{font-size:13px;color:var(--text);margin-bottom:2px}
+.log-meta{font-size:11px;color:var(--muted)}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.team-card{background:var(--surface);border:1px solid var(--border);padding:18px}
+.team-avatar{width:44px;height:44px;border-radius:50%;background:var(--burg-d);display:flex;align-items:center;justify-content:center;font-style:italic;font-size:18px;color:var(--rose-l);margin-bottom:12px}
+.team-name{font-size:15px;color:var(--coffee);margin-bottom:2px}
+.team-email{font-size:12px;color:var(--muted);margin-bottom:10px;word-break:break-all}
+.role-badge{display:inline-block;padding:3px 10px;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.role-admin{background:rgba(107,30,46,.12);color:var(--burg)}
+.role-editor{background:rgba(181,103,26,.1);color:var(--amber)}
+.role-stylist{background:rgba(45,106,79,.1);color:var(--green)}
+.role-finance{background:rgba(62,32,16,.1);color:var(--coffee)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-100%;top:0;bottom:0;z-index:200;transition:left .3s}
+  .sidebar.open{left:0}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+  .field.span2{grid-column:span 1}
+  .looks-grid{grid-template-columns:1fr 1fr}
+  .content-area{padding:16px}
+  .topbar{padding:0 16px}
+  .hamburger{display:flex}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+  .looks-grid{grid-template-columns:1fr}
+}
+.hamburger{
+  display:none;width:34px;height:34px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;align-items:center;
+  justify-content:center;font-size:18px;margin-right:12px;
+}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199}
+.overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<!-- ═══ AUTH SCREEN ═══ -->
+<div id="authScreen">
+  <div class="auth-box">
+    <div class="auth-brand">KAGO</div>
+    <span class="auth-label">Private Atelier Admin</span>
+    <div class="auth-rule"></div>
+    <label class="auth-field-label">Email</label>
+    <input class="auth-input" id="authEmail" type="email" placeholder="your@email.com"
+           autocomplete="email" onkeypress="if(event.key==='Enter')doLogin()">
+    <label class="auth-field-label">Password</label>
+    <input class="auth-input" id="authPass" type="password" placeholder="Password"
+           autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()">
+    <button class="auth-btn" id="loginBtn" onclick="doLogin()">Enter the Atelier</button>
+    <p class="auth-err" id="authErr"></p>
+    <a class="auth-back" href="index.html">← Return to website</a>
+  </div>
+</div>
+
+<!-- ═══ APP SCREEN ═══ -->
+<div id="appScreen">
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-brand">
+        <div class="sb-brand-name">KAGO</div>
+        <span class="sb-brand-role" id="sbRole">Admin</span>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-section-label">Overview</div>
+        <button class="sb-link active" onclick="showPage('dashboard')">
+          <span class="sb-icon">📊</span> Dashboard
+        </button>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-section-label">Content</div>
+        <button class="sb-link" onclick="showPage('lookbook')">
+          <span class="sb-icon">👗</span> Lookbook
+        </button>
+        <button class="sb-link" onclick="showPage('content')">
+          <span class="sb-icon">✏️</span> Content Manager
+        </button>
+        <button class="sb-link" onclick="showPage('media')">
+          <span class="sb-icon">🖼️</span> Media Library
+        </button>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-section-label">Business</div>
+        <button class="sb-link" onclick="showPage('bookings')">
+          <span class="sb-icon">📅</span> Bookings
+          <span class="sb-badge" id="newBookingsBadge" style="display:none">0</span>
+        </button>
+        <button class="sb-link" onclick="showPage('subscribers')">
+          <span class="sb-icon">📧</span> Subscribers
+        </button>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-section-label">System</div>
+        <button class="sb-link" onclick="showPage('team')">
+          <span class="sb-icon">👥</span> Team
+        </button>
+        <button class="sb-link" onclick="showPage('logs')">
+          <span class="sb-icon">📋</span> Activity Log
+        </button>
+      </div>
+
+      <div class="sb-bottom">
+        <div class="sb-user" id="sbUser"></div>
+        <button class="sb-logout" onclick="doLogout()">Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="topbar">
+        <div style="display:flex;align-items:center">
+          <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+          <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        </div>
+        <div class="topbar-right">
+          <a class="topbar-site" href="index.html" target="_blank">↗ View Site</a>
+          <div class="notif-btn" title="Notifications"><span>🔔</span><span class="notif-dot"></span></div>
+        </div>
+      </div>
+      <div class="content-area" id="contentArea">
+        <!-- Pages rendered here by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="lookModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="lookModalTitle">Add Look</div>
+      <button class="modal-close" onclick="closeModal('lookModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field"><span class="field-label">Brand *</span><input class="field-input" id="lBrand" placeholder="e.g. Loro Piana" autocorrect="off"></div>
+        <div class="field"><span class="field-label">Look Name *</span><input class="field-input" id="lName" placeholder="e.g. The Cashmere Suit" autocorrect="off"></div>
+        <div class="field span2"><span class="field-label">Piece Description</span><input class="field-input" id="lPiece" placeholder="e.g. Cashmere Tailored Suit, Ivory" autocorrect="off"></div>
+        <div class="field"><span class="field-label">Price</span><input class="field-input" id="lPrice" placeholder="e.g. From £8,400" autocorrect="off"></div>
+        <div class="field"><span class="field-label">Season</span><input class="field-input" id="lSeason" placeholder="e.g. SS 2026" autocorrect="off"></div>
+        <div class="field span2"><span class="field-label">Photo</span><input class="field-file" type="file" id="lPhoto" accept="image/*"><img class="preview-img" id="lPreview"></div>
+        <div class="field span2"><label class="field-check"><input type="checkbox" id="lFeatured"> Show on landing page (featured)</label></div>
+      </div>
+      <input type="hidden" id="lEditId">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('lookModal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="saveLookBtn" onclick="saveLook()">Save Look</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="bookingModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Booking Details</div>
+      <button class="modal-close" onclick="closeModal('bookingModal')">×</button>
+    </div>
+    <div class="modal-body" id="bookingModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('bookingModal')">Close</button>
+      <button class="btn btn-primary btn-sm" id="bookingStatusBtn" onclick="updateBookingStatus()">Update Status</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="teamModal">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-head">
+      <div class="modal-title">Add Team Member</div>
+      <button class="modal-close" onclick="closeModal('teamModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid full">
+        <div class="field"><span class="field-label">Full Name</span><input class="field-input" id="tmName" placeholder="Full name" autocorrect="off"></div>
+        <div class="field"><span class="field-label">Email</span><input class="field-input" id="tmEmail" type="email" placeholder="email@kagosatelier.com"></div>
+        <div class="field"><span class="field-label">Role</span>
+          <select class="field-select" id="tmRole">
+            <option value="editor">Editor</option>
+            <option value="stylist">Stylist</option>
+            <option value="finance">Finance</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="field"><span class="field-label">Department</span><input class="field-input" id="tmDept" placeholder="e.g. Creative" autocorrect="off"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('teamModal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="saveTeamMember()">Add Member</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="contentModal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-head">
+      <div class="modal-title">Edit Content</div>
+      <button class="modal-close" onclick="closeModal('contentModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid full">
+        <div class="field"><span class="field-label">Section</span><input class="field-input" id="cKey" readonly></div>
+        <div class="field"><span class="field-label">Content</span><textarea class="field-textarea" id="cValue" rows="5"></textarea></div>
+      </div>
+      <input type="hidden" id="cEditId">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('contentModal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="saveContent()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST AREA -->
+<div id="toastArea"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  KAGO ADMIN — PRODUCTION SYSTEM
+//  Replace SUPABASE_URL and SUPABASE_KEY below
+//  with your own values from supabase.com
+// ═══════════════════════════════════════════════════
+
+var SUPABASE_URL = 'YOUR_SUPABASE_URL';
+var SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+// Fallback to localStorage if Supabase not configured
+var USE_SUPABASE = (SUPABASE_URL !== 'YOUR_SUPABASE_URL');
+
+var sb = null;
+if (USE_SUPABASE) {
+  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); }
+  catch(e) { console.warn('Supabase init failed, using localStorage'); USE_SUPABASE = false; }
+}
+
+// ── LOCAL STATE ──────────────────────────────────
+var LS = {
+  LOOKS: 'kago_outfits_v1',
+  BOOKINGS: 'kago_bookings',
+  SUBS: 'kago_subscribers',
+  TEAM: 'kago_team',
+  LOGS: 'kago_logs',
+  USER: 'kago_admin_user'
+};
+
+var HARDCODED_PASS = 'Thumbmaster@47';
+var HARDCODED_EMAIL = 'ceo@kagosatelier.com';
+
+var currentUser = null;
+var currentPage = 'dashboard';
+var currentBooking = null;
+
+// ── DEFAULT DATA ─────────────────────────────────
+var DEFAULT_LOOKS = [
+  {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit · Ivory & Camel',price:'From £8,400',season:'AW 2026',image_url:null,featured:true},
+  {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',piece:'Linen Blazer · Trousers · Tonal Look',price:'From £5,200',season:'SS 2026',image_url:null,featured:true},
+  {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',piece:'Fitted Blazer · Sheath Dress · Black',price:'From £4,800',season:'Archive 2025',image_url:null,featured:true},
+  {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',piece:'Le Smoking Tuxedo · Evening Look',price:'From £6,000',season:'AW 2026',image_url:null,featured:true},
+  {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From £3,800',season:'Collection 2026',image_url:null,featured:false},
+  {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',piece:'Bar Jacket · Pencil Skirt · Archive',price:'Upon Request',season:'Archive',image_url:null,featured:false}
+];
+var DEFAULT_BOOKINGS = [
+  {id:'b1',client_name:'Alexandra Pemberton',client_email:'a.pemberton@chambers.co.uk',client_phone:'+44 7700 900123',service:'The Power Edit',preferred_date:'2026-07-15',budget:'£3,000–5,000',message:'Looking for a complete summer wardrobe refresh ahead of a series of international hearings.',status:'new',created_at:new Date(Date.now()-86400000).toISOString()},
+  {id:'b2',client_name:'Simone Beaumont',client_email:'s.beaumont@blackrockadvisors.com',client_phone:'+44 7700 900456',service:'Wardrobe Architecture',preferred_date:'2026-07-22',budget:'£2,000–3,000',message:'Transitioning from financial services to advisory board roles. Need to update my wardrobe accordingly.',status:'contacted',created_at:new Date(Date.now()-172800000).toISOString()},
+  {id:'b3',client_name:'Catherine Osei',client_email:'c.osei@clintongroup.com',service:'Archive & Collector',preferred_date:'2026-08-01',budget:'Upon request',message:'Interested in sourcing vintage Chanel and early McQueen pieces as investment acquisitions.',status:'confirmed',created_at:new Date(Date.now()-259200000).toISOString()}
+];
+var DEFAULT_SUBS = [
+  {id:'s1',email:'e.thornton@ashurst.com',name:'Emma Thornton',role_industry:'Legal — Senior Partner',subscribed_at:new Date(Date.now()-604800000).toISOString()},
+  {id:'s2',email:'m.okonkwo@jpmorganchase.com',name:'Miriam Okonkwo',role_industry:'Finance — Managing Director',subscribed_at:new Date(Date.now()-1209600000).toISOString()},
+  {id:'s3',email:'f.castellano@deloitte.com',name:'Francesca Castellano',role_industry:'Consulting — Partner',subscribed_at:new Date(Date.now()-1814400000).toISOString()}
+];
+var DEFAULT_TEAM = [
+  {id:'t1',email:'ceo@kagosatelier.com',name:'Kago',role:'admin',department:'Executive',active:true},
+  {id:'t2',email:'styling@kagosatelier.com',name:'Styling Team',role:'stylist',department:'Creative',active:true},
+  {id:'t3',email:'accounts@kagosatelier.com',name:'Finance Team',role:'finance',department:'Accounts',active:true},
+  {id:'t4',email:'clientcare@kagosatelier.com',name:'Client Care',role:'editor',department:'Operations',active:true},
+  {id:'t5',email:'it@kagosatelier.com',name:'IT Department',role:'admin',department:'Technology',active:true}
+];
+var DEFAULT_CONTENT = [
+  {id:'c1',section_key:'hero_title',content_value:'Dress with Intent. Move with Power.'},
+  {id:'c2',section_key:'hero_subtitle',content_value:'A private styling atelier for the discerning woman. Curated from the world\'s most revered fashion houses.'},
+  {id:'c3',section_key:'phi_quote',content_value:'The woman who wears these clothes does not dress to be seen — she dresses to conquer.'},
+  {id:'c4',section_key:'phi_body',content_value:'We do not follow trends. We curate wardrobes from the world\'s most architecturally precise fashion houses.'}
+];
+
+// ── LOCAL STORAGE HELPERS ────────────────────────
+function lsGet(key, def) {
+  try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : def; }
+  catch(e) { return def; }
+}
+function lsSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+}
+function lsId() { return 'l_' + Date.now() + '_' + Math.random().toString(36).substr(2,5); }
+
+// ── LOG HELPER ───────────────────────────────────
+function addLog(action, entityType, entityId, metadata) {
+  var logs = lsGet(LS.LOGS, []);
+  logs.unshift({
+    id: lsId(), action: action, entity_type: entityType,
+    entity_id: String(entityId || ''), user_email: currentUser ? currentUser.email : 'unknown',
+    metadata: metadata || {}, created_at: new Date().toISOString()
+  });
+  if (logs.length > 200) logs = logs.slice(0, 200);
+  lsSet(LS.LOGS, logs);
+}
+
+// ── AUTH ─────────────────────────────────────────
+async function doLogin() {
+  var email = document.getElementById('authEmail').value.trim();
+  var pass  = document.getElementById('authPass').value;
+  var btn   = document.getElementById('loginBtn');
+  var err   = document.getElementById('authErr');
+
+  if (!email || !pass) { showErr(err, 'Please enter your email and password.'); return; }
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  err.style.display = 'none';
+
+  try {
+    if (USE_SUPABASE) {
+      var r = await sb.auth.signInWithPassword({ email: email, password: pass });
+      if (r.error) throw r.error;
+      currentUser = { email: email, id: r.data.user.id };
+    } else {
+      // Fallback: hardcoded for demo
+      await new Promise(function(res){ setTimeout(res, 600); });
+      if (pass !== HARDCODED_PASS) throw new Error('Incorrect password');
+      currentUser = { email: email };
+      lsSet(LS.USER, currentUser);
+    }
+
+    addLog('Logged in', 'auth', null, { email: email });
+    showApp();
+  } catch(e) {
+    showErr(err, e.message || 'Login failed. Please check your credentials.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enter the Atelier';
+  }
+}
+
+function showErr(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+
+function showApp() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  document.getElementById('sbUser').textContent = currentUser.email;
+  document.getElementById('sbRole').textContent = 'Administrator';
+  showPage('dashboard');
+  loadNewBookingsBadge();
+}
+
+function doLogout() {
+  if (USE_SUPABASE) sb.auth.signOut();
+  currentUser = null;
+  localStorage.removeItem(LS.USER);
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authPass').value = '';
+  toast('Logged out successfully', 'info');
+}
+
+// Auto-login if session exists (localStorage fallback)
+(function() {
+  var saved = lsGet(LS.USER, null);
+  if (saved && !USE_SUPABASE) { currentUser = saved; showApp(); }
+  else if (USE_SUPABASE) {
+    sb.auth.getSession().then(function(r) {
+      if (r.data && r.data.session) {
+        currentUser = { email: r.data.session.user.email, id: r.data.session.user.id };
+        showApp();
+      }
+    });
+  }
+})();
+
+// ── NAVIGATION ───────────────────────────────────
+var PAGE_TITLES = {
+  dashboard:'Dashboard', lookbook:'Lookbook Manager', content:'Content Manager',
+  media:'Media Library', bookings:'Bookings', subscribers:'Subscribers',
+  team:'Team Management', logs:'Activity Log'
+};
+
+function showPage(page) {
+  currentPage = page;
+  document.getElementById('topbarTitle').textContent = PAGE_TITLES[page] || page;
+  document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('active'); });
+  var active = Array.from(document.querySelectorAll('.sb-link')).find(function(l){
+    return l.getAttribute('onclick') && l.getAttribute('onclick').includes("'"+page+"'");
+  });
+  if (active) active.classList.add('active');
+  closeSidebar();
+  var area = document.getElementById('contentArea');
+  area.innerHTML = '<div class="loading-row"><div style="padding:60px;text-align:center"><span class="spinner"></span><span style="font-style:italic;color:var(--muted)">Loading…</span></div></div>';
+  setTimeout(function(){ renderPage(page, area); }, 150);
+}
+
+function renderPage(page, area) {
+  var renders = {
+    dashboard:   renderDashboard,
+    lookbook:    renderLookbook,
+    content:     renderContent,
+    media:       renderMedia,
+    bookings:    renderBookings,
+    subscribers: renderSubscribers,
+    team:        renderTeam,
+    logs:        renderLogs
+  };
+  if (renders[page]) renders[page](area);
+  else area.innerHTML = '<div class="empty-state"><div class="empty-icon">🚧</div><div class="empty-title">Coming Soon</div></div>';
+}
+
+// ── DASHBOARD ────────────────────────────────────
+function renderDashboard(area) {
+  var looks  = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+  var books  = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var subs   = lsGet(LS.SUBS, DEFAULT_SUBS);
+  var newB   = books.filter(function(b){ return b.status === 'new'; }).length;
+  var recent = books.slice(0,3);
+
+  area.innerHTML =
+    '<div class="stats-grid">' +
+      statCard('Total Looks', looks.length, '↑ 2 this month', false) +
+      statCard('New Bookings', newB, newB > 0 ? '↑ Needs attention' : 'All handled', newB === 0) +
+      statCard('Subscribers', subs.length, '↑ Growing weekly', false) +
+      statCard('Featured Looks', looks.filter(function(l){ return l.featured; }).length, 'On landing page', false) +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">' +
+      '<div class="table-wrap">' +
+        '<div class="table-header"><div class="table-title">Recent Bookings</div>' +
+        '<button class="btn btn-outline btn-sm" onclick="showPage(\'bookings\')">View All</button></div>' +
+        '<table><thead><tr><th>Client</th><th>Service</th><th>Status</th></tr></thead><tbody>' +
+        recent.map(function(b){
+          return '<tr onclick="viewBooking(\''+b.id+'\')" style="cursor:pointer">' +
+            '<td>'+b.client_name+'<br><span style="font-size:11px;color:var(--muted)">'+b.client_email+'</span></td>' +
+            '<td style="font-size:12px">'+b.service+'</td>' +
+            '<td><span class="status-badge status-'+b.status+'">'+b.status+'</span></td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table></div>' +
+      '<div class="table-wrap">' +
+        '<div class="table-header"><div class="table-title">Recent Subscribers</div>' +
+        '<button class="btn btn-outline btn-sm" onclick="showPage(\'subscribers\')">View All</button></div>' +
+        '<table><thead><tr><th>Name</th><th>Industry</th></tr></thead><tbody>' +
+        subs.slice(0,4).map(function(s){
+          return '<tr><td>'+s.name+'<br><span style="font-size:11px;color:var(--muted)">'+s.email+'</span></td>' +
+            '<td style="font-size:12px;color:var(--muted)">'+( s.role_industry||'—')+'</td></tr>';
+        }).join('') +
+        '</tbody></table></div>' +
+    '</div>';
+}
+
+function statCard(label, value, change, neutral) {
+  return '<div class="stat-card">' +
+    '<div class="stat-label">'+label+'</div>' +
+    '<div class="stat-value">'+value+'</div>' +
+    '<div class="stat-change'+(neutral?' down':'')+'">'+change+'</div>' +
+  '</div>';
+}
+
+// ── LOOKBOOK ─────────────────────────────────────
+function renderLookbook(area) {
+  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Lookbook Manager</div>' +
+      '<div class="page-sub">'+looks.length+' looks · '+looks.filter(function(l){return l.featured;}).length+' featured on landing page</div></div>' +
+      '<button class="btn btn-primary" onclick="openAddLook()">+ Add Look</button>' +
+    '</div>' +
+    '<div class="looks-grid" id="looksGrid">' +
+      (looks.length === 0 ?
+        '<div class="empty-state"><div class="empty-icon">👗</div><div class="empty-title">No looks yet</div><div class="empty-desc">Add your first look to get started.</div></div>' :
+        looks.map(lookCardHTML).join('')) +
+    '</div>';
+}
+
+function lookCardHTML(look) {
+  var img = look.image_url || (look.image ? look.image : null);
+  return '<div class="look-card" id="card_'+look.id+'">' +
+    (look.featured ? '<div class="look-card-feat">★ Featured</div>' : '') +
+    '<div class="look-card-img">' +
+      (img ? '<img src="'+img+'" alt="'+look.name+'" loading="lazy">' :
+       '<div class="look-card-ph">'+(look.brand||'').substring(0,2).toUpperCase()+'</div>') +
+    '</div>' +
+    '<div class="look-card-body">' +
+      '<div class="look-card-brand">'+look.brand+'</div>' +
+      '<div class="look-card-name">'+look.name+'</div>' +
+      '<div class="look-card-price">'+look.price+'</div>' +
+      '<div class="look-card-actions">' +
+        '<button class="btn btn-outline btn-sm" onclick="editLook(\''+look.id+'\')">Edit</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="deleteLook(\''+look.id+'\')">Remove</button>' +
+      '</div>' +
+    '</div></div>';
+}
+
+function openAddLook() {
+  document.getElementById('lookModalTitle').textContent = 'Add Look';
+  document.getElementById('lBrand').value = '';
+  document.getElementById('lName').value = '';
+  document.getElementById('lPiece').value = '';
+  document.getElementById('lPrice').value = '';
+  document.getElementById('lSeason').value = '';
+  document.getElementById('lFeatured').checked = false;
+  document.getElementById('lEditId').value = '';
+  document.getElementById('lPhoto').value = '';
+  document.getElementById('lPreview').style.display = 'none';
+  openModal('lookModal');
+}
+
+function editLook(id) {
+  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+  var look = looks.find(function(l){ return l.id === id; });
+  if (!look) return;
+  document.getElementById('lookModalTitle').textContent = 'Edit Look';
+  document.getElementById('lBrand').value = look.brand || '';
+  document.getElementById('lName').value = look.name || '';
+  document.getElementById('lPiece').value = look.piece || '';
+  document.getElementById('lPrice').value = look.price || '';
+  document.getElementById('lSeason').value = look.season || '';
+  document.getElementById('lFeatured').checked = !!look.featured;
+  document.getElementById('lEditId').value = id;
+  var src = look.image_url || look.image;
+  if (src) { document.getElementById('lPreview').src = src; document.getElementById('lPreview').style.display = 'block'; }
+  else document.getElementById('lPreview').style.display = 'none';
+  openModal('lookModal');
+}
+
+document.getElementById('lPhoto').addEventListener('change', function() {
+  var file = this.files[0]; if (!file) return;
+  var r = new FileReader();
+  r.onload = function(e) {
+    document.getElementById('lPreview').src = e.target.result;
+    document.getElementById('lPreview').style.display = 'block';
+  };
+  r.readAsDataURL(file);
+});
+
+function saveLook() {
+  var brand    = document.getElementById('lBrand').value.trim();
+  var name     = document.getElementById('lName').value.trim();
+  if (!brand || !name) { toast('Brand and Look Name are required.', 'err'); return; }
+  var piece    = document.getElementById('lPiece').value.trim();
+  var price    = document.getElementById('lPrice').value.trim() || 'Upon Request';
+  var season   = document.getElementById('lSeason').value.trim() || '2026';
+  var featured = document.getElementById('lFeatured').checked;
+  var editId   = document.getElementById('lEditId').value;
+  var file     = document.getElementById('lPhoto').files[0];
+
+  function finish(imgSrc) {
+    var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+    if (editId) {
+      var idx = looks.findIndex(function(l){ return l.id === editId; });
+      if (idx > -1) {
+        looks[idx] = Object.assign(looks[idx], {brand,name,piece,price,season,featured});
+        if (imgSrc) looks[idx].image_url = imgSrc;
+        addLog('Updated look', 'look', editId, {name});
+        toast('Look updated', 'ok');
+      }
+    } else {
+      var newLook = {id:lsId(),brand,name,piece,price,season,featured,image_url:imgSrc||null};
+      looks.push(newLook);
+      addLog('Added look', 'look', newLook.id, {name});
+      toast('Look added to lookbook', 'ok');
+    }
+    lsSet(LS.LOOKS, looks);
+    closeModal('lookModal');
+    renderPage('lookbook', document.getElementById('contentArea'));
+  }
+
+  if (file) {
+    var r = new FileReader();
+    r.onload = function(e){ finish(e.target.result); };
+    r.readAsDataURL(file);
+  } else { finish(null); }
+}
+
+function deleteLook(id) {
+  if (!confirm('Remove this look from the lookbook?')) return;
+  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS).filter(function(l){ return l.id !== id; });
+  lsSet(LS.LOOKS, looks);
+  addLog('Deleted look', 'look', id, {});
+  toast('Look removed', 'ok');
+  renderPage('lookbook', document.getElementById('contentArea'));
+}
+
+// ── BOOKINGS ─────────────────────────────────────
+function renderBookings(area) {
+  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var filter = '';
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Bookings</div>' +
+      '<div class="page-sub">'+books.length+' total · '+books.filter(function(b){return b.status==='new';}).length+' new</div></div>' +
+      '<select id="statusFilter" class="field-select" style="padding:9px 14px;font-size:12px;width:auto" onchange="filterBookings(this.value)">' +
+        '<option value="">All Status</option>' +
+        '<option value="new">New</option><option value="contacted">Contacted</option>' +
+        '<option value="confirmed">Confirmed</option><option value="completed">Completed</option>' +
+        '<option value="cancelled">Cancelled</option>' +
+      '</select>' +
+    '</div>' +
+    '<div class="table-wrap"><table>' +
+      '<thead><tr><th>Client</th><th>Service</th><th>Date</th><th>Budget</th><th>Status</th><th>Action</th></tr></thead>' +
+      '<tbody id="bookingsBody"></tbody></table></div>';
+  renderBookingRows(books);
+}
+
+function filterBookings(status) {
+  var all = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var filtered = status ? all.filter(function(b){ return b.status === status; }) : all;
+  renderBookingRows(filtered);
+}
+
+function renderBookingRows(books) {
+  var tbody = document.getElementById('bookingsBody');
+  if (!tbody) return;
+  if (!books.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="6"><div class="empty-state" style="padding:40px"><div class="empty-icon">📅</div><div class="empty-title">No bookings</div></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = books.map(function(b) {
+    var date = b.created_at ? new Date(b.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    return '<tr>' +
+      '<td><strong>'+b.client_name+'</strong><br><span style="font-size:11px;color:var(--muted)">'+b.client_email+'</span></td>' +
+      '<td style="font-size:13px">'+b.service+'</td>' +
+      '<td style="font-size:12px;color:var(--muted)">'+date+'</td>' +
+      '<td style="font-size:12px;color:var(--muted)">'+( b.budget||'—')+'</td>' +
+      '<td><span class="status-badge status-'+b.status+'">'+b.status+'</span></td>' +
+      '<td><button class="btn btn-outline btn-sm" onclick="viewBooking(\''+b.id+'\')">View</button></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function viewBooking(id) {
+  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var b = books.find(function(x){ return x.id === id; });
+  if (!b) return;
+  currentBooking = b;
+  var date = b.created_at ? new Date(b.created_at).toLocaleDateString('en-GB',{dateStyle:'long'}) : '—';
+  document.getElementById('bookingModalBody').innerHTML =
+    '<div style="display:flex;flex-direction:column;gap:14px">' +
+      infoRow('Client', b.client_name) +
+      infoRow('Email', b.client_email) +
+      infoRow('Phone', b.client_phone || '—') +
+      infoRow('Service', b.service) +
+      infoRow('Preferred Date', b.preferred_date || '—') +
+      infoRow('Budget', b.budget || '—') +
+      infoRow('Received', date) +
+      (b.message ? infoRow('Message', b.message) : '') +
+      '<div class="field"><span class="field-label">Update Status</span>' +
+        '<select class="field-select" id="bStatusSel">' +
+          ['new','contacted','confirmed','completed','cancelled'].map(function(s){
+            return '<option value="'+s+'"'+(b.status===s?' selected':'')+'>'+s.charAt(0).toUpperCase()+s.slice(1)+'</option>';
+          }).join('') +
+        '</select>' +
+      '</div>' +
+      '<div class="field"><span class="field-label">Internal Notes</span><textarea class="field-textarea" id="bNotes" rows="3">'+( b.notes||'')+'</textarea></div>' +
+    '</div>';
+  openModal('bookingModal');
+}
+
+function infoRow(label, value) {
+  return '<div style="border-bottom:1px solid var(--border);padding-bottom:10px">' +
+    '<div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">'+label+'</div>' +
+    '<div style="font-size:14px;color:var(--text)">'+value+'</div>' +
+  '</div>';
+}
+
+function updateBookingStatus() {
+  if (!currentBooking) return;
+  var newStatus = document.getElementById('bStatusSel').value;
+  var notes = document.getElementById('bNotes').value;
+  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var idx = books.findIndex(function(b){ return b.id === currentBooking.id; });
+  if (idx > -1) {
+    books[idx].status = newStatus;
+    books[idx].notes  = notes;
+    lsSet(LS.BOOKINGS, books);
+    addLog('Updated booking status', 'booking', currentBooking.id, {status: newStatus, client: currentBooking.client_name});
+    toast('Booking updated to: ' + newStatus, 'ok');
+    closeModal('bookingModal');
+    renderPage('bookings', document.getElementById('contentArea'));
+    loadNewBookingsBadge();
+  }
+}
+
+// ── SUBSCRIBERS ──────────────────────────────────
+function renderSubscribers(area) {
+  var subs = lsGet(LS.SUBS, DEFAULT_SUBS);
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Subscribers</div>' +
+      '<div class="page-sub">'+subs.length+' subscribers to The Archive Letter</div></div>' +
+      '<input class="search-input" placeholder="Search subscribers…" oninput="searchSubs(this.value)">' +
+    '</div>' +
+    '<div class="table-wrap"><table>' +
+      '<thead><tr><th>Name</th><th>Email</th><th>Industry</th><th>Joined</th><th>Action</th></tr></thead>' +
+      '<tbody id="subsBody"></tbody></table></div>';
+  renderSubRows(subs);
+}
+
+function renderSubRows(subs) {
+  var tbody = document.getElementById('subsBody');
+  if (!tbody) return;
+  if (!subs.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="5"><div class="empty-state" style="padding:40px"><div class="empty-icon">📧</div><div class="empty-title">No subscribers yet</div></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = subs.map(function(s) {
+    var date = s.subscribed_at ? new Date(s.subscribed_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    return '<tr><td>'+s.name+'</td><td style="font-size:12px">'+s.email+'</td>' +
+      '<td style="font-size:12px;color:var(--muted)">'+(s.role_industry||'—')+'</td>' +
+      '<td style="font-size:12px;color:var(--muted)">'+date+'</td>' +
+      '<td><button class="btn btn-danger btn-sm" onclick="removeSub(\''+s.id+'\')">Remove</button></td></tr>';
+  }).join('');
+}
+
+function searchSubs(q) {
+  var all = lsGet(LS.SUBS, DEFAULT_SUBS);
+  var filtered = q ? all.filter(function(s){ return (s.name+s.email+(s.role_industry||'')).toLowerCase().includes(q.toLowerCase()); }) : all;
+  renderSubRows(filtered);
+}
+
+function removeSub(id) {
+  if (!confirm('Remove this subscriber?')) return;
+  var subs = lsGet(LS.SUBS, DEFAULT_SUBS).filter(function(s){ return s.id !== id; });
+  lsSet(LS.SUBS, subs);
+  addLog('Removed subscriber', 'subscriber', id, {});
+  toast('Subscriber removed', 'ok');
+  renderPage('subscribers', document.getElementById('contentArea'));
+}
+
+// ── CONTENT ──────────────────────────────────────
+function renderContent(area) {
+  var content = lsGet('kago_content', DEFAULT_CONTENT);
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Content Manager</div>' +
+      '<div class="page-sub">Edit all dynamic text on the website</div></div>' +
+    '</div>' +
+    '<div class="table-wrap"><table>' +
+      '<thead><tr><th>Section</th><th>Content Preview</th><th>Action</th></tr></thead>' +
+      '<tbody>' +
+      content.map(function(c) {
+        var prev = (c.content_value||'').substring(0,80) + (c.content_value && c.content_value.length > 80 ? '…' : '');
+        return '<tr><td><strong>'+c.section_key+'</strong></td>' +
+          '<td style="font-size:13px;color:var(--muted)">'+prev+'</td>' +
+          '<td><button class="btn btn-outline btn-sm" onclick="editContent(\''+c.id+'\')">Edit</button></td></tr>';
+      }).join('') +
+    '</tbody></table></div>' +
+    '<div class="table-wrap" style="margin-top:16px">' +
+      '<div class="table-header"><div class="table-title">Note</div></div>' +
+      '<div style="padding:16px 20px;font-style:italic;color:var(--muted);font-size:13px">Content changes here update the admin panel display. To reflect changes on the live website, reconnect the website to this data source via Supabase, or copy the new text manually into the website file.</div>' +
+    '</div>';
+}
+
+function editContent(id) {
+  var content = lsGet('kago_content', DEFAULT_CONTENT);
+  var c = content.find(function(x){ return x.id === id; });
+  if (!c) return;
+  document.getElementById('cKey').value = c.section_key;
+  document.getElementById('cValue').value = c.content_value || '';
+  document.getElementById('cEditId').value = id;
+  openModal('contentModal');
+}
+
+function saveContent() {
+  var id  = document.getElementById('cEditId').value;
+  var val = document.getElementById('cValue').value;
+  var content = lsGet('kago_content', DEFAULT_CONTENT);
+  var idx = content.findIndex(function(c){ return c.id === id; });
+  if (idx > -1) {
+    content[idx].content_value = val;
+    lsSet('kago_content', content);
+    addLog('Updated content', 'content', id, {key: content[idx].section_key});
+    toast('Content saved', 'ok');
+    closeModal('contentModal');
+    renderPage('content', document.getElementById('contentArea'));
+  }
+}
+
+// ── MEDIA LIBRARY ────────────────────────────────
+function renderMedia(area) {
+  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+  var withImages = looks.filter(function(l){ return l.image_url || l.image; });
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Media Library</div>' +
+      '<div class="page-sub">'+withImages.length+' images · Upload via Lookbook Manager</div></div>' +
+    '</div>' +
+    (withImages.length === 0 ?
+      '<div class="empty-state"><div class="empty-icon">🖼️</div><div class="empty-title">No images yet</div><div class="empty-desc">Images are added via the Lookbook Manager when you upload photos to looks.</div><div style="margin-top:20px"><button class="btn btn-primary" onclick="showPage(\'lookbook\')">Go to Lookbook Manager</button></div></div>' :
+      '<div class="looks-grid">' +
+        withImages.map(function(l) {
+          var src = l.image_url || l.image;
+          return '<div class="look-card">' +
+            '<div class="look-card-img"><img src="'+src+'" alt="'+l.name+'" loading="lazy"></div>' +
+            '<div class="look-card-body">' +
+              '<div class="look-card-brand">'+l.brand+'</div>' +
+              '<div class="look-card-name" style="font-size:13px">'+l.name+'</div>' +
+            '</div></div>';
+        }).join('') +
+      '</div>'
+    );
+}
+
+// ── TEAM ─────────────────────────────────────────
+function renderTeam(area) {
+  var team = lsGet(LS.TEAM, DEFAULT_TEAM);
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Team Management</div>' +
+      '<div class="page-sub">'+team.length+' members across '+[...new Set(team.map(function(t){return t.department}))].length+' departments</div></div>' +
+      '<button class="btn btn-primary" onclick="openModal(\'teamModal\')">+ Add Member</button>' +
+    '</div>' +
+    '<div class="team-grid">' +
+      team.map(function(m) {
+        var initials = (m.name||'K').charAt(0).toUpperCase();
+        return '<div class="team-card">' +
+          '<div class="team-avatar">'+initials+'</div>' +
+          '<div class="team-name">'+m.name+'</div>' +
+          '<div class="team-email">'+m.email+'</div>' +
+          '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' +
+            '<span class="role-badge role-'+m.role+'">'+m.role+'</span>' +
+            '<span style="font-size:11px;color:var(--muted)">'+(m.department||'')+'</span>' +
+          '</div>' +
+          (m.id.startsWith('t') ? '' :
+            '<button class="btn btn-danger btn-sm" style="margin-top:10px" onclick="removeTeamMember(\''+m.id+'\')">Remove</button>') +
+        '</div>';
+      }).join('') +
+    '</div>';
+}
+
+function saveTeamMember() {
+  var name  = document.getElementById('tmName').value.trim();
+  var email = document.getElementById('tmEmail').value.trim();
+  var role  = document.getElementById('tmRole').value;
+  var dept  = document.getElementById('tmDept').value.trim();
+  if (!name || !email) { toast('Name and email are required', 'err'); return; }
+  var team = lsGet(LS.TEAM, DEFAULT_TEAM);
+  if (team.find(function(m){ return m.email === email; })) { toast('This email is already in the team', 'err'); return; }
+  team.push({id:lsId(), email, name, role, department:dept, active:true, invited_at:new Date().toISOString()});
+  lsSet(LS.TEAM, team);
+  addLog('Added team member', 'team', email, {name, role});
+  toast(name + ' added to team', 'ok');
+  closeModal('teamModal');
+  renderPage('team', document.getElementById('contentArea'));
+}
+
+function removeTeamMember(id) {
+  if (!confirm('Remove this team member?')) return;
+  var team = lsGet(LS.TEAM, DEFAULT_TEAM).filter(function(m){ return m.id !== id; });
+  lsSet(LS.TEAM, team);
+  addLog('Removed team member', 'team', id, {});
+  toast('Team member removed', 'ok');
+  renderPage('team', document.getElementById('contentArea'));
+}
+
+// ── ACTIVITY LOG ─────────────────────────────────
+function renderLogs(area) {
+  var logs = lsGet(LS.LOGS, []);
+  var icons = {add:'✅',edit:'✏️',del:'🗑️',auth:'🔐',updated:'✏️',deleted:'🗑️',added:'✅',removed:'🗑️',logged:'🔐'};
+  area.innerHTML =
+    '<div class="page-head">' +
+      '<div><div class="page-title">Activity Log</div>' +
+      '<div class="page-sub">'+logs.length+' recorded actions</div></div>' +
+      (logs.length ? '<button class="btn btn-danger btn-sm" onclick="clearLogs()">Clear Log</button>' : '') +
+    '</div>' +
+    '<div class="table-wrap" style="padding:20px">' +
+      (logs.length === 0 ?
+        '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">No activity yet</div><div class="empty-desc">Actions will appear here as the team uses the admin panel.</div></div>' :
+        logs.map(function(l) {
+          var key = Object.keys(icons).find(function(k){ return l.action.toLowerCase().includes(k); }) || 'edit';
+          var ico = icons[key];
+          var date = new Date(l.created_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+          return '<div class="log-item">' +
+            '<div class="log-icon add">'+ico+'</div>' +
+            '<div><div class="log-action">'+l.action+(l.entity_type?' — <em>'+l.entity_type+'</em>':'')+'</div>' +
+            '<div class="log-meta">'+l.user_email+' · '+date+'</div></div>' +
+          '</div>';
+        }).join('')
+      ) +
+    '</div>';
+}
+
+function clearLogs() {
+  if (!confirm('Clear all activity logs? This cannot be undone.')) return;
+  lsSet(LS.LOGS, []);
+  toast('Activity log cleared', 'info');
+  renderPage('logs', document.getElementById('contentArea'));
+}
+
+// ── UTILITIES ────────────────────────────────────
+function loadNewBookingsBadge() {
+  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var count = books.filter(function(b){ return b.status === 'new'; }).length;
+  var badge = document.getElementById('newBookingsBadge');
+  if (badge) { badge.textContent = count; badge.style.display = count > 0 ? '' : 'none'; }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function toast(msg, type) {
+  var area = document.getElementById('toastArea');
+  var t = document.createElement('div');
+  t.className = 'toast toast-'+(type||'info');
+  t.innerHTML = (type==='ok'?'✓ ':type==='err'?'✗ ':'ℹ ') + msg;
+  area.appendChild(t);
+  setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 4000);
+}
+
+// Close modals on background click
+document.querySelectorAll('.modal-bg').forEach(function(bg) {
+  bg.addEventListener('click', function(e) {
+    if (e.target === bg) bg.classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
