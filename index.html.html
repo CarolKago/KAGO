@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KAGO — Private Styling Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
+<style>
+:root{
+  --b:#4A1220;--bm:#6B1E2E;--ba:#8C2A3E;
+  --c:#3E2010;--cm:#6B3A20;--cl:#9C6845;
+  --r:#C4788A;--rl:#D9A0AC;--rp:#EDD5D9;
+  --bg:#F2E8DA;--bgd:#E0CEBC;--bgw:#F7F0E6;
+  --ink:#2C1008;--tx:#5A3020;--mu:#9C7860;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:"EB Garamond",Georgia,serif;font-size:15px;color:var(--ink)}
+a{text-decoration:none;color:inherit}
+button,input,textarea,select{font-family:inherit;font-size:inherit}
+img{display:block;max-width:100%;object-fit:cover}
+
+/* ── SLIDES ── */
+#reel{
+  height:100vh;overflow-y:scroll;
+  scroll-snap-type:y mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+.slide{
+  height:100vh;width:100%;scroll-snap-align:start;
+  scroll-snap-stop:always;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;transition:background .4s,border-color .4s;
+}
+nav.dk{background:rgba(74,18,32,.96);border-bottom:1px solid rgba(196,120,138,.1)}
+nav.lt{background:rgba(247,240,230,.96);border-bottom:1px solid rgba(224,206,188,.5)}
+.nav-logo{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:21px;letter-spacing:.18em;cursor:pointer;transition:color .3s;
+}
+nav.dk .nav-logo{color:rgba(242,232,218,.88)}
+nav.lt .nav-logo{color:var(--bm)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  cursor:pointer;transition:color .3s;
+}
+nav.dk .nav-links a{color:rgba(196,120,138,.52)}
+nav.dk .nav-links a:hover{color:rgba(217,160,172,.88)}
+nav.lt .nav-links a{color:var(--cm)}
+nav.lt .nav-links a:hover{color:var(--bm)}
+.nav-cta{
+  padding:8px 20px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .3s;
+}
+nav.dk .nav-cta{background:rgba(196,120,138,.18);color:rgba(217,160,172,.82);border:1px solid rgba(196,120,138,.28)}
+nav.dk .nav-cta:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
+nav.lt .nav-cta{background:var(--bm);color:var(--bgw)}
+nav.lt .nav-cta:hover{background:var(--b)}
+
+/* ── DOT NAV ── */
+.dots{
+  position:fixed;right:20px;top:50%;transform:translateY(-50%);
+  z-index:900;display:flex;flex-direction:column;gap:11px;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;border:none;
+  cursor:pointer;padding:0;transition:all .35s;
+}
+.dot.on{background:var(--r);transform:scale(1.55)}
+.dot.off-dk{background:rgba(196,120,138,.3)}
+.dot.off-lt{background:rgba(107,30,46,.22)}
+
+/* ════════════════════════════════════════
+   SLIDE 1 — ARRIVAL
+════════════════════════════════════════ */
+#s1{background:var(--b);flex-direction:row}
+
+.s1-l{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:88px 56px 56px 56px;
+}
+.s1-eyebrow{
+  font-size:9.5px;letter-spacing:.52em;text-transform:uppercase;
+  color:rgba(196,120,138,.55);margin-bottom:20px;
+  display:flex;align-items:center;gap:14px;
+  opacity:0;animation:up .9s ease .3s forwards;
+}
+.s1-eyebrow::before{content:"";width:22px;height:1px;background:rgba(196,120,138,.38);flex-shrink:0}
+.s1-kago{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:clamp(70px,10.5vw,148px);letter-spacing:.1em;line-height:.95;
+  color:rgba(242,232,218,.92);
+  opacity:0;animation:up .9s ease .5s forwards;
+}
+.s1-est{
+  font-size:10.5px;letter-spacing:.54em;text-transform:uppercase;
+  color:rgba(196,120,138,.5);margin-top:10px;margin-bottom:28px;
+  opacity:0;animation:up .9s ease .7s forwards;
+}
+.s1-rule{width:40px;height:1px;background:rgba(196,120,138,.25);margin-bottom:22px;
+  opacity:0;animation:up .9s ease .8s forwards;}
+.s1-tag{
+  font-family:"Cormorant Garamond",serif;font-size:17px;font-style:italic;font-weight:300;
+  color:rgba(242,232,218,.4);line-height:1.85;max-width:340px;margin-bottom:40px;
+  opacity:0;animation:up .9s ease .9s forwards;
+}
+.s1-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:up .9s ease 1.1s forwards}
+.btn-r{
+  padding:12px 30px;background:rgba(196,120,138,.16);color:rgba(217,160,172,.85);
+  border:1px solid rgba(196,120,138,.32);font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;cursor:pointer;transition:all .35s;
+}
+.btn-r:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
+.btn-g{
+  padding:12px 30px;background:transparent;color:rgba(196,120,138,.48);
+  border:1px solid rgba(196,120,138,.16);font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;cursor:pointer;transition:all .35s;
+}
+.btn-g:hover{border-color:rgba(196,120,138,.44);color:rgba(196,120,138,.8)}
+/* Right house carousel */
+.s1-r{
+  width:34%;background:rgba(30,8,14,.45);
+  border-left:1px solid rgba(196,120,138,.07);
+  overflow:hidden;display:flex;align-items:center;
+  padding-top:56px;
+}
+.house-track{display:flex;flex-direction:column;animation:scrollU 24s linear infinite}
+.house-item{
+  padding:16px 36px;font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:clamp(13px,1.5vw,17px);letter-spacing:.06em;
+  color:rgba(196,120,138,.28);border-bottom:1px solid rgba(196,120,138,.05);
+  transition:color .3s;white-space:nowrap;
+}
+.house-item.hi{color:rgba(196,120,138,.68)}
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:24px;left:56px;
+  font-size:9px;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(196,120,138,.32);display:flex;align-items:center;gap:10px;
+  opacity:0;animation:up .9s ease 1.4s forwards;
+}
+.bounce{animation:bnc 2s ease-in-out infinite;display:inline-block}
+
+/* ════════════════════════════════════════
+   SLIDE 2 — DISCOVERY
+   Layout: 3 columns
+   Col 1: Lookbook
+   Col 2: Atelier + Portfolio  
+   Col 3: Services + Edit + Weekly
+════════════════════════════════════════ */
+#s2{background:var(--bgw);flex-direction:column}
+.s2-inner{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  height:calc(100vh - 56px);margin-top:56px;
+}
+.s2-col{
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  padding:28px 24px;
+  border-right:1px solid var(--bgd);
+}
+.s2-col:last-child{border-right:none}
+.sec-eye{
+  font-size:9px;letter-spacing:.44em;text-transform:uppercase;color:var(--r);
+  margin-bottom:8px;display:flex;align-items:center;gap:10px;
+}
+.sec-eye::before{content:"";width:14px;height:1px;background:var(--rl);opacity:.5;flex-shrink:0}
+.sec-title{
+  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
+  font-size:clamp(18px,2.2vw,28px);color:var(--bm);line-height:1.05;margin-bottom:12px;
+}
+.sec-title em{color:var(--r)}
+
+/* Lookbook col */
+.lk-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1;overflow:hidden;
+}
+.lk-c{
+  position:relative;cursor:pointer;overflow:hidden;
+  min-height:0;
+}
+.lk-c:hover .lk-ov{opacity:1}
+.lk-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-family:"Playfair Display",serif;font-style:italic;font-size:28px;opacity:.14;
+  position:relative;
+}
+.lk-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lk-ov{
+  position:absolute;inset:0;background:rgba(74,18,32,.72);opacity:0;
+  transition:opacity .4s;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;padding:10px;
+}
+.lk-ov-name{
+  font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(11px,1.3vw,14px);color:var(--bgw);text-align:center;line-height:1.2;
+}
+.lk-ov-btn{
+  font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(217,160,172,.75);padding:4px 11px;
+  border:1px solid rgba(196,120,138,.38);background:transparent;cursor:pointer;
+}
+.lk-ov-btn:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
+.view-all-link{
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bm);
+  cursor:pointer;background:none;border:none;margin-top:10px;
+  display:inline-flex;align-items:center;gap:8px;transition:gap .3s;
+}
+.view-all-link:hover{gap:14px}
+.ph-a{background:linear-gradient(155deg,#3D3830,#1E1A16);color:#D4B896}
+.ph-b{background:linear-gradient(155deg,#EAE0D2,#C8B89C);color:#5A4E42}
+.ph-c{background:linear-gradient(155deg,#1A1714,#0F0D0B);color:#B14C24}
+.ph-d{background:linear-gradient(155deg,#2A2015,#332A1F);color:#D9A0AC}
+.ph-e{background:linear-gradient(155deg,#E8DDD0,#D4C8B8);color:#6B3A20}
+.ph-f{background:linear-gradient(155deg,#F0E8DC,#CBBFB0);color:#6B1E2E}
+
+/* Atelier + Portfolio col */
+.phi-quote{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:clamp(14px,1.7vw,20px);color:var(--bm);line-height:1.5;margin-bottom:10px;
+}
+.phi-quote em{color:var(--r);font-style:normal}
+.phi-attr{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--mu);
+  display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.phi-attr::before{content:"—"}
+.pillars-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.pill-m{border-top:1px solid var(--bgd);padding-top:8px}
+.pill-m-name{font-family:"Playfair Display",serif;font-size:clamp(11px,1.2vw,13px);
+  font-weight:700;color:var(--bm);margin-bottom:2px}
+.pill-m-desc{font-size:10.5px;color:var(--mu);line-height:1.6}
+.port-mini{flex:1;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.port-m{
+  flex:1;background:var(--bg);border:1px solid var(--bgd);
+  padding:10px 12px;cursor:pointer;transition:background .35s;min-height:0;
+}
+.port-m:hover{background:var(--bm)}
+.port-m:hover .port-m-title,.port-m:hover .port-m-desc{color:rgba(242,232,218,.85)}
+.port-m-title{font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(12px,1.3vw,15px);color:var(--c);margin-bottom:2px;transition:color .35s}
+.port-m-desc{font-size:11px;color:var(--mu);line-height:1.55;transition:color .35s;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Services + Edit + Weekly col */
+.svc-mini{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.svc-m{
+  background:var(--bg);border:1px solid var(--bgd);
+  padding:10px 14px;cursor:pointer;transition:background .35s;
+  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+}
+.svc-m:hover{background:var(--bm)}
+.svc-m:hover .svc-m-name,.svc-m:hover .svc-m-price{color:rgba(242,232,218,.88)}
+.svc-m-name{font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(12px,1.3vw,15px);color:var(--c);transition:color .35s}
+.svc-m-price{font-size:10.5px;color:var(--r);flex-shrink:0;transition:color .35s}
+/* Edit strip */
+.edit-strip{display:flex;gap:5px;margin-bottom:14px;height:90px;flex-shrink:0}
+.edit-s{
+  flex:1;cursor:pointer;position:relative;overflow:hidden;transition:transform .4s;
+}
+.edit-s:hover{transform:scale(1.03)}
+.edit-s-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-family:"Playfair Display",serif;font-style:italic;font-size:18px;opacity:.18}
+.es1{background:linear-gradient(160deg,#EAE0D2,#C0B09A);color:#5A4E42}
+.es2{background:linear-gradient(160deg,#EAE8DC,#D8D0C4);color:#6B3A20}
+.es3{background:linear-gradient(160deg,#1E0E08,#0E0604);color:#C4788A}
+.edit-s-label{
+  position:absolute;bottom:0;left:0;right:0;padding:8px 6px 6px;
+  background:linear-gradient(transparent,rgba(74,18,32,.65));
+  font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(217,160,172,.75);
+}
+/* Weekly mini */
+.wk-mini{background:var(--bg);border:1px solid var(--bgd);padding:10px 12px;flex:1;min-height:0;overflow:hidden}
+.wk-cat{font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--r);margin-bottom:3px}
+.wk-name{font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(13px,1.5vw,16px);color:var(--bm);margin-bottom:2px;line-height:1.2}
+.wk-house{font-size:10.5px;color:var(--mu);margin-bottom:5px}
+.wk-body{font-size:11.5px;color:var(--tx);line-height:1.65;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.wk-dots{display:flex;gap:6px;margin-top:7px}
+.wd{width:5px;height:5px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all .3s}
+.wd.on{background:var(--r);transform:scale(1.4)}
+.wd.off{background:var(--bgd)}
+
+/* ════════════════════════════════════════
+   SLIDE 3 — CONNECT
+════════════════════════════════════════ */
+#s3{background:var(--b);flex-direction:column}
+.s3-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  height:calc(100vh - 56px - 52px);/* minus nav and footer */
+  margin-top:56px;
+}
+.s3-l,.s3-r{
+  display:flex;flex-direction:column;
+  padding:36px 44px 28px;
+  overflow:hidden;
+}
+.s3-l{border-right:1px solid rgba(196,120,138,.1)}
+/* subscribe */
+.sub-form{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.sub-inp{
+  padding:12px 15px;background:rgba(242,232,218,.07);
+  border:1px solid rgba(196,120,138,.18);color:rgba(242,232,218,.88);
+  font-size:14px;outline:none;transition:border .3s;-webkit-appearance:none;border-radius:0;
+}
+.sub-inp::placeholder{color:rgba(242,232,218,.28)}
+.sub-inp:focus{border-color:rgba(196,120,138,.48)}
+.sub-btn{
+  align-self:flex-start;padding:12px 28px;background:var(--r);color:var(--bgw);
+  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:background .3s;
+}
+.sub-btn:hover{background:var(--rl);color:var(--bm)}
+.sub-note{font-size:10px;color:rgba(196,120,138,.3);font-style:italic}
+.sub-ok{
+  display:none;font-family:"Playfair Display",serif;font-style:italic;
+  font-size:19px;color:rgba(217,160,172,.78);padding:16px 0;line-height:1.6;
+}
+/* contact */
+.contact-grid{display:flex;flex-direction:column;gap:9px;margin-top:14px;flex:1}
+.ct-item{display:flex;flex-direction:column;gap:1px;padding-bottom:9px;border-bottom:1px solid rgba(196,120,138,.08)}
+.ct-item:last-child{border-bottom:none;padding-bottom:0}
+.ct-label{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(196,120,138,.36)}
+.ct-email{
+  font-size:13px;color:rgba(217,160,172,.6);cursor:pointer;transition:color .3s;
+  text-decoration:none;
+}
+.ct-email:hover{color:var(--rl)}
+.book-cta-btn{
+  margin-top:auto;width:100%;padding:13px;background:rgba(196,120,138,.14);
+  color:rgba(217,160,172,.78);border:1px solid rgba(196,120,138,.28);
+  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+}
+.book-cta-btn:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
+/* footer strip */
+.s3-footer{
+  height:52px;border-top:1px solid rgba(196,120,138,.1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 44px;flex-shrink:0;flex-wrap:wrap;gap:8px;
+}
+.s3-footer-brand{
+  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
+  font-size:15px;letter-spacing:.16em;color:rgba(242,232,218,.48);
+}
+.soc-links{display:flex;gap:16px}
+.soc-link{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(196,120,138,.32);cursor:pointer;transition:color .3s}
+.soc-link:hover{color:var(--rl)}
+.legal-links{display:flex;gap:14px}
+.legal-links a{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(196,120,138,.22);cursor:pointer;transition:color .3s}
+.legal-links a:hover{color:rgba(196,120,138,.5)}
+.footer-copy{font-size:9.5px;letter-spacing:.14em;color:rgba(196,120,138,.18)}
+
+/* ── MODALS ── */
+.mbg{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(74,18,32,.88);align-items:center;justify-content:center;padding:20px;
+}
+.mbg.open{display:flex}
+.mbox{background:var(--bgw);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
+.mhead{
+  padding:16px 20px;background:var(--bg);border-bottom:1px solid var(--bgd);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.mtitle{font-family:"Playfair Display",serif;font-style:italic;font-size:21px;color:var(--bm)}
+.mx{background:none;border:none;font-size:21px;cursor:pointer;color:var(--mu);line-height:1}
+.mx:hover{color:var(--bm)}
+.mbody{padding:22px}
+.mfooter{padding:14px 20px;border-top:1px solid var(--bgd);display:flex;gap:8px;justify-content:flex-end}
+.field{margin-bottom:12px}
+.fl{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.fi,.fs,.fta{
+  width:100%;padding:10px 13px;border:1px solid var(--bgd);background:var(--bg);
+  font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;border-radius:0;
+  transition:border .2s;
+}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--r)}
+.fta{min-height:76px;resize:vertical}
+.msub{
+  width:100%;padding:13px;background:var(--bm);color:var(--bgw);
+  border:none;font-size:10px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:background .3s;
+}
+.msub:hover{background:var(--b)}
+.mok{display:none;text-align:center;padding:28px;font-family:"Playfair Display",serif;font-style:italic;font-size:19px;color:var(--bm)}
+
+/* Lookbook full modal */
+.lk-full-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
+.lk-full-card{cursor:pointer;position:relative;overflow:hidden}
+.lk-full-card:hover .lk-ov{opacity:1}
+.lk-full-ph{aspect-ratio:3/4;width:100%}
+
+/* ── CHAT ── */
+.chat-btn{
+  position:fixed;bottom:24px;right:24px;z-index:700;
+  width:50px;height:50px;background:var(--bm);
+  border:none;cursor:pointer;transition:background .3s;
+  box-shadow:0 8px 26px rgba(74,18,32,.42);
+  display:flex;align-items:center;justify-content:center;
+}
+.chat-btn:hover{background:var(--b)}
+.chat-btn svg{width:20px;height:20px;fill:none;stroke:rgba(217,160,172,.82);stroke-width:1.8}
+.chat-badge{
+  position:absolute;top:-4px;right:-4px;width:14px;height:14px;
+  background:var(--r);border-radius:50%;font-size:8px;font-weight:700;
+  color:var(--bgw);display:flex;align-items:center;justify-content:center;
+}
+.chat-box{
+  position:fixed;bottom:86px;right:24px;z-index:700;width:314px;
+  background:var(--bgw);box-shadow:0 16px 48px rgba(74,18,32,.2);
+  display:none;flex-direction:column;overflow:hidden;max-height:450px;
+}
+.chat-box.open{display:flex}
+.ch-head{
+  background:var(--b);padding:12px 15px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ch-hl{display:flex;align-items:center;gap:10px}
+.ch-av{
+  width:27px;height:27px;background:rgba(196,120,138,.18);
+  border:1px solid rgba(196,120,138,.28);
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Playfair Display",serif;font-style:italic;font-size:12px;color:var(--rl);
+}
+.ch-name{font-family:"Playfair Display",serif;font-style:italic;font-size:13px;color:rgba(242,232,218,.86)}
+.ch-status{font-size:9px;letter-spacing:.16em;color:rgba(196,120,138,.42)}
+.ch-x{background:none;border:none;color:rgba(196,120,138,.42);font-size:16px;cursor:pointer}
+.ch-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;max-height:250px}
+.cm{max-width:85%;padding:8px 12px;font-size:13.5px;line-height:1.65}
+.cm.bot{background:var(--bg);color:var(--tx);align-self:flex-start}
+.cm.usr{background:var(--bm);color:rgba(242,232,218,.88);align-self:flex-end}
+.ch-quick{padding:6px 12px;display:flex;flex-wrap:wrap;gap:5px}
+.qb{
+  padding:4px 10px;border:1px solid rgba(196,120,138,.26);background:transparent;
+  font-size:11.5px;color:var(--bm);cursor:pointer;transition:all .3s;
+}
+.qb:hover{background:var(--bm);color:rgba(242,232,218,.9);border-color:var(--bm)}
+.ch-row{display:flex;border-top:1px solid var(--bgd);padding:8px 12px;gap:8px}
+.ch-in{
+  flex:1;border:none;background:transparent;font-size:13.5px;color:var(--ink);outline:none;
+}
+.ch-in::placeholder{color:var(--mu)}
+.ch-send{
+  background:var(--r);color:var(--bgw);border:none;padding:5px 11px;
+  font-size:9.5px;letter-spacing:.12em;cursor:pointer;transition:background .3s;
+}
+.ch-send:hover{background:var(--bm)}
+
+/* ── TOAST ── */
+#toast-area{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{padding:10px 18px;font-size:13px;min-width:200px;text-align:center;animation:ttp .3s ease}
+.t-ok{background:var(--bm);color:var(--bgw)}
+.t-err{background:#8B2020;color:#fff}
+.t-info{background:var(--r);color:var(--bgw)}
+
+/* ── KEYFRAMES ── */
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes scrollU{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+@keyframes ttp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .s2-inner{grid-template-columns:1fr 1fr}
+  .s2-col:last-child{display:none}
+}
+@media(max-width:600px){
+  .s2-inner{grid-template-columns:1fr}
+  .s2-col:not(:first-child){display:none}
+  .s3-inner{grid-template-columns:1fr}
+  .s3-r{display:none}
+  nav{padding:0 20px}
+  .nav-links a{display:none}
+  .s1-l{padding:80px 24px 40px}
+  .s1-r{display:none}
+  .dots{right:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="dk" id="topNav">
+  <div class="nav-logo" onclick="gto(0)">KAGO</div>
+  <div class="nav-links">
+    <a onclick="gto(1)">Lookbook</a>
+    <a onclick="gto(1)">Atelier</a>
+    <a onclick="gto(1)">Services</a>
+    <a onclick="gto(2)">Contact</a>
+    <button class="nav-cta" onclick="openModal('bookingModal')">Book Now</button>
+  </div>
+</nav>
+
+<!-- DOT NAV -->
+<div class="dots" id="dotNav">
+  <button class="dot on" onclick="gto(0)" title="Arrival"></button>
+  <button class="dot off-dk" onclick="gto(1)" title="Discovery"></button>
+  <button class="dot off-dk" onclick="gto(2)" title="Connect"></button>
+</div>
+
+<!-- ══ SLIDES ══ -->
+<div id="reel">
+
+<!-- SLIDE 1: ARRIVAL -->
+<section class="slide" id="s1">
+  <div class="s1-l">
+    <div class="s1-eyebrow">Private Atelier &mdash; London</div>
+    <div class="s1-kago">KAGO</div>
+    <div class="s1-est">Est. 2026</div>
+    <div class="s1-rule"></div>
+    <p class="s1-tag">A private styling atelier for the discerning woman. Curated from the world&rsquo;s most revered fashion houses.</p>
+    <div class="s1-btns">
+      <button class="btn-r" onclick="gto(1)">Explore the Lookbook &rsaquo;</button>
+      <button class="btn-g" onclick="openModal('bookingModal')">Request Consultation</button>
+    </div>
+  </div>
+  <div class="s1-r">
+    <div class="house-track" id="houseTrack">
+      <div class="house-item hi">Loro Piana</div>
+      <div class="house-item">Brunello Cucinelli</div>
+      <div class="house-item hi">Alexander McQueen</div>
+      <div class="house-item">Yves Saint Laurent</div>
+      <div class="house-item hi">Ralph Lauren Collection</div>
+      <div class="house-item">Christian Louboutin</div>
+      <div class="house-item hi">Dior Archive</div>
+      <div class="house-item">Chanel Haute Couture</div>
+      <div class="house-item hi">Bottega Veneta</div>
+      <div class="house-item">The Row</div>
+      <div class="house-item hi">Cartier</div>
+      <div class="house-item">Manolo Blahnik</div>
+      <div class="house-item hi">Loro Piana</div>
+      <div class="house-item">Brunello Cucinelli</div>
+      <div class="house-item hi">Alexander McQueen</div>
+      <div class="house-item">Yves Saint Laurent</div>
+      <div class="house-item hi">Ralph Lauren Collection</div>
+      <div class="house-item">Christian Louboutin</div>
+      <div class="house-item hi">Dior Archive</div>
+      <div class="house-item">Chanel Haute Couture</div>
+      <div class="house-item hi">Bottega Veneta</div>
+      <div class="house-item">The Row</div>
+      <div class="house-item hi">Cartier</div>
+      <div class="house-item">Manolo Blahnik</div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll &nbsp;<span class="bounce">&#x2193;</span></div>
+</section>
+
+<!-- SLIDE 2: DISCOVERY -->
+<section class="slide" id="s2">
+  <div class="s2-inner">
+
+    <!-- COL 1: LOOKBOOK -->
+    <div class="s2-col">
+      <div class="sec-eye">01 &mdash; Lookbook</div>
+      <div class="sec-title">The <em>Lookbook</em></div>
+      <div class="lk-grid" id="lkGrid"></div>
+      <button class="view-all-link" onclick="openFullLookbook()">View Full Collection &rsaquo;</button>
+    </div>
+
+    <!-- COL 2: ATELIER + PORTFOLIO -->
+    <div class="s2-col">
+      <div class="sec-eye">02 &mdash; The Atelier</div>
+      <blockquote class="phi-quote">
+        &ldquo;She does not dress to be <em>seen</em> &mdash; she dresses to <em>conquer</em>.&rdquo;
+      </blockquote>
+      <div class="phi-attr">KAGO Atelier &middot; London</div>
+      <div class="pillars-mini">
+        <div class="pill-m"><div class="pill-m-name">Archive Access</div><div class="pill-m-desc">Vintage Dior, Chanel couture, archival pieces.</div></div>
+        <div class="pill-m"><div class="pill-m-name">Power Dressing</div><div class="pill-m-desc">Wardrobes for boardroom, gala, and negotiation.</div></div>
+        <div class="pill-m"><div class="pill-m-name">Quiet Wealth</div><div class="pill-m-desc">No logos. No noise. Pure exceptional quality.</div></div>
+        <div class="pill-m"><div class="pill-m-name">Discretion</div><div class="pill-m-desc">Private, confidential. Absolute privacy.</div></div>
+      </div>
+      <div class="sec-eye" style="margin-top:8px">03 &mdash; Portfolio</div>
+      <div class="port-mini">
+        <div class="port-m" onclick="openModal('bookingModal')"><div class="port-m-title">The Executive</div><div class="port-m-desc">Brunello Cucinelli blazer. Loro Piana trousers. Bottega. Understated. Immovable.</div></div>
+        <div class="port-m" onclick="openModal('bookingModal')"><div class="port-m-title">The Femme Fatale</div><div class="port-m-desc">McQueen sculpted blazer. Louboutin Pigalle. Saint Laurent Sac de Jour in crocodile.</div></div>
+        <div class="port-m" onclick="openModal('bookingModal')"><div class="port-m-title">The Archive Collector</div><div class="port-m-desc">1960s Dior Bar jacket. Chanel vintage 2.55. This is not fashion &mdash; this is inheritance.</div></div>
+        <div class="port-m" onclick="openModal('bookingModal')"><div class="port-m-title">The Evening Architect</div><div class="port-m-desc">YSL Le Smoking. Cartier Tank. She arrives last. Everyone remembers only her.</div></div>
+      </div>
+    </div>
+
+    <!-- COL 3: SERVICES + EDIT + WEEKLY -->
+    <div class="s2-col">
+      <div class="sec-eye">04 &mdash; Services</div>
+      <div class="svc-mini">
+        <div class="svc-m" onclick="openModal('bookingModal')"><div class="svc-m-name">Wardrobe Architecture</div><div class="svc-m-price">From &pound;1,200</div></div>
+        <div class="svc-m" onclick="openModal('bookingModal')"><div class="svc-m-name">The Power Edit</div><div class="svc-m-price">From &pound;2,500</div></div>
+        <div class="svc-m" onclick="openModal('bookingModal')"><div class="svc-m-name">Archive &amp; Collector</div><div class="svc-m-price">Upon Request</div></div>
+      </div>
+      <div class="sec-eye" style="margin-top:4px">05 &mdash; The Summer Edit</div>
+      <div class="edit-strip">
+        <div class="edit-s" onclick="openSummerEdit(1)"><div class="edit-s-ph es1">BC</div><div class="edit-s-label">Terrace</div></div>
+        <div class="edit-s" onclick="openSummerEdit(3)"><div class="edit-s-ph es2">LP</div><div class="edit-s-label">Power</div></div>
+        <div class="edit-s" onclick="openSummerEdit(5)"><div class="edit-s-ph es3">YSL</div><div class="edit-s-label">Evening</div></div>
+      </div>
+      <div class="sec-eye">06 &mdash; Weekly Pick</div>
+      <div class="wk-mini" id="wkMini"></div>
+      <div class="wk-dots" id="wkDots"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SLIDE 3: CONNECT -->
+<section class="slide" id="s3">
+  <div class="s3-inner">
+    <!-- Subscribe -->
+    <div class="s3-l">
+      <div class="sec-eye" style="color:rgba(196,120,138,.52)">07 &mdash; The Archive Letter</div>
+      <div class="sec-title" style="color:rgba(242,232,218,.88);font-size:clamp(22px,2.8vw,36px)">The Private <em>Edit</em></div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(217,160,172,.38);line-height:1.8;margin-bottom:4px">Archive discoveries. Investment pieces. Power dressing intelligence. Delivered weekly.</p>
+      <div class="sub-form" id="subForm">
+        <input class="sub-inp" id="subName" placeholder="Your Name" autocorrect="off">
+        <input class="sub-inp" id="subEmail" type="email" placeholder="Email Address">
+        <input class="sub-inp" id="subRole" placeholder="Role / Industry (optional)" autocorrect="off">
+        <button class="sub-btn" onclick="doSub()">Join the Private Edit &rsaquo;</button>
+        <p class="sub-note">Strictly private &middot; No third parties &middot; Unsubscribe anytime</p>
+      </div>
+      <div class="sub-ok" id="subOk">You are now part of the private archive.<br><em>Welcome.</em></div>
+    </div>
+    <!-- Contact -->
+    <div class="s3-r">
+      <div class="sec-eye" style="color:rgba(196,120,138,.52)">Contact</div>
+      <div class="sec-title" style="color:rgba(242,232,218,.88);font-size:clamp(22px,2.8vw,36px)">Get in <em>Touch</em></div>
+      <div class="contact-grid">
+        <div class="ct-item"><span class="ct-label">General Enquiries</span><a class="ct-email" href="mailto:hello@kagosatelier.com">hello@kagosatelier.com</a></div>
+        <div class="ct-item"><span class="ct-label">Booking &amp; Consultations</span><a class="ct-email" href="mailto:styling@kagosatelier.com">styling@kagosatelier.com</a></div>
+        <div class="ct-item"><span class="ct-label">Archive &amp; Collector</span><a class="ct-email" href="mailto:archive@kagosatelier.com">archive@kagosatelier.com</a></div>
+        <div class="ct-item"><span class="ct-label">Press &amp; Collaborations</span><a class="ct-email" href="mailto:press@kagosatelier.com">press@kagosatelier.com</a></div>
+      </div>
+      <button class="book-cta-btn" onclick="openModal('bookingModal')">Request a Private Consultation &rsaquo;</button>
+    </div>
+  </div>
+  <!-- Footer -->
+  <div class="s3-footer">
+    <div class="s3-footer-brand">KAGO &middot; Est. 2026</div>
+    <div class="soc-links">
+      <span class="soc-link" onclick="window.open('https://instagram.com/kagosatelier','_blank')">Instagram</span>
+      <span class="soc-link" onclick="window.open('https://pinterest.com/kagosatelier','_blank')">Pinterest</span>
+      <span class="soc-link" onclick="window.open('https://tiktok.com/@kagosatelier','_blank')">TikTok</span>
+      <span class="soc-link" onclick="window.open('https://linkedin.com/company/kagosatelier','_blank')">LinkedIn</span>
+    </div>
+    <div class="legal-links">
+      <a onclick="showToast('Privacy Policy coming soon','info')">Privacy</a>
+      <a onclick="showToast('Terms of Service coming soon','info')">Terms</a>
+      <a onclick="showToast('Cookie settings coming soon','info')">Cookies</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 KAGO &middot; All Rights Reserved &middot; London</div>
+  </div>
+</section>
+
+</div><!-- /reel -->
+
+<!-- BOOKING MODAL -->
+<div class="mbg" id="bookingModal" onclick="if(event.target===this)closeModal('bookingModal')">
+  <div class="mbox">
+    <div class="mhead">
+      <div class="mtitle">Request a Consultation</div>
+      <button class="mx" onclick="closeModal('bookingModal')">&times;</button>
+    </div>
+    <div id="bookingForm" class="mbody">
+      <div class="field"><label class="fl">Name *</label><input class="fi" id="bName" placeholder="Full name" autocorrect="off"></div>
+      <div class="field"><label class="fl">Email *</label><input class="fi" id="bEmail" type="email" placeholder="your@email.com"></div>
+      <div class="field"><label class="fl">Phone</label><input class="fi" id="bPhone" type="tel" placeholder="+44 7700 000000"></div>
+      <div class="field"><label class="fl">Service *</label>
+        <select class="fs" id="bService">
+          <option value="">Select a service</option>
+          <option>Wardrobe Architecture — From £1,200</option>
+          <option>The Power Edit — From £2,500</option>
+          <option>Archive &amp; Collector — Upon Request</option>
+        </select>
+      </div>
+      <div class="field"><label class="fl">Preferred Date</label><input class="fi" id="bDate" type="date"></div>
+      <div class="field"><label class="fl">Budget</label><input class="fi" id="bBudget" placeholder="e.g. £2,000–5,000" autocorrect="off"></div>
+      <div class="field"><label class="fl">Message</label><textarea class="fta" id="bMsg" placeholder="Tell us what you are looking for…"></textarea></div>
+      <button class="msub" onclick="submitBooking()">Send Enquiry &rsaquo;</button>
+    </div>
+    <div class="mok" id="bookingOk">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
+  </div>
+</div>
+
+<!-- FULL LOOKBOOK MODAL -->
+<div class="mbg" id="lkFullModal" onclick="if(event.target===this)closeModal('lkFullModal')">
+  <div class="mbox" style="max-width:680px">
+    <div class="mhead">
+      <div class="mtitle">The Lookbook</div>
+      <button class="mx" onclick="closeModal('lkFullModal')">&times;</button>
+    </div>
+    <div id="lkFullGrid" class="lk-full-grid"></div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div class="chat-btn" id="chatBtn" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <div class="chat-badge" id="chatBadge">1</div>
+</div>
+<div class="chat-box" id="chatBox">
+  <div class="ch-head">
+    <div class="ch-hl">
+      <div class="ch-av">K</div>
+      <div><div class="ch-name">KAGO Concierge</div><div class="ch-status">Private Atelier &middot; Online</div></div>
+    </div>
+    <button class="ch-x" onclick="toggleChat()">&times;</button>
+  </div>
+  <div class="ch-msgs" id="chMsgs"></div>
+  <div class="ch-quick" id="chQuick"></div>
+  <div class="ch-row">
+    <input class="ch-in" id="chIn" placeholder="Write your message…"
+           autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false"
+           onkeypress="if(event.key==='Enter')sendChat()">
+    <button class="ch-send" onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<div id="toast-area"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ── DATA ─────────────────────────────────────── */
+var SK = 'kago_outfits_v1';
+var DEFAULTS = [
+  {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit',price:'From \u00a38,400',season:'AW 2026',image_url:null,featured:true,ph:'ph-a',init:'LP'},
+  {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',piece:'Linen Blazer & Trousers',price:'From \u00a35,200',season:'SS 2026',image_url:null,featured:true,ph:'ph-b',init:'BC'},
+  {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',piece:'Fitted Blazer & Sheath Dress',price:'From \u00a34,800',season:'Archive',image_url:null,featured:true,ph:'ph-c',init:'AMQ'},
+  {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',piece:'Le Smoking Tuxedo',price:'From \u00a36,000',season:'AW 2026',image_url:null,featured:true,ph:'ph-d',init:'YSL'},
+  {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From \u00a33,800',season:'2026',image_url:null,featured:false,ph:'ph-e',init:'RL'},
+  {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',piece:'Bar Jacket & Pencil Skirt',price:'Upon Request',season:'Archive',image_url:null,featured:false,ph:'ph-f',init:'CD'}
+];
+var WEEKLY = [
+  {cat:'Investment Piece',name:'The Linen Suit',house:'Loro Piana',body:'Linen so refined it drapes like silk. The Spagna jacket with matching trouser in chalk white — the summer suit that means business.',ph:'ph-b'},
+  {cat:'Bag of the Moment',name:'Andiamo',house:'Bottega Veneta',body:'The bag carried by women who know. Zero branding. Laptop-capable. Absolute authority. Available in black, tan, and powder pink.',ph:'ph-b'},
+  {cat:'Shoe of the Season',name:'Just Nothing Mule',house:'Christian Louboutin',body:'The barely-there heel that says everything. TPU and patent in blush. At 55mm — the mule for moving through the city with composure.',ph:'ph-d'},
+  {cat:'The Fabric Moment',name:'Silk Charmeuse',house:'The Row',body:'Nothing moves like it. Nothing photographs like it. The Guinevere slip dress — the quiet revolution in summer dressing.',ph:'ph-b'},
+  {cat:'The Evening Essential',name:'Le Smoking Jacket',house:'Saint Laurent',body:'Designed 1966. Never wrong since. The clearest statement that you do not need a dress to own a room.',ph:'ph-c'},
+  {cat:'Archive Investment',name:'Bar Jacket, Vintage Dior',house:'Dior Archive',body:'The 1947 Bar Jacket. This is not fashion — this is the acquisition of history.',ph:'ph-f'},
+  {cat:'The Accessory Edit',name:'Straw Wide-Brim Hat',house:'Loro Piana',body:'For London summer — shade, structure, and a signal all at once. Sealed the entire Loro Piana SS2025 lookbook.',ph:'ph-b'},
+  {cat:'The Power Heel',name:'So Kate Pump 120mm',house:'Christian Louboutin',body:'The most precisely calibrated power heel ever designed. It makes walking into a meeting a statement of intent.',ph:'ph-c'}
+];
+
+function getOutfits(){
+  try{var s=localStorage.getItem(SK);return s?JSON.parse(s):DEFAULTS;}catch(e){return DEFAULTS;}
+}
+
+/* ── LIVE SYNC (BroadcastChannel) ─────────────── */
+if(window.BroadcastChannel){
+  var bc = new BroadcastChannel('kago_sync');
+  bc.onmessage = function(e){
+    if(e.data && e.data.type === 'outfits_updated'){
+      renderLkGrid();
+      showToast('Lookbook updated','info');
+    }
+  };
+}
+/* Also listen for storage events (cross-tab) */
+window.addEventListener('storage', function(e){
+  if(e.key === SK){ renderLkGrid(); }
+});
+
+/* ── SLIDE NAV ────────────────────────────────── */
+var reel  = document.getElementById('reel');
+var sEls  = document.querySelectorAll('.slide');
+var dotEls= document.querySelectorAll('.dot');
+var nav   = document.getElementById('topNav');
+var DARK  = [0,2];
+var curS  = 0;
+
+function gto(i){
+  sEls[i].scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.gto = gto;
+
+function setSlide(i){
+  curS = i;
+  var dk = DARK.includes(i);
+  nav.className = dk?'dk':'lt';
+  dotEls.forEach(function(d,j){
+    d.className = 'dot';
+    if(j===i) d.className += ' on';
+    else d.className += dk?' off-dk':' off-lt';
+  });
+}
+
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(en.isIntersecting && en.intersectionRatio >= 0.5){
+      var i = Array.from(sEls).indexOf(en.target);
+      if(i>-1) setSlide(i);
+    }
+  });
+},{root:reel,threshold:0.5});
+sEls.forEach(function(el){obs.observe(el);});
+
+/* ── LOOKBOOK GRID ────────────────────────────── */
+var PH_CLASSES = {'ph-a':'ph-a','ph-b':'ph-b','ph-c':'ph-c','ph-d':'ph-d','ph-e':'ph-e','ph-f':'ph-f'};
+
+function renderLkGrid(){
+  var grid = document.getElementById('lkGrid');
+  if(!grid) return;
+  var list = getOutfits().filter(function(o){return o.featured;}).slice(0,4);
+  grid.innerHTML = list.map(function(o){
+    var src = o.image_url || o.image;
+    var phClass = PH_CLASSES[o.ph] || 'ph-b';
+    return '<div class="lk-c" onclick="openLkDetail(\''+o.id+'\')">'+
+      '<div class="lk-ph '+phClass+'" style="width:100%;height:100%">'+
+        (src?'<img src="'+src+'" alt="'+o.name+'" loading="lazy">':
+        '<span style="font-size:clamp(16px,2vw,24px)">'+o.init+'</span>')+
+      '</div>'+
+      '<div class="lk-ov">'+
+        '<div class="lk-ov-name">'+o.name+'</div>'+
+        '<button class="lk-ov-btn">View Look</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function openFullLookbook(){
+  var grid = document.getElementById('lkFullGrid');
+  var list = getOutfits();
+  grid.innerHTML = list.map(function(o){
+    var src = o.image_url || o.image;
+    var phClass = PH_CLASSES[o.ph] || 'ph-b';
+    return '<div class="lk-full-card" onclick="openLkDetail(\''+o.id+'\')">'+
+      '<div class="lk-full-ph '+phClass+'" style="width:100%;aspect-ratio:3/4">'+
+        (src?'<img src="'+src+'" alt="'+o.name+'" loading="lazy" style="width:100%;height:100%;object-fit:cover">':
+        '<span style="font-size:28px">'+o.init+'</span>')+
+      '</div>'+
+      '<div class="lk-ov"><div class="lk-ov-name">'+o.name+'</div><div class="lk-ov-btn">'+o.brand+'</div></div>'+
+    '</div>';
+  }).join('');
+  openModal('lkFullModal');
+}
+window.openFullLookbook = openFullLookbook;
+
+function openLkDetail(id){
+  closeModal('lkFullModal');
+  showToast('Redirecting to consultation…','info');
+  setTimeout(function(){openModal('bookingModal');},300);
+}
+window.openLkDetail = openLkDetail;
+
+/* ── WEEKLY ───────────────────────────────────── */
+var wkIdx = 0;
+function getWeekNum(){
+  var n=new Date(),s=new Date(n.getFullYear(),0,1);
+  return Math.ceil(((n-s)/86400000+s.getDay()+1)/7);
+}
+function renderWeekly(i){
+  wkIdx=i;
+  var item=WEEKLY[i];
+  var m=document.getElementById('wkMini');
+  var d=document.getElementById('wkDots');
+  if(!m||!d) return;
+  m.innerHTML='<div class="wk-cat">'+item.cat+'</div>'+
+    '<div class="wk-name">'+item.name+'</div>'+
+    '<div class="wk-house">'+item.house+'</div>'+
+    '<div class="wk-body">'+item.body+'</div>';
+  d.innerHTML=WEEKLY.slice(0,6).map(function(_,j){
+    return '<button class="wd '+(j===i?'on':'off')+'" onclick="renderWeekly('+j+')"></button>';
+  }).join('');
+}
+setTimeout(function(){
+  renderWeekly((getWeekNum()-1)%WEEKLY.length);
+  renderLkGrid();
+},80);
+setInterval(function(){renderWeekly((wkIdx+1)%WEEKLY.length);},8000);
+
+/* ── SUMMER EDIT ──────────────────────────────── */
+function openSummerEdit(n){
+  window.open('kago_summer_edit_2026.html#look-'+n,'_blank');
+}
+window.openSummerEdit = openSummerEdit;
+
+/* ── BOOKING ──────────────────────────────────── */
+function submitBooking(){
+  var nm=document.getElementById('bName').value.trim();
+  var em=document.getElementById('bEmail').value.trim();
+  var sv=document.getElementById('bService').value;
+  if(!nm||!em||!sv){showToast('Please fill in name, email and service','err');return;}
+  var bks=[];try{bks=JSON.parse(localStorage.getItem('kago_bookings')||'[]');}catch(e){}
+  bks.push({
+    id:'b_'+Date.now(),client_name:nm,client_email:em,
+    client_phone:document.getElementById('bPhone').value,service:sv,
+    preferred_date:document.getElementById('bDate').value,
+    budget:document.getElementById('bBudget').value,
+    message:document.getElementById('bMsg').value,
+    status:'new',created_at:new Date().toISOString()
+  });
+  localStorage.setItem('kago_bookings',JSON.stringify(bks));
+  // Notify admin via BroadcastChannel
+  if(window.BroadcastChannel){
+    var bc2=new BroadcastChannel('kago_sync');
+    bc2.postMessage({type:'new_booking',client:nm});
+  }
+  document.getElementById('bookingForm').style.display='none';
+  document.getElementById('bookingOk').style.display='block';
+  showToast('Enquiry received — we will be in touch within 24 hours','ok');
+}
+window.submitBooking = submitBooking;
+
+/* ── SUBSCRIBE ────────────────────────────────── */
+function doSub(){
+  var nm=document.getElementById('subName').value.trim();
+  var em=document.getElementById('subEmail').value.trim();
+  if(!nm||!em){showToast('Please enter your name and email','err');return;}
+  var subs=[];try{subs=JSON.parse(localStorage.getItem('kago_subscribers')||'[]');}catch(e){}
+  if(subs.find(function(s){return s.email===em;})){showToast('You are already subscribed','ok');return;}
+  subs.push({id:'s_'+Date.now(),email:em,name:nm,role_industry:document.getElementById('subRole').value,subscribed_at:new Date().toISOString()});
+  localStorage.setItem('kago_subscribers',JSON.stringify(subs));
+  document.getElementById('subForm').style.display='none';
+  document.getElementById('subOk').style.display='block';
+  showToast('Welcome to the private archive','ok');
+}
+window.doSub = doSub;
+
+/* ── MODALS ───────────────────────────────────── */
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+window.openModal=openModal;window.closeModal=closeModal;
+
+/* ── CHAT ─────────────────────────────────────── */
+var cPhase=0,cName='';
+var cR={
+  book:'For consultations: <strong>styling@kagosatelier.com</strong> — or I can open the booking form right now.',
+  archive:'Archive enquiries: <strong>archive@kagosatelier.com</strong> — handled personally.',
+  press:'Press & collaborations: <strong>press@kagosatelier.com</strong>',
+  general:'General enquiries: <strong>hello@kagosatelier.com</strong> — we respond within 4 hours.'
+};
+function addMsg(t,tp){
+  var m=document.getElementById('chMsgs');
+  var d=document.createElement('div');d.className='cm '+tp;d.innerHTML=t;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function setQuick(opts){
+  var q=document.getElementById('chQuick');q.innerHTML='';
+  opts.forEach(function(o){
+    var b=document.createElement('button');b.className='qb';b.textContent=o.label;
+    b.onclick=function(){
+      q.innerHTML='';
+      if(o.key==='book_form'){addMsg('Opening the consultation form for you now.','bot');setTimeout(function(){openModal('bookingModal');},500);}
+      else if(cR[o.key]){
+        addMsg(cR[o.key],'bot');
+        setTimeout(function(){
+          addMsg('Is there anything else I can help with today?','bot');
+          setQuick([{label:'Book consultation',key:'book_form'},{label:'Archive enquiry',key:'archive'}]);
+        },700);
+      }
+    };
+    q.appendChild(b);
+  });
+}
+function sendChat(){
+  var inp=document.getElementById('chIn');
+  var v=inp.value.trim();if(!v)return;
+  // Admin trigger
+  if(v==='studio'||v==='Thumbmaster@47'){
+    inp.value='';
+    document.getElementById('chatBox').classList.remove('open');
+    document.getElementById('chatBadge').style.display='flex';
+    window.location.href='admin.html';
+    return;
+  }
+  addMsg(v,'usr');inp.value='';
+  if(cPhase===0){
+    cName=v.split(' ')[0];cPhase=1;
+    setTimeout(function(){
+      addMsg('How lovely to meet you, '+cName+'. How may I assist you today?','bot');
+      setQuick([
+        {label:'Book a consultation',key:'book_form'},
+        {label:'Archive & collector',key:'archive'},
+        {label:'Press & media',key:'press'},
+        {label:'General enquiry',key:'general'}
+      ]);
+    },600);
+  } else {
+    setTimeout(function(){
+      addMsg('Please select an option below or email <strong>hello@kagosatelier.com</strong> directly.','bot');
+      setQuick([{label:'Book consultation',key:'book_form'},{label:'Archive enquiry',key:'archive'}]);
+    },600);
+  }
+}
+window.sendChat = sendChat;
+function toggleChat(){
+  var box=document.getElementById('chatBox');
+  var open=box.classList.toggle('open');
+  document.getElementById('chatBadge').style.display=open?'none':'flex';
+  if(open&&!document.getElementById('chMsgs').children.length){
+    setTimeout(function(){addMsg('Welcome to KAGO. You are speaking with our private concierge.','bot');},300);
+    setTimeout(function(){addMsg('May I ask your name?','bot');},1000);
+  }
+}
+window.toggleChat = toggleChat;
+
+/* ── TOAST ────────────────────────────────────── */
+function showToast(msg,type){
+  var a=document.getElementById('toast-area');
+  var t=document.createElement('div');
+  t.className='toast t-'+(type||'info');t.textContent=msg;
+  a.appendChild(t);
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},3800);
+}
+window.showToast = showToast;
+
+})();
+</script>
+</body>
+</html>
