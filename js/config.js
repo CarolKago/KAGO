@@ -15,8 +15,8 @@
 
 var KAGO_CONFIG = {
   /* ── Paste your values here ─────────────────── */
-  supabaseUrl: 'YOUR_SUPABASE_URL',
-  supabaseKey: 'YOUR_SUPABASE_ANON_KEY',
+  supabaseUrl: 'https://lqrvpucwsldxmftatauu.supabase.co/rest/v1/',
+  supabaseKey: 'sb_publishable_7_p_qAT4N5mLS0RtMj7bOQ_T26v-Vbp',
   /* ─────────────────────────────────────────── */
 
   storageBucket: 'kago-gallery',
@@ -27,8 +27,8 @@ var KAGO_CONFIG = {
 /* Initialise client if credentials are present */
 var sb = null;
 var USE_SUPABASE = (
-  KAGO_CONFIG.supabaseUrl  !== 'YOUR_SUPABASE_URL' &&
-  KAGO_CONFIG.supabaseKey  !== 'YOUR_SUPABASE_ANON_KEY'
+  KAGO_CONFIG.supabaseUrl  !== 'https://lqrvpucwsldxmftatauu.supabase.co/rest/v1/' &&
+  KAGO_CONFIG.supabaseKey  !== 'sb_publishable_7_p_qAT4N5mLS0RtMj7bOQ_T26v-Vbp'
 );
 
 if (USE_SUPABASE && window.supabase) {
