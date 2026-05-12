@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lookbook — KAGO Atelier</title>
+<meta name="description" content="The KAGO Lookbook. Curated looks from the world's most revered fashion houses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ── LOOKBOOK-SPECIFIC ── */
+
+body { background: var(--b); }
+
+/* PAGE HEADER */
+.lk-header {
+  background: var(--b);
+  padding: calc(var(--nav-h) + 64px) 48px 56px;
+  text-align: center;
+  position: relative;
+}
+.lk-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(48px, 7vw, 96px);
+  letter-spacing: 0.06em;
+  color: rgba(242, 232, 218, 0.9);
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.lk-subtitle {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(15px, 1.8vw, 19px);
+  color: rgba(196, 120, 138, 0.48);
+  letter-spacing: 0.04em;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  background: var(--b);
+  border-top: 1px solid rgba(196, 120, 138, 0.08);
+  border-bottom: 1px solid rgba(196, 120, 138, 0.08);
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-btn {
+  padding: 16px 20px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.42);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
+  flex-shrink: 0;
+}
+.filter-btn:hover { color: rgba(196, 120, 138, 0.72); }
+.filter-btn.active {
+  color: rgba(217, 160, 172, 0.88);
+  border-bottom-color: var(--r);
+}
+
+/* SLIDER */
+.slider-wrap {
+  position: relative;
+  background: var(--b);
+  min-height: calc(100vh - var(--nav-h) - 320px);
+  display: flex;
+  flex-direction: column;
+}
+.slider-stage {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  min-height: 70vh;
+}
+.slider-stage:active { cursor: grabbing; }
+.slider-track {
+  display: flex;
+  height: 100%;
+  min-height: 70vh;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+.slider-slide {
+  flex-shrink: 0;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+.slide-img-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.slide-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+.slide-ph {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(48px, 8vw, 96px);
+  opacity: 0.12;
+}
+.slide-info {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 48px;
+  background: linear-gradient(transparent, rgba(30, 8, 14, 0.88) 60%);
+}
+.slide-info-brand {
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--rl);
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+.slide-info-name {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(22px, 3.5vw, 42px);
+  color: rgba(242, 232, 218, 0.94);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+.slide-info-piece {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.5vw, 17px);
+  color: rgba(196, 120, 138, 0.55);
+  margin-bottom: 20px;
+}
+.slide-info-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.slide-counter {
+  position: absolute;
+  top: 32px; right: 48px;
+  z-index: 3;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(196, 120, 138, 0.35);
+}
+
+/* ARROWS */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 52px; height: 52px;
+  background: rgba(74, 18, 32, 0.6);
+  border: 1px solid rgba(196, 120, 138, 0.18);
+  color: rgba(196, 120, 138, 0.7);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+.slider-arrow:hover {
+  background: rgba(196, 120, 138, 0.2);
+  color: rgba(217, 160, 172, 0.95);
+  border-color: rgba(196, 120, 138, 0.4);
+}
+.slider-arrow.prev { left: 24px; }
+.slider-arrow.next { right: 24px; }
+.slider-arrow:disabled { opacity: 0.2; pointer-events: none; }
+
+/* DOTS */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  background: var(--b);
+}
+.slider-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(196, 120, 138, 0.22);
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s;
+  padding: 0;
+}
+.slider-dot.active {
+  background: var(--r);
+  transform: scale(1.5);
+}
+
+/* GRID view */
+.lk-grid-section {
+  padding: 60px 48px 80px;
+  background: var(--bgw);
+}
+.lk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+.lk-grid-item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--bgd);
+}
+.lk-grid-item::before { content: ""; display: block; padding-top: 133%; }
+.lk-grid-item-inner { position: absolute; inset: 0; }
+.lk-grid-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.lk-grid-item:hover img { transform: scale(1.05); }
+.lk-grid-ph {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Playfair Display", serif; font-style: italic;
+  font-size: clamp(22px, 3vw, 36px); opacity: 0.15;
+}
+.lk-grid-overlay {
+  position: absolute; inset: 0;
+  background: rgba(44, 16, 8, 0.75);
+  opacity: 0; transition: opacity 0.4s;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; padding: 16px;
+}
+.lk-grid-item:hover .lk-grid-overlay { opacity: 1; }
+.lk-grid-ov-name {
+  font-family: "Playfair Display", serif; font-style: italic;
+  font-size: clamp(13px, 1.4vw, 16px); color: rgba(242, 232, 218, 0.94);
+  text-align: center; line-height: 1.25;
+}
+.lk-grid-ov-brand {
+  font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(217, 160, 172, 0.65);
+}
+
+/* TOGGLE BUTTONS */
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 48px 24px;
+  background: var(--b);
+}
+.view-toggle-label { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(196, 120, 138, 0.35); }
+.view-btn {
+  padding: 7px 14px; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  border: 1px solid rgba(196, 120, 138, 0.18);
+  color: rgba(196, 120, 138, 0.4);
+  transition: all 0.3s;
+}
+.view-btn.active { background: rgba(196, 120, 138, 0.12); color: rgba(217, 160, 172, 0.82); border-color: rgba(196, 120, 138, 0.35); }
+
+/* Placeholder colours */
+.ph-a { background: linear-gradient(155deg,#3D3830,#1E1A16); color: #D4B896; }
+.ph-b { background: linear-gradient(155deg,#EAE0D2,#C8B89C); color: #5A4E42; }
+.ph-c { background: linear-gradient(155deg,#1A1714,#0F0D0B); color: #B14C24; }
+.ph-d { background: linear-gradient(155deg,#2A2015,#332A1F); color: #D9A0AC; }
+.ph-e { background: linear-gradient(155deg,#E8DDD0,#D4C8B8); color: #6B3A20; }
+.ph-f { background: linear-gradient(155deg,#F0E8DC,#CBBFB0); color: #6B1E2E; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .lk-header { padding: calc(var(--nav-h) + 40px) 28px 40px; }
+  .filter-bar { padding: 0 20px; }
+  .slider-arrow { width: 40px; height: 40px; font-size: 14px; }
+  .slider-arrow.prev { left: 12px; }
+  .slider-arrow.next { right: 12px; }
+  .slide-info { padding: 28px; }
+  .lk-grid { grid-template-columns: repeat(2, 1fr); }
+  .lk-grid-section { padding: 40px 28px 60px; }
+  .view-toggle { padding: 0 28px 20px; }
+}
+@media (max-width: 600px) {
+  .lk-header { padding: calc(var(--nav-h) + 28px) 20px 32px; }
+  .filter-bar { padding: 0 16px; }
+  .slide-info { padding: 20px; }
+  .slider-arrow { display: none; }
+  .lk-grid { grid-template-columns: 1fr 1fr; }
+  .lk-grid-section { padding: 32px 16px 48px; }
+  .view-toggle { padding: 0 16px 16px; }
+  .slide-counter { top: 20px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav dark" id="siteNav">
+  <a href="index.html" class="nav-brand">KAGO</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lookbook.html">Lookbook</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openBookingModal()">Book Now</button>
+  <button class="nav-burger" id="navBurger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="lookbook.html">Lookbook</a>
+  <a href="services.html">Services</a>
+  <a href="contact.html">Contact</a>
+  <a href="#" class="m-cta" onclick="openBookingModal(); return false;">Book a Consultation</a>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <header class="lk-header">
+    <div class="eyebrow light" style="justify-content:center;margin-bottom:16px">KAGO Atelier &mdash; London</div>
+    <h1 class="lk-title">The Lookbook</h1>
+    <p class="lk-subtitle">Curated looks from the world&rsquo;s most revered fashion houses</p>
+  </header>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="filterLooks('all', this)">All</button>
+    <button class="filter-btn" onclick="filterLooks('editorial', this)">Editorial</button>
+    <button class="filter-btn" onclick="filterLooks('power', this)">Power Dressing</button>
+    <button class="filter-btn" onclick="filterLooks('evening', this)">Evening</button>
+    <button class="filter-btn" onclick="filterLooks('archive', this)">Archive</button>
+  </div>
+
+  <!-- VIEW TOGGLE -->
+  <div class="view-toggle">
+    <span class="view-toggle-label">View as</span>
+    <button class="view-btn active" onclick="setView('slider', this)">Slider</button>
+    <button class="view-btn" onclick="setView('grid', this)">Grid</button>
+  </div>
+
+  <!-- SLIDER VIEW -->
+  <div id="sliderView">
+    <div class="load-state" id="sliderLoad">
+      <div class="spinner"></div> Loading the lookbook
+    </div>
+    <div class="slider-wrap" id="sliderWrap" style="display:none">
+      <div class="slider-stage" id="sliderStage">
+        <div class="slider-track" id="sliderTrack"></div>
+        <button class="slider-arrow prev" id="btnPrev" onclick="slideBy(-1)" aria-label="Previous look">&#8592;</button>
+        <button class="slider-arrow next" id="btnNext" onclick="slideBy(1)"  aria-label="Next look">&#8594;</button>
+        <div class="slide-counter" id="slideCounter">1 / 1</div>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+  </div>
+
+  <!-- GRID VIEW -->
+  <div id="gridView" style="display:none">
+    <div class="lk-grid-section">
+      <div class="lk-grid" id="lkGrid"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-brand">KAGO &middot; Est. 2026</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://instagram.com/kagosatelier" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 KAGO Atelier &middot; All Rights Reserved &middot; London</div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-panel">
+    <div class="modal-hd">
+      <div class="modal-hd-title">Request a Consultation</div>
+      <button class="modal-close" onclick="closeModal('bookingModal')" aria-label="Close">&times;</button>
+    </div>
+    <div id="bookingFormWrap" class="modal-bd">
+      <div class="form-field"><label class="form-label" for="bName">Name *</label><input class="form-input" id="bName" type="text" placeholder="Full name" autocomplete="name"></div>
+      <div class="form-field"><label class="form-label" for="bEmail">Email *</label><input class="form-input" id="bEmail" type="email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="form-field"><label class="form-label" for="bService">Service *</label>
+        <select class="form-select" id="bService">
+          <option value="">Select a service</option>
+          <option value="Wardrobe Architecture — From £1,200">Wardrobe Architecture — From £1,200</option>
+          <option value="The Power Edit — From £2,500">The Power Edit — From £2,500</option>
+          <option value="Archive & Collector — Upon Request">Archive &amp; Collector — Upon Request</option>
+          <option value="Creative Direction — Upon Request">Creative Direction — Upon Request</option>
+        </select>
+      </div>
+      <div class="form-field"><label class="form-label" for="bMsg">Message</label><textarea class="form-textarea" id="bMsg" placeholder="Tell us what you are looking for…"></textarea></div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitBooking()">Send Enquiry &rsaquo;</button>
+    </div>
+    <div id="bookingFormOk">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
+  </div>
+</div>
+
+<div id="toastArea"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/nav.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var PH_CLASSES = ['ph-a','ph-b','ph-c','ph-d','ph-e','ph-f'];
+  var INITS      = ['LP','BC','AMQ','YSL','RL','CD'];
+  var FALLBACK   = [
+    {id:'d1',brand:'Loro Piana',title:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit',price:'From £8,400',category:'editorial',image_url:null,featured:true,ph_class:'ph-a'},
+    {id:'d2',brand:'Brunello Cucinelli',title:'The Refined Neutral',piece:'Linen Blazer & Trousers',price:'From £5,200',category:'power',image_url:null,featured:true,ph_class:'ph-b'},
+    {id:'d3',brand:'Alexander McQueen',title:'The Sculpted Femme',piece:'Fitted Blazer & Sheath Dress',price:'From £4,800',category:'editorial',image_url:null,featured:true,ph_class:'ph-c'},
+    {id:'d4',brand:'Saint Laurent',title:'The Power Silhouette',piece:'Le Smoking Tuxedo',price:'From £6,000',category:'evening',image_url:null,featured:true,ph_class:'ph-d'},
+    {id:'d5',brand:'Ralph Lauren',title:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From £3,800',category:'power',image_url:null,featured:false,ph_class:'ph-e'},
+    {id:'d6',brand:'Dior Vintage',title:'The New Look Reborn',piece:'Bar Jacket & Pencil Skirt',price:'Upon Request',category:'archive',image_url:null,featured:false,ph_class:'ph-f'}
+  ];
+
+  var allLooks   = [];
+  var filteredLooks = [];
+  var curIdx     = 0;
+  var curView    = 'slider';
+  var isDragging = false;
+  var dragStartX = 0;
+
+  /* ── Load looks ── */
+  async function loadLooks() {
+    if (USE_SUPABASE) {
+      try {
+        var { data, error } = await sb
+          .from('lookbook_images')
+          .select('*')
+          .eq('published', true)
+          .order('display_order', { ascending: true });
+        allLooks = (!error && data && data.length) ? data : FALLBACK;
+      } catch (e) { allLooks = FALLBACK; }
+    } else {
+      try {
+        var stored = localStorage.getItem('kago_outfits_v1');
+        var local = stored ? JSON.parse(stored) : FALLBACK;
+        allLooks = local.map(function(o, i) {
+          return {
+            id: o.id, brand: o.brand,
+            title: o.name || o.title,
+            piece: o.piece, price: o.price,
+            category: o.category || 'editorial',
+            image_url: o.image_url || o.image || null,
+            featured: o.featured,
+            ph_class: o.ph || PH_CLASSES[i % PH_CLASSES.length]
+          };
+        });
+        if (!allLooks.length) allLooks = FALLBACK;
+      } catch (e) { allLooks = FALLBACK; }
+    }
+    filteredLooks = allLooks.slice();
+    renderView();
+    document.getElementById('sliderLoad').style.display = 'none';
+    document.getElementById('sliderWrap').style.display = 'flex';
+    document.getElementById('sliderWrap').style.flexDirection = 'column';
+  }
+
+  /* ── Filter ── */
+  window.filterLooks = function (cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    filteredLooks = cat === 'all' ? allLooks.slice() : allLooks.filter(function(l){ return l.category === cat; });
+    curIdx = 0;
+    renderView();
+  };
+
+  /* ── Toggle view ── */
+  window.setView = function (v, btn) {
+    curView = v;
+    document.querySelectorAll('.view-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('sliderView').style.display = v === 'slider' ? 'block' : 'none';
+    document.getElementById('gridView').style.display   = v === 'grid'   ? 'block' : 'none';
+    if (v === 'slider') renderSlider();
+    if (v === 'grid')   renderGrid();
+  };
+
+  function renderView() {
+    if (curView === 'slider') renderSlider();
+    else renderGrid();
+  }
+
+  /* ── Slider ── */
+  function renderSlider() {
+    var track = document.getElementById('sliderTrack');
+    var dots  = document.getElementById('sliderDots');
+    if (!track) return;
+
+    if (!filteredLooks.length) {
+      track.innerHTML = '<div class="slider-slide"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:60vh;font-family:\'Playfair Display\',serif;font-style:italic;font-size:20px;color:rgba(196,120,138,.4)">No looks in this category</div></div>';
+      dots.innerHTML = '';
+      return;
+    }
+
+    track.innerHTML = filteredLooks.map(function(look, i) {
+      var ph = look.ph_class || PH_CLASSES[i % PH_CLASSES.length];
+      var init = look.init || INITS[i % INITS.length];
+      return [
+        '<div class="slider-slide">',
+        '  <div class="slide-img-wrap">',
+        look.image_url
+          ? '<img src="'+look.image_url+'" alt="'+escHtml(look.title||'')+'" loading="lazy">'
+          : '<div class="slide-ph '+ph+'">'+init+'</div>',
+        '  </div>',
+        '  <div class="slide-info">',
+        '    <div class="slide-info-brand">'+escHtml(look.brand||'')+'</div>',
+        '    <div class="slide-info-name">'+escHtml(look.title||look.name||'')+'</div>',
+        look.piece ? '<div class="slide-info-piece">'+escHtml(look.piece)+'</div>' : '',
+        '    <div class="slide-info-actions">',
+        look.price ? '<span style="font-size:11px;letter-spacing:.14em;color:rgba(196,120,138,.55)">'+escHtml(look.price)+'</span>' : '',
+        '      <button class="btn-ghost-light" style="padding:10px 22px;font-size:9.5px" onclick="openBookingModal()">Request This Look</button>',
+        '    </div>',
+        '  </div>',
+        '</div>'
+      ].join('');
+    }).join('');
+
+    dots.innerHTML = filteredLooks.map(function(_, i) {
+      return '<button class="slider-dot'+(i===curIdx?' active':'')+'" onclick="goToSlide('+i+')" aria-label="Look '+(i+1)+'"></button>';
+    }).join('');
+
+    goToSlide(Math.min(curIdx, filteredLooks.length - 1), false);
+  }
+
+  function goToSlide(i, animate) {
+    if (animate === undefined) animate = true;
+    var track = document.getElementById('sliderTrack');
+    if (!track) return;
+    curIdx = Math.max(0, Math.min(i, filteredLooks.length - 1));
+    if (!animate) track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (curIdx * 100) + '%)';
+    if (!animate) { requestAnimationFrame(function(){ track.style.transition = ''; }); }
+    updateDots();
+    updateCounter();
+    updateArrows();
+  }
+
+  window.slideBy = function (dir) {
+    goToSlide(curIdx + dir);
+  };
+  window.goToSlide = goToSlide;
+
+  function updateDots() {
+    document.querySelectorAll('.slider-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === curIdx);
+    });
+  }
+  function updateCounter() {
+    var el = document.getElementById('slideCounter');
+    if (el) el.textContent = (curIdx + 1) + ' / ' + filteredLooks.length;
+  }
+  function updateArrows() {
+    var prev = document.getElementById('btnPrev');
+    var next = document.getElementById('btnNext');
+    if (prev) prev.disabled = (curIdx === 0);
+    if (next) next.disabled = (curIdx === filteredLooks.length - 1);
+  }
+
+  /* ── Grid ── */
+  function renderGrid() {
+    var grid = document.getElementById('lkGrid');
+    if (!grid) return;
+    if (!filteredLooks.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:80px;font-style:italic;color:var(--mu)">No looks in this category</div>';
+      return;
+    }
+    grid.innerHTML = filteredLooks.map(function(look, i) {
+      var ph = look.ph_class || PH_CLASSES[i % PH_CLASSES.length];
+      var init = look.init || INITS[i % INITS.length];
+      return [
+        '<div class="lk-grid-item" onclick="openBookingModal()" role="button" tabindex="0" aria-label="'+escHtml(look.title||look.name||'')+'">',
+        '  <div class="lk-grid-item-inner">',
+        look.image_url
+          ? '<img src="'+look.image_url+'" alt="'+escHtml(look.title||look.name||'')+'" loading="lazy">'
+          : '<div class="lk-grid-ph '+ph+'">'+init+'</div>',
+        '    <div class="lk-grid-overlay">',
+        '      <div class="lk-grid-ov-name">'+escHtml(look.title||look.name||'')+'</div>',
+        '      <div class="lk-grid-ov-brand">'+escHtml(look.brand||'')+'</div>',
+        '    </div>',
+        '  </div>',
+        '</div>'
+      ].join('');
+    }).join('');
+  }
+
+  /* ── Touch / Drag ── */
+  var stage = document.getElementById('sliderStage');
+  if (stage) {
+    stage.addEventListener('mousedown',  function(e){ isDragging = true; dragStartX = e.clientX; stage.style.cursor = 'grabbing'; });
+    stage.addEventListener('mousemove',  function(e){ if(!isDragging) return; e.preventDefault(); });
+    stage.addEventListener('mouseup',    function(e){ if(!isDragging) return; isDragging = false; stage.style.cursor = 'grab'; var dx = e.clientX - dragStartX; if(Math.abs(dx) > 50) slideBy(dx < 0 ? 1 : -1); });
+    stage.addEventListener('mouseleave', function(){ isDragging = false; stage.style.cursor = 'grab'; });
+    var touchStartX = 0;
+    stage.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend',   function(e){ var dx = e.changedTouches[0].clientX - touchStartX; if(Math.abs(dx) > 44) slideBy(dx < 0 ? 1 : -1); }, { passive: true });
+  }
+
+  /* ── Keyboard ── */
+  document.addEventListener('keydown', function(e) {
+    if (curView === 'slider') {
+      if (e.key === 'ArrowLeft')  slideBy(-1);
+      if (e.key === 'ArrowRight') slideBy(1);
+    }
+  });
+
+  /* ── Booking ── */
+  window.submitBooking = async function () {
+    var nm = document.getElementById('bName').value.trim();
+    var em = document.getElementById('bEmail').value.trim();
+    var sv = document.getElementById('bService').value;
+    if (!nm || !em || !sv) { showToast('Please fill in name, email and service', 'err'); return; }
+    var booking = { client_name:nm, client_email:em, service:sv, message:document.getElementById('bMsg').value, status:'new', created_at:new Date().toISOString() };
+    if (USE_SUPABASE) { try { await sb.from('bookings').insert([booking]); } catch(e){} }
+    var bks=[]; try{bks=JSON.parse(localStorage.getItem('kago_bookings')||'[]');}catch(e){}
+    bks.push(Object.assign({id:'b_'+Date.now()},booking)); localStorage.setItem('kago_bookings',JSON.stringify(bks));
+    document.getElementById('bookingFormWrap').style.display='none';
+    document.getElementById('bookingFormOk').style.display='block';
+    showToast('Enquiry received — we will be in touch within 24 hours','ok');
+  };
+
+  function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  loadLooks();
+
+  /* Live sync */
+  if (window.BroadcastChannel) {
+    var bc = new BroadcastChannel('kago_sync');
+    bc.onmessage = function(e){ if(e.data&&e.data.type==='outfits_updated') loadLooks(); };
+  }
+  window.addEventListener('storage', function(e){ if(e.key==='kago_outfits_v1') loadLooks(); });
+
+})();
+</script>
+</body>
+</html>

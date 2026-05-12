@@ -214,7 +214,13 @@ tr:hover td{background:rgba(242,232,218,.5)}
 .look-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;position:relative}
 .look-card-img{aspect-ratio:3/4;overflow:hidden;background:var(--border);display:flex;align-items:center;justify-content:center}
 .look-card-img img{width:100%;height:100%;object-fit:cover}
-.look-card-ph{font-style:italic;font-size:32px;color:rgba(107,30,46,.2)}
+.look-card-ph{font-style:italic;font-size:32px;color:rgba(107,30,46,.2);width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.ph-a{background:linear-gradient(135deg,#c8a96e 0%,#e8d5a3 100%)}
+.ph-b{background:linear-gradient(135deg,#b5a090 0%,#d4c5b5 100%)}
+.ph-c{background:linear-gradient(135deg,#c49070 0%,#e0bfa0 100%)}
+.ph-d{background:linear-gradient(135deg,#2c1810 0%,#5a3020 100%);color:rgba(242,232,218,.3)}
+.ph-e{background:linear-gradient(135deg,#6b8c6b 0%,#a8c5a0 100%)}
+.ph-f{background:linear-gradient(135deg,#c4788a 0%,#e8b0bc 100%)}
 .look-card-body{padding:13px}
 .look-card-brand{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:3px}
 .look-card-name{font-style:italic;font-size:15px;color:var(--coffee);margin-bottom:4px}
@@ -381,9 +387,31 @@ tr:hover td{background:rgba(242,232,218,.5)}
         <div class="field"><span class="field-label">Look Name *</span><input class="field-input" id="lName" placeholder="e.g. The Cashmere Suit" autocorrect="off"></div>
         <div class="field span2"><span class="field-label">Piece Description</span><input class="field-input" id="lPiece" placeholder="e.g. Cashmere Tailored Suit, Ivory" autocorrect="off"></div>
         <div class="field"><span class="field-label">Price</span><input class="field-input" id="lPrice" placeholder="e.g. From £8,400" autocorrect="off"></div>
-        <div class="field"><span class="field-label">Season</span><input class="field-input" id="lSeason" placeholder="e.g. SS 2026" autocorrect="off"></div>
+        <div class="field"><span class="field-label">Category</span>
+          <select class="field-select" id="lCategory">
+            <option value="editorial">Editorial</option>
+            <option value="power">Power</option>
+            <option value="evening">Evening</option>
+            <option value="archive">Archive</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field"><span class="field-label">Placeholder Style</span>
+          <select class="field-select" id="lPhClass">
+            <option value="ph-a">A — Gold</option>
+            <option value="ph-b">B — Neutral</option>
+            <option value="ph-c">C — Warm</option>
+            <option value="ph-d">D — Dark</option>
+            <option value="ph-e">E — Sage</option>
+            <option value="ph-f">F — Rose</option>
+          </select>
+        </div>
+        <div class="field"><span class="field-label">Display Order</span><input class="field-input" type="number" id="lOrder" min="0" placeholder="0"></div>
+        <div class="field"><span class="field-label">&nbsp;</span><div style="height:100%;display:flex;align-items:flex-end;gap:20px;padding-bottom:2px">
+          <label class="field-check"><input type="checkbox" id="lFeatured"> Featured</label>
+          <label class="field-check"><input type="checkbox" id="lPublished" checked> Published</label>
+        </div></div>
         <div class="field span2"><span class="field-label">Photo</span><input class="field-file" type="file" id="lPhoto" accept="image/*"><img class="preview-img" id="lPreview"></div>
-        <div class="field span2"><label class="field-check"><input type="checkbox" id="lFeatured"> Show on landing page (featured)</label></div>
       </div>
       <input type="hidden" id="lEditId">
     </div>
@@ -658,10 +686,22 @@ function renderPage(page, area) {
 }
 
 // ── DASHBOARD ────────────────────────────────────
-function renderDashboard(area) {
-  var looks  = lsGet(LS.LOOKS, DEFAULT_LOOKS);
-  var books  = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
-  var subs   = lsGet(LS.SUBS, DEFAULT_SUBS);
+async function renderDashboard(area) {
+  var looks, books, subs;
+  if (USE_SUPABASE) {
+    var [lr, br, sr] = await Promise.all([
+      sb.from('lookbook_images').select('id,featured,published', { count: 'exact' }),
+      sb.from('bookings').select('*').order('created_at', { ascending: false }),
+      sb.from('subscribers').select('id,email,name,role_industry,subscribed_at', { count: 'exact' })
+    ]);
+    looks  = (lr.data || []);
+    books  = (br.data || []);
+    subs   = (sr.data || []);
+  } else {
+    looks  = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+    books  = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+    subs   = lsGet(LS.SUBS, DEFAULT_SUBS);
+  }
   var newB   = books.filter(function(b){ return b.status === 'new'; }).length;
   var recent = books.slice(0,3);
 
@@ -706,8 +746,16 @@ function statCard(label, value, change, neutral) {
 }
 
 // ── LOOKBOOK ─────────────────────────────────────
-function renderLookbook(area) {
-  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+async function renderLookbook(area) {
+  area.innerHTML = '<div style="padding:60px;text-align:center"><span class="spinner"></span><span style="font-style:italic;color:var(--muted);margin-left:12px">Loading lookbook…</span></div>';
+  var looks;
+  if (USE_SUPABASE) {
+    var { data, error } = await sb.from('lookbook_images').select('*').order('display_order', { ascending: true });
+    if (error) { toast('Could not load lookbook: ' + error.message, 'err'); looks = []; }
+    else looks = (data || []).map(function(l){ return Object.assign({}, l, { name: l.title }); });
+  } else {
+    looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+  }
   area.innerHTML =
     '<div class="page-head">' +
       '<div><div class="page-title">Lookbook Manager</div>' +
@@ -723,16 +771,19 @@ function renderLookbook(area) {
 
 function lookCardHTML(look) {
   var img = look.image_url || (look.image ? look.image : null);
+  var displayName = look.name || look.title || '';
   return '<div class="look-card" id="card_'+look.id+'">' +
     (look.featured ? '<div class="look-card-feat">★ Featured</div>' : '') +
+    (look.published === false ? '<div class="look-card-feat" style="background:var(--muted);right:auto;left:8px">Hidden</div>' : '') +
     '<div class="look-card-img">' +
-      (img ? '<img src="'+img+'" alt="'+look.name+'" loading="lazy">' :
-       '<div class="look-card-ph">'+(look.brand||'').substring(0,2).toUpperCase()+'</div>') +
+      (img ? '<img src="'+img+'" alt="'+displayName+'" loading="lazy">' :
+       '<div class="look-card-ph '+(look.ph_class||'ph-b')+'">'+(look.brand||'').substring(0,2).toUpperCase()+'</div>') +
     '</div>' +
     '<div class="look-card-body">' +
       '<div class="look-card-brand">'+look.brand+'</div>' +
-      '<div class="look-card-name">'+look.name+'</div>' +
+      '<div class="look-card-name">'+displayName+'</div>' +
       '<div class="look-card-price">'+look.price+'</div>' +
+      (look.category ? '<div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">'+look.category+'</div>' : '') +
       '<div class="look-card-actions">' +
         '<button class="btn btn-outline btn-sm" onclick="editLook(\''+look.id+'\')">Edit</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteLook(\''+look.id+'\')">Remove</button>' +
@@ -746,26 +797,40 @@ function openAddLook() {
   document.getElementById('lName').value = '';
   document.getElementById('lPiece').value = '';
   document.getElementById('lPrice').value = '';
-  document.getElementById('lSeason').value = '';
+  document.getElementById('lCategory').value = 'editorial';
+  document.getElementById('lPhClass').value = 'ph-a';
+  document.getElementById('lOrder').value = '0';
   document.getElementById('lFeatured').checked = false;
+  document.getElementById('lPublished').checked = true;
   document.getElementById('lEditId').value = '';
   document.getElementById('lPhoto').value = '';
   document.getElementById('lPreview').style.display = 'none';
   openModal('lookModal');
 }
 
-function editLook(id) {
-  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
-  var look = looks.find(function(l){ return l.id === id; });
+async function editLook(id) {
+  var look;
+  if (USE_SUPABASE) {
+    var { data, error } = await sb.from('lookbook_images').select('*').eq('id', id).single();
+    if (error || !data) { toast('Could not load look', 'err'); return; }
+    look = Object.assign({}, data, { name: data.title });
+  } else {
+    var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+    look = looks.find(function(l){ return l.id === id; });
+  }
   if (!look) return;
   document.getElementById('lookModalTitle').textContent = 'Edit Look';
   document.getElementById('lBrand').value = look.brand || '';
   document.getElementById('lName').value = look.name || '';
   document.getElementById('lPiece').value = look.piece || '';
   document.getElementById('lPrice').value = look.price || '';
-  document.getElementById('lSeason').value = look.season || '';
+  document.getElementById('lCategory').value = look.category || 'editorial';
+  document.getElementById('lPhClass').value = look.ph_class || 'ph-a';
+  document.getElementById('lOrder').value = look.display_order || 0;
   document.getElementById('lFeatured').checked = !!look.featured;
+  document.getElementById('lPublished').checked = look.published !== false;
   document.getElementById('lEditId').value = id;
+  document.getElementById('lPhoto').value = '';
   var src = look.image_url || look.image;
   if (src) { document.getElementById('lPreview').src = src; document.getElementById('lPreview').style.display = 'block'; }
   else document.getElementById('lPreview').style.display = 'none';
@@ -782,58 +847,102 @@ document.getElementById('lPhoto').addEventListener('change', function() {
   r.readAsDataURL(file);
 });
 
-function saveLook() {
+async function saveLook() {
   var brand    = document.getElementById('lBrand').value.trim();
   var name     = document.getElementById('lName').value.trim();
   if (!brand || !name) { toast('Brand and Look Name are required.', 'err'); return; }
   var piece    = document.getElementById('lPiece').value.trim();
   var price    = document.getElementById('lPrice').value.trim() || 'Upon Request';
-  var season   = document.getElementById('lSeason').value.trim() || '2026';
+  var category = document.getElementById('lCategory').value;
+  var phClass  = document.getElementById('lPhClass').value;
+  var order    = parseInt(document.getElementById('lOrder').value) || 0;
   var featured = document.getElementById('lFeatured').checked;
+  var published = document.getElementById('lPublished').checked;
   var editId   = document.getElementById('lEditId').value;
   var file     = document.getElementById('lPhoto').files[0];
+  var btn      = document.getElementById('saveLookBtn');
 
-  function finish(imgSrc) {
-    var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
-    if (editId) {
-      var idx = looks.findIndex(function(l){ return l.id === editId; });
-      if (idx > -1) {
-        looks[idx] = Object.assign(looks[idx], {brand,name,piece,price,season,featured});
-        if (imgSrc) looks[idx].image_url = imgSrc;
-        addLog('Updated look', 'look', editId, {name});
-        toast('Look updated', 'ok');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+
+  try {
+    var imgSrc = null;
+
+    if (file) {
+      if (USE_SUPABASE) {
+        var ext  = file.name.split('.').pop().toLowerCase();
+        var path = 'looks/' + Date.now() + '_' + Math.random().toString(36).substr(2,5) + '.' + ext;
+        var { error: uploadErr } = await sb.storage.from('kago-gallery').upload(path, file, { upsert: true });
+        if (uploadErr) throw new Error('Upload failed: ' + uploadErr.message);
+        var { data: urlData } = sb.storage.from('kago-gallery').getPublicUrl(path);
+        imgSrc = urlData.publicUrl;
+      } else {
+        imgSrc = await new Promise(function(resolve) {
+          var r = new FileReader();
+          r.onload = function(e){ resolve(e.target.result); };
+          r.readAsDataURL(file);
+        });
       }
-    } else {
-      var newLook = {id:lsId(),brand,name,piece,price,season,featured,image_url:imgSrc||null};
-      looks.push(newLook);
-      addLog('Added look', 'look', newLook.id, {name});
-      toast('Look added to lookbook', 'ok');
     }
-    lsSet(LS.LOOKS, looks);
+
+    if (USE_SUPABASE) {
+      var payload = { title: name, brand, piece, price, category, ph_class: phClass, featured, published, display_order: order };
+      if (imgSrc) payload.image_url = imgSrc;
+      var result = editId
+        ? await sb.from('lookbook_images').update(payload).eq('id', editId)
+        : await sb.from('lookbook_images').insert(payload);
+      if (result.error) throw new Error(result.error.message);
+    } else {
+      var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS);
+      if (editId) {
+        var idx = looks.findIndex(function(l){ return l.id === editId; });
+        if (idx > -1) {
+          looks[idx] = Object.assign(looks[idx], {brand, name, piece, price, category, ph_class: phClass, display_order: order, featured, published});
+          if (imgSrc) looks[idx].image_url = imgSrc;
+        }
+      } else {
+        looks.push({id:lsId(), brand, name, piece, price, category, ph_class: phClass, display_order: order, featured, published, image_url: imgSrc||null, created_at: new Date().toISOString()});
+      }
+      lsSet(LS.LOOKS, looks);
+    }
+
+    addLog(editId ? 'Updated look' : 'Added look', 'look', editId||'new', {name});
+    toast(editId ? 'Look updated' : 'Look added to lookbook', 'ok');
     closeModal('lookModal');
     renderPage('lookbook', document.getElementById('contentArea'));
+  } catch(e) {
+    toast('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Look';
   }
-
-  if (file) {
-    var r = new FileReader();
-    r.onload = function(e){ finish(e.target.result); };
-    r.readAsDataURL(file);
-  } else { finish(null); }
 }
 
-function deleteLook(id) {
+async function deleteLook(id) {
   if (!confirm('Remove this look from the lookbook?')) return;
-  var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS).filter(function(l){ return l.id !== id; });
-  lsSet(LS.LOOKS, looks);
+  if (USE_SUPABASE) {
+    var { error } = await sb.from('lookbook_images').delete().eq('id', id);
+    if (error) { toast('Could not delete: ' + error.message, 'err'); return; }
+  } else {
+    var looks = lsGet(LS.LOOKS, DEFAULT_LOOKS).filter(function(l){ return l.id !== id; });
+    lsSet(LS.LOOKS, looks);
+  }
   addLog('Deleted look', 'look', id, {});
   toast('Look removed', 'ok');
   renderPage('lookbook', document.getElementById('contentArea'));
 }
 
 // ── BOOKINGS ─────────────────────────────────────
-function renderBookings(area) {
-  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
-  var filter = '';
+async function renderBookings(area) {
+  area.innerHTML = '<div style="padding:60px;text-align:center"><span class="spinner"></span><span style="font-style:italic;color:var(--muted);margin-left:12px">Loading bookings…</span></div>';
+  var books;
+  if (USE_SUPABASE) {
+    var { data, error } = await sb.from('bookings').select('*').order('created_at', { ascending: false });
+    if (error) { toast('Could not load bookings: ' + error.message, 'err'); books = []; }
+    else books = data || [];
+  } else {
+    books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  }
   area.innerHTML =
     '<div class="page-head">' +
       '<div><div class="page-title">Bookings</div>' +
@@ -848,13 +957,20 @@ function renderBookings(area) {
     '<div class="table-wrap"><table>' +
       '<thead><tr><th>Client</th><th>Service</th><th>Date</th><th>Budget</th><th>Status</th><th>Action</th></tr></thead>' +
       '<tbody id="bookingsBody"></tbody></table></div>';
+  window._allBookings = books;
   renderBookingRows(books);
 }
 
-function filterBookings(status) {
-  var all = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
-  var filtered = status ? all.filter(function(b){ return b.status === status; }) : all;
-  renderBookingRows(filtered);
+async function filterBookings(status) {
+  if (USE_SUPABASE) {
+    var q = sb.from('bookings').select('*').order('created_at', { ascending: false });
+    if (status) q = q.eq('status', status);
+    var { data } = await q;
+    renderBookingRows(data || []);
+  } else {
+    var all = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+    renderBookingRows(status ? all.filter(function(b){ return b.status === status; }) : all);
+  }
 }
 
 function renderBookingRows(books) {
@@ -878,7 +994,7 @@ function renderBookingRows(books) {
 }
 
 function viewBooking(id) {
-  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+  var books = window._allBookings || lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
   var b = books.find(function(x){ return x.id === id; });
   if (!b) return;
   currentBooking = b;
@@ -912,27 +1028,38 @@ function infoRow(label, value) {
   '</div>';
 }
 
-function updateBookingStatus() {
+async function updateBookingStatus() {
   if (!currentBooking) return;
   var newStatus = document.getElementById('bStatusSel').value;
   var notes = document.getElementById('bNotes').value;
-  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
-  var idx = books.findIndex(function(b){ return b.id === currentBooking.id; });
-  if (idx > -1) {
-    books[idx].status = newStatus;
-    books[idx].notes  = notes;
+  if (USE_SUPABASE) {
+    var { error } = await sb.from('bookings').update({ status: newStatus, notes }).eq('id', currentBooking.id);
+    if (error) { toast('Could not update booking: ' + error.message, 'err'); return; }
+  } else {
+    var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
+    var idx = books.findIndex(function(b){ return b.id === currentBooking.id; });
+    if (idx > -1) { books[idx].status = newStatus; books[idx].notes = notes; }
     lsSet(LS.BOOKINGS, books);
-    addLog('Updated booking status', 'booking', currentBooking.id, {status: newStatus, client: currentBooking.client_name});
-    toast('Booking updated to: ' + newStatus, 'ok');
-    closeModal('bookingModal');
-    renderPage('bookings', document.getElementById('contentArea'));
-    loadNewBookingsBadge();
   }
+  addLog('Updated booking status', 'booking', currentBooking.id, {status: newStatus, client: currentBooking.client_name});
+  toast('Booking updated to: ' + newStatus, 'ok');
+  closeModal('bookingModal');
+  renderPage('bookings', document.getElementById('contentArea'));
+  loadNewBookingsBadge();
 }
 
 // ── SUBSCRIBERS ──────────────────────────────────
-function renderSubscribers(area) {
-  var subs = lsGet(LS.SUBS, DEFAULT_SUBS);
+async function renderSubscribers(area) {
+  area.innerHTML = '<div style="padding:60px;text-align:center"><span class="spinner"></span><span style="font-style:italic;color:var(--muted);margin-left:12px">Loading subscribers…</span></div>';
+  var subs;
+  if (USE_SUPABASE) {
+    var { data, error } = await sb.from('subscribers').select('*').order('subscribed_at', { ascending: false });
+    if (error) { toast('Could not load subscribers: ' + error.message, 'err'); subs = []; }
+    else subs = data || [];
+  } else {
+    subs = lsGet(LS.SUBS, DEFAULT_SUBS);
+  }
+  window._allSubs = subs;
   area.innerHTML =
     '<div class="page-head">' +
       '<div><div class="page-title">Subscribers</div>' +
@@ -962,15 +1089,20 @@ function renderSubRows(subs) {
 }
 
 function searchSubs(q) {
-  var all = lsGet(LS.SUBS, DEFAULT_SUBS);
+  var all = window._allSubs || lsGet(LS.SUBS, DEFAULT_SUBS);
   var filtered = q ? all.filter(function(s){ return (s.name+s.email+(s.role_industry||'')).toLowerCase().includes(q.toLowerCase()); }) : all;
   renderSubRows(filtered);
 }
 
-function removeSub(id) {
+async function removeSub(id) {
   if (!confirm('Remove this subscriber?')) return;
-  var subs = lsGet(LS.SUBS, DEFAULT_SUBS).filter(function(s){ return s.id !== id; });
-  lsSet(LS.SUBS, subs);
+  if (USE_SUPABASE) {
+    var { error } = await sb.from('subscribers').delete().eq('id', id);
+    if (error) { toast('Could not remove subscriber: ' + error.message, 'err'); return; }
+  } else {
+    var subs = lsGet(LS.SUBS, DEFAULT_SUBS).filter(function(s){ return s.id !== id; });
+    lsSet(LS.SUBS, subs);
+  }
   addLog('Removed subscriber', 'subscriber', id, {});
   toast('Subscriber removed', 'ok');
   renderPage('subscribers', document.getElementById('contentArea'));
@@ -1137,9 +1269,14 @@ function clearLogs() {
 }
 
 // ── UTILITIES ────────────────────────────────────
-function loadNewBookingsBadge() {
-  var books = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS);
-  var count = books.filter(function(b){ return b.status === 'new'; }).length;
+async function loadNewBookingsBadge() {
+  var count = 0;
+  if (USE_SUPABASE) {
+    var { count: c } = await sb.from('bookings').select('id', { count: 'exact', head: true }).eq('status', 'new');
+    count = c || 0;
+  } else {
+    count = lsGet(LS.BOOKINGS, DEFAULT_BOOKINGS).filter(function(b){ return b.status === 'new'; }).length;
+  }
   var badge = document.getElementById('newBookingsBadge');
   if (badge) { badge.textContent = count; badge.style.display = count > 0 ? '' : 'none'; }
 }

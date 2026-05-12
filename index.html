@@ -2,1264 +2,624 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>KAGO — Private Styling Atelier</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAGO — Private Styling Atelier, London</title>
+<meta name="description" content="KAGO is a private styling atelier for the discerning woman. Curated from the world's most revered fashion houses. London, Est. 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
 <style>
-:root{
-  --b:#4A1220;--bm:#6B1E2E;--ba:#8C2A3E;
-  --c:#3E2010;--cm:#6B3A20;--cl:#9C6845;
-  --r:#C4788A;--rl:#D9A0AC;--rp:#EDD5D9;
-  --bg:#F2E8DA;--bgd:#E0CEBC;--bgw:#F7F0E6;
-  --ink:#2C1008;--tx:#5A3020;--mu:#9C7860;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:"EB Garamond",Georgia,serif;font-size:15px;color:var(--ink)}
-a{text-decoration:none;color:inherit}
-button,input,textarea,select{font-family:inherit;font-size:inherit}
-img{display:block;max-width:100%;object-fit:cover}
+/* ── HOME-SPECIFIC ── */
 
-/* ── SLIDES ── */
-#reel{
-  height:100vh;overflow-y:scroll;
-  scroll-snap-type:y mandatory;scroll-behavior:smooth;
-  -webkit-overflow-scrolling:touch;
+/* HERO */
+.hero {
+  height: 100vh;
+  min-height: 600px;
+  background: var(--b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-.slide{
-  height:100vh;width:100%;scroll-snap-align:start;
-  scroll-snap-stop:always;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;
+.hero-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  transition: opacity 1s ease;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.55);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.3s forwards;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: rgba(196, 120, 138, 0.3);
+  flex-shrink: 0;
+}
+.hero-name {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(80px, 14vw, 180px);
+  letter-spacing: 0.1em;
+  line-height: 0.9;
+  color: rgba(242, 232, 218, 0.96);
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.5s forwards;
+}
+.hero-est {
+  font-size: 9.5px;
+  letter-spacing: 0.56em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.6);
+  margin-bottom: 36px;
+  font-weight: 700;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.7s forwards;
+}
+.hero-rule {
+  width: 1px;
+  height: 48px;
+  background: rgba(196, 120, 138, 0.2);
+  margin: 0 auto 36px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.85s forwards;
+}
+.hero-tagline {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(242, 232, 218, 0.38);
+  max-width: 420px;
+  line-height: 1.9;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.95s forwards;
+}
+.hero-cta {
+  opacity: 0;
+  animation: fadeUp 0.9s ease 1.1s forwards;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 8.5px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.28);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 1.4s forwards;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: rgba(196, 120, 138, 0.2);
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.4; }
+  50%       { transform: scaleY(0.5); opacity: 0.9; }
 }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:900;
-  height:56px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 48px;transition:background .4s,border-color .4s;
+/* FEATURED SECTION */
+.featured {
+  background: var(--bgw);
+  padding: 100px 48px;
 }
-nav.dk{background:rgba(74,18,32,.96);border-bottom:1px solid rgba(196,120,138,.1)}
-nav.lt{background:rgba(247,240,230,.96);border-bottom:1px solid rgba(224,206,188,.5)}
-.nav-logo{
-  font-family:"Playfair Display",serif;font-weight:700;font-style:italic;
-  font-size:21px;letter-spacing:.18em;cursor:pointer;transition:color .3s;
+.featured-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 56px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
-nav.dk .nav-logo{color:rgba(242,232,218,.92)}
-nav.lt .nav-logo{color:var(--tx)}
-.nav-links{display:flex;align-items:center;gap:24px}
-.nav-links a{
-  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
-  cursor:pointer;transition:color .3s;
+.featured-head-text .section-title { font-size: clamp(32px, 4vw, 52px); color: var(--tx); }
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
 }
-nav.dk .nav-links a{color:rgba(196,120,138,.52)}
-nav.dk .nav-links a:hover{color:rgba(217,160,172,.88)}
-nav.lt .nav-links a{color:var(--mu)}
-nav.lt .nav-links a:hover{color:var(--tx)}
-.nav-cta{
-  padding:8px 20px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  border:none;cursor:pointer;transition:all .3s;
+.featured-item {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--bgd);
 }
-nav.dk .nav-cta{background:rgba(196,120,138,.18);color:rgba(217,160,172,.82);border:1px solid rgba(196,120,138,.28)}
-nav.dk .nav-cta:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
-nav.lt .nav-cta{background:var(--tx);color:var(--bgw);border:1px solid var(--tx)}
-nav.lt .nav-cta:hover{background:var(--ink);border-color:var(--ink)}
+.featured-item::before {
+  content: "";
+  display: block;
+  padding-top: 133%; /* 3:4 portrait */
+}
+.featured-item-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+}
+.featured-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+.featured-item-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(24px, 3vw, 36px);
+  opacity: 0.15;
+}
+.featured-item:hover img { transform: scale(1.06); }
+.featured-item-caption {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(44, 16, 8, 0.8));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.featured-item:hover .featured-item-caption { opacity: 1; }
+.featured-caption-brand {
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rl);
+  margin-bottom: 3px;
+}
+.featured-caption-name {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.5vw, 17px);
+  color: rgba(242, 232, 218, 0.9);
+}
+/* Placeholder colours */
+.ph-a { background: linear-gradient(155deg,#3D3830,#1E1A16); color: #D4B896; }
+.ph-b { background: linear-gradient(155deg,#EAE0D2,#C8B89C); color: #5A4E42; }
+.ph-c { background: linear-gradient(155deg,#1A1714,#0F0D0B); color: #B14C24; }
+.ph-d { background: linear-gradient(155deg,#2A2015,#332A1F); color: #D9A0AC; }
+.ph-e { background: linear-gradient(155deg,#E8DDD0,#D4C8B8); color: #6B3A20; }
+.ph-f { background: linear-gradient(155deg,#F0E8DC,#CBBFB0); color: #6B1E2E; }
 
-/* ── DOT NAV ── */
-.dots{
-  position:fixed;right:20px;top:50%;transform:translateY(-50%);
-  z-index:900;display:flex;flex-direction:column;gap:11px;
+/* PHILOSOPHY STRIP */
+.philosophy {
+  background: var(--b);
+  padding: 100px 48px;
+  text-align: center;
 }
-.dot{
-  width:6px;height:6px;border-radius:50%;border:none;
-  cursor:pointer;padding:0;transition:all .35s;
+.philosophy-quote {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(22px, 3.5vw, 42px);
+  color: rgba(242, 232, 218, 0.72);
+  line-height: 1.5;
+  max-width: 740px;
+  margin: 0 auto 28px;
 }
-.dot.on{background:var(--r);transform:scale(1.55)}
-.dot.off-dk{background:rgba(196,120,138,.3)}
-.dot.off-lt{background:rgba(90,48,32,.2)}
+.philosophy-quote em {
+  color: var(--rl);
+  font-style: normal;
+}
+.philosophy-attr {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.38);
+}
 
-/* ════════════════════════════════════════
-   SLIDE 1 — ARRIVAL (dark)
-════════════════════════════════════════ */
-#s1{background:var(--b);flex-direction:row}
+/* SERVICES PREVIEW */
+.services-preview {
+  background: var(--bgw);
+  padding: 100px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.services-preview-list { display: flex; flex-direction: column; gap: 0; }
+.svc-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--bgd);
+  cursor: pointer;
+  transition: padding-left 0.35s var(--ease);
+}
+.svc-row:first-child { border-top: 1px solid var(--bgd); }
+.svc-row:hover { padding-left: 10px; }
+.svc-row:hover .svc-row-name { color: var(--r); }
+.svc-row-name {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(17px, 1.8vw, 22px);
+  color: var(--tx);
+  transition: color 0.3s;
+}
+.svc-row-price {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--mu);
+  flex-shrink: 0;
+}
+.svc-row-arrow {
+  color: var(--r);
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+.svc-row:hover .svc-row-arrow { opacity: 1; }
 
-.s1-l{
-  flex:1;display:flex;flex-direction:column;justify-content:center;
-  padding:88px 56px 56px 56px;
+/* Keyframes */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.s1-eyebrow{
-  font-size:9.5px;letter-spacing:.52em;text-transform:uppercase;
-  color:rgba(196,120,138,.55);margin-bottom:20px;
-  display:flex;align-items:center;gap:14px;
-  opacity:0;animation:up .9s ease .3s forwards;
-}
-.s1-eyebrow::before{content:"";width:22px;height:1px;background:rgba(196,120,138,.38);flex-shrink:0}
-.s1-kago{
-  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
-  font-size:clamp(70px,10.5vw,148px);letter-spacing:.1em;line-height:.95;
-  color:rgba(242,232,218,.95);
-  opacity:0;animation:up .9s ease .5s forwards;
-}
-.s1-est{
-  font-size:10.5px;letter-spacing:.54em;text-transform:uppercase;
-  color:rgba(196,120,138,.7);margin-top:10px;margin-bottom:28px;font-weight:700;
-  opacity:0;animation:up .9s ease .7s forwards;
-}
-.s1-rule{width:40px;height:1px;background:rgba(196,120,138,.25);margin-bottom:22px;
-  opacity:0;animation:up .9s ease .8s forwards;}
-.s1-tag{
-  font-family:"Cormorant Garamond",serif;font-size:17px;font-style:italic;font-weight:300;
-  color:rgba(242,232,218,.45);line-height:1.85;max-width:340px;margin-bottom:40px;
-  opacity:0;animation:up .9s ease .9s forwards;
-}
-.s1-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:up .9s ease 1.1s forwards}
-.btn-r{
-  padding:12px 30px;background:rgba(196,120,138,.16);color:rgba(217,160,172,.88);
-  border:1px solid rgba(196,120,138,.32);font-size:10px;letter-spacing:.22em;
-  text-transform:uppercase;cursor:pointer;transition:all .35s;
-}
-.btn-r:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
-.btn-g{
-  padding:12px 30px;background:transparent;color:rgba(196,120,138,.55);
-  border:1px solid rgba(196,120,138,.2);font-size:10px;letter-spacing:.22em;
-  text-transform:uppercase;cursor:pointer;transition:all .35s;
-}
-.btn-g:hover{border-color:rgba(196,120,138,.5);color:rgba(196,120,138,.88)}
-/* Right house carousel */
-.s1-r{
-  width:34%;background:rgba(30,8,14,.45);
-  border-left:1px solid rgba(196,120,138,.07);
-  overflow:hidden;display:flex;align-items:center;
-  padding-top:56px;
-}
-.house-track{display:flex;flex-direction:column;animation:scrollU 24s linear infinite}
-.house-item{
-  padding:16px 36px;font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
-  font-size:clamp(13px,1.5vw,17px);letter-spacing:.06em;
-  color:rgba(196,120,138,.28);border-bottom:1px solid rgba(196,120,138,.05);
-  transition:color .3s;white-space:nowrap;
-}
-.house-item.hi{color:rgba(196,120,138,.68)}
-/* scroll hint */
-.scroll-hint{
-  position:absolute;bottom:24px;left:56px;
-  font-size:9px;letter-spacing:.4em;text-transform:uppercase;
-  color:rgba(196,120,138,.32);display:flex;align-items:center;gap:10px;
-  opacity:0;animation:up .9s ease 1.4s forwards;
-}
-.bounce{animation:bnc 2s ease-in-out infinite;display:inline-block}
 
-/* ════════════════════════════════════════
-   SLIDE 2 — LOOKBOOK (light)
-════════════════════════════════════════ */
-#s2{background:var(--bgw);flex-direction:row}
-.s2-side{
-  width:300px;flex-shrink:0;display:flex;flex-direction:column;
-  justify-content:center;padding:72px 40px 40px;
-  border-right:1px solid var(--bgd);
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .featured { padding: 72px 28px; }
+  .philosophy { padding: 72px 28px; }
+  .services-preview { padding: 72px 28px; grid-template-columns: 1fr; gap: 40px; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
 }
-.s2-main{
-  flex:1;display:flex;flex-direction:column;
-  padding:72px 32px 32px;overflow:hidden;
-}
-.lk-hero-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);
-  gap:8px;flex:1;overflow:hidden;
-}
-.lk-c{
-  position:relative;cursor:pointer;overflow:hidden;
-  min-height:0;transition:transform .4s;
-}
-.lk-c:hover{transform:scale(1.02)}
-.lk-c:hover .lk-ov{opacity:1}
-.lk-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  font-family:"Playfair Display",serif;font-style:italic;font-size:28px;
-  position:relative;
-}
-.lk-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.lk-ph span{opacity:.2}
-.lk-ov{
-  position:absolute;inset:0;background:rgba(74,18,32,.72);opacity:0;
-  transition:opacity .4s;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:6px;padding:12px;
-}
-.lk-ov-name{
-  font-family:"Playfair Display",serif;font-style:italic;
-  font-size:clamp(11px,1.3vw,15px);color:var(--bgw);text-align:center;line-height:1.25;
-}
-.lk-ov-brand{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(217,160,172,.7)}
-.lk-ov-btn{
-  font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(217,160,172,.82);padding:5px 13px;
-  border:1px solid rgba(196,120,138,.4);background:transparent;cursor:pointer;
-  transition:all .3s;margin-top:4px;
-}
-.lk-ov-btn:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
-
-/* Light-slide shared typography (no burgundy) */
-.sec-eye{
-  font-size:9px;letter-spacing:.44em;text-transform:uppercase;color:var(--r);
-  margin-bottom:8px;display:flex;align-items:center;gap:10px;
-}
-.sec-eye::before{content:"";width:14px;height:1px;background:var(--rl);opacity:.5;flex-shrink:0}
-.sec-title{
-  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
-  font-size:clamp(18px,2.2vw,28px);color:var(--tx);line-height:1.05;margin-bottom:12px;
-}
-.sec-title em{color:var(--r);font-style:normal}
-.sec-body{
-  font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;
-  color:var(--mu);line-height:1.8;margin-bottom:20px;
-}
-.view-all-link{
-  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx);
-  cursor:pointer;background:none;border:none;
-  display:inline-flex;align-items:center;gap:8px;transition:gap .3s,color .3s;
-}
-.view-all-link:hover{gap:14px;color:var(--r)}
-
-/* Placeholder colour classes */
-.ph-a{background:linear-gradient(155deg,#3D3830,#1E1A16);color:#D4B896}
-.ph-b{background:linear-gradient(155deg,#EAE0D2,#C8B89C);color:#5A4E42}
-.ph-c{background:linear-gradient(155deg,#1A1714,#0F0D0B);color:#B14C24}
-.ph-d{background:linear-gradient(155deg,#2A2015,#332A1F);color:#D9A0AC}
-.ph-e{background:linear-gradient(155deg,#E8DDD0,#D4C8B8);color:#6B3A20}
-.ph-f{background:linear-gradient(155deg,#F0E8DC,#CBBFB0);color:#6B1E2E}
-
-/* ════════════════════════════════════════
-   SLIDE 3 — ATELIER & SERVICES (light)
-════════════════════════════════════════ */
-#s3{background:var(--bgw);flex-direction:column}
-.s3-inner{
-  display:grid;grid-template-columns:1fr 1fr 1fr;
-  height:calc(100vh - 56px);margin-top:56px;
-}
-.s3-col{
-  display:flex;flex-direction:column;
-  overflow:hidden;
-  padding:28px 24px;
-  border-right:1px solid var(--bgd);
-}
-.s3-col:last-child{border-right:none}
-
-/* Atelier col */
-.phi-quote{
-  font-family:"Playfair Display",serif;font-weight:400;font-style:italic;
-  font-size:clamp(14px,1.7vw,20px);color:var(--tx);line-height:1.5;margin-bottom:10px;
-}
-.phi-quote em{color:var(--r);font-style:normal}
-.phi-attr{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--mu);
-  display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.phi-attr::before{content:"—"}
-.pillars-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.pill-m{border-top:1px solid var(--bgd);padding-top:8px}
-.pill-m-name{font-family:"Playfair Display",serif;font-size:clamp(11px,1.2vw,13px);
-  font-weight:700;color:var(--tx);margin-bottom:2px}
-.pill-m-desc{font-size:10.5px;color:var(--mu);line-height:1.6}
-
-/* Portfolio col */
-.port-mini{flex:1;display:flex;flex-direction:column;gap:6px;overflow:hidden}
-.port-m{
-  flex:1;background:var(--bg);border:1px solid var(--bgd);
-  padding:10px 12px;cursor:pointer;transition:background .35s,border-color .35s;min-height:0;
-}
-.port-m:hover{background:var(--tx);border-color:var(--tx)}
-.port-m:hover .port-m-title,.port-m:hover .port-m-desc{color:rgba(242,232,218,.88)}
-.port-m-title{font-family:"Playfair Display",serif;font-style:italic;
-  font-size:clamp(12px,1.3vw,15px);color:var(--tx);margin-bottom:2px;transition:color .35s}
-.port-m-desc{font-size:11px;color:var(--mu);line-height:1.55;transition:color .35s;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-/* Services col */
-.svc-mini{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.svc-m{
-  background:var(--bg);border:1px solid var(--bgd);
-  padding:10px 14px;cursor:pointer;transition:background .35s,border-color .35s;
-  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-}
-.svc-m:hover{background:var(--tx);border-color:var(--tx)}
-.svc-m:hover .svc-m-name,.svc-m:hover .svc-m-price{color:rgba(242,232,218,.9)}
-.svc-m-name{font-family:"Playfair Display",serif;font-style:italic;
-  font-size:clamp(12px,1.3vw,15px);color:var(--tx);transition:color .35s}
-.svc-m-price{font-size:10.5px;color:var(--r);flex-shrink:0;transition:color .35s}
-/* Edit strip */
-.edit-strip{display:flex;gap:5px;margin-bottom:14px;height:90px;flex-shrink:0}
-.edit-s{
-  flex:1;cursor:pointer;position:relative;overflow:hidden;transition:transform .4s;
-}
-.edit-s:hover{transform:scale(1.04)}
-.edit-s-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  font-family:"Playfair Display",serif;font-style:italic;font-size:18px;opacity:.2}
-.es1{background:linear-gradient(160deg,#EAE0D2,#C0B09A);color:#5A4E42}
-.es2{background:linear-gradient(160deg,#EAE8DC,#D8D0C4);color:#6B3A20}
-.es3{background:linear-gradient(160deg,#1E0E08,#0E0604);color:#C4788A}
-.edit-s-label{
-  position:absolute;bottom:0;left:0;right:0;padding:8px 6px 6px;
-  background:linear-gradient(transparent,rgba(74,18,32,.65));
-  font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(217,160,172,.8);
-}
-/* Weekly mini */
-.wk-mini{background:var(--bg);border:1px solid var(--bgd);padding:10px 12px;flex:1;min-height:0;overflow:hidden}
-.wk-cat{font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--r);margin-bottom:3px}
-.wk-name{font-family:"Playfair Display",serif;font-style:italic;
-  font-size:clamp(13px,1.5vw,16px);color:var(--tx);margin-bottom:2px;line-height:1.2}
-.wk-house{font-size:10.5px;color:var(--mu);margin-bottom:5px}
-.wk-body{font-size:11.5px;color:var(--tx);line-height:1.65;
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.wk-dots{display:flex;gap:6px;margin-top:7px}
-.wd{width:5px;height:5px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all .3s}
-.wd.on{background:var(--r);transform:scale(1.4)}
-.wd.off{background:var(--bgd)}
-
-/* ════════════════════════════════════════
-   SLIDE 4 — CONNECT (dark)
-════════════════════════════════════════ */
-#s4{background:var(--b);flex-direction:column}
-.s4-inner{
-  display:grid;grid-template-columns:1fr 1fr;
-  height:calc(100vh - 56px - 52px);
-  margin-top:56px;
-}
-.s4-l,.s4-r{
-  display:flex;flex-direction:column;
-  padding:36px 44px 28px;
-  overflow:hidden;
-}
-.s4-l{border-right:1px solid rgba(196,120,138,.1)}
-/* subscribe */
-.sub-form{display:flex;flex-direction:column;gap:9px;margin-top:14px}
-.sub-inp{
-  padding:12px 15px;background:rgba(242,232,218,.07);
-  border:1px solid rgba(196,120,138,.18);color:rgba(242,232,218,.9);
-  font-size:14px;outline:none;transition:border .3s;-webkit-appearance:none;border-radius:0;
-}
-.sub-inp::placeholder{color:rgba(242,232,218,.28)}
-.sub-inp:focus{border-color:rgba(196,120,138,.5)}
-.sub-btn{
-  align-self:flex-start;padding:12px 28px;background:var(--r);color:var(--bgw);
-  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
-  border:none;cursor:pointer;transition:background .3s;
-}
-.sub-btn:hover{background:var(--rl);color:var(--b)}
-.sub-note{font-size:10px;color:rgba(196,120,138,.32);font-style:italic}
-.sub-ok{
-  display:none;font-family:"Playfair Display",serif;font-style:italic;
-  font-size:19px;color:rgba(217,160,172,.82);padding:16px 0;line-height:1.6;
-}
-/* contact */
-.contact-grid{display:flex;flex-direction:column;gap:9px;margin-top:14px;flex:1}
-.ct-item{display:flex;flex-direction:column;gap:1px;padding-bottom:9px;border-bottom:1px solid rgba(196,120,138,.08)}
-.ct-item:last-child{border-bottom:none;padding-bottom:0}
-.ct-label{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(196,120,138,.38)}
-.ct-email{
-  font-size:13px;color:rgba(217,160,172,.65);cursor:pointer;transition:color .3s;
-  text-decoration:none;
-}
-.ct-email:hover{color:var(--rl)}
-.book-cta-btn{
-  margin-top:auto;width:100%;padding:13px;background:rgba(196,120,138,.14);
-  color:rgba(217,160,172,.82);border:1px solid rgba(196,120,138,.28);
-  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-}
-.book-cta-btn:hover{background:var(--r);color:var(--bgw);border-color:var(--r)}
-/* footer strip */
-.s4-footer{
-  height:52px;border-top:1px solid rgba(196,120,138,.1);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 44px;flex-shrink:0;flex-wrap:wrap;gap:8px;
-}
-.s4-footer-brand{
-  font-family:"Playfair Display",serif;font-weight:700;font-style:italic;
-  font-size:15px;letter-spacing:.16em;color:rgba(242,232,218,.5);
-}
-.soc-links{display:flex;gap:16px}
-.soc-link{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(196,120,138,.34);cursor:pointer;transition:color .3s}
-.soc-link:hover{color:var(--rl)}
-.legal-links{display:flex;gap:14px}
-.legal-links a{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(196,120,138,.24);cursor:pointer;transition:color .3s}
-.legal-links a:hover{color:rgba(196,120,138,.54)}
-.footer-copy{font-size:9.5px;letter-spacing:.14em;color:rgba(196,120,138,.2)}
-
-/* Dark-slide shared headings */
-.dk-title{
-  font-family:"Playfair Display",serif;font-weight:900;font-style:italic;
-  font-size:clamp(22px,2.8vw,36px);color:rgba(242,232,218,.9);
-  line-height:1.05;margin-bottom:12px;
-}
-.dk-title em{color:var(--r);font-style:normal}
-.dk-eye{
-  font-size:9px;letter-spacing:.44em;text-transform:uppercase;
-  color:rgba(196,120,138,.55);margin-bottom:8px;
-  display:flex;align-items:center;gap:10px;
-}
-.dk-eye::before{content:"";width:14px;height:1px;background:rgba(196,120,138,.3);flex-shrink:0}
-
-/* ── MODALS ── */
-.mbg{
-  display:none;position:fixed;inset:0;z-index:800;
-  background:rgba(44,16,8,.9);align-items:center;justify-content:center;padding:20px;
-}
-.mbg.open{display:flex}
-.mbox{background:var(--bgw);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
-.mhead{
-  padding:16px 20px;background:var(--bg);border-bottom:1px solid var(--bgd);
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
-.mtitle{font-family:"Playfair Display",serif;font-style:italic;font-size:21px;color:var(--tx)}
-.mx{background:none;border:none;font-size:21px;cursor:pointer;color:var(--mu);line-height:1;transition:color .2s}
-.mx:hover{color:var(--tx)}
-.mbody{padding:22px}
-.field{margin-bottom:12px}
-.fl{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
-.fi,.fs,.fta{
-  width:100%;padding:10px 13px;border:1px solid var(--bgd);background:var(--bg);
-  font-size:14px;color:var(--ink);outline:none;-webkit-appearance:none;border-radius:0;
-  transition:border .2s;
-}
-.fi:focus,.fs:focus,.fta:focus{border-color:var(--r)}
-.fta{min-height:76px;resize:vertical}
-.msub{
-  width:100%;padding:13px;background:var(--tx);color:var(--bgw);
-  border:none;font-size:10px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:background .3s;
-}
-.msub:hover{background:var(--ink)}
-.mok{display:none;text-align:center;padding:28px;font-family:"Playfair Display",serif;font-style:italic;font-size:19px;color:var(--tx)}
-
-/* Lookbook full modal */
-.lk-full-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
-.lk-full-card{cursor:pointer;position:relative;overflow:hidden}
-.lk-full-card:hover .lk-ov{opacity:1}
-.lk-full-ph{aspect-ratio:3/4;width:100%}
-
-/* Summer Edit modal */
-.summer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:22px}
-.se-card{background:var(--bg);border:1px solid var(--bgd);overflow:hidden;cursor:pointer;transition:border-color .35s}
-.se-card:hover{border-color:var(--r)}
-.se-ph{height:180px;display:flex;align-items:center;justify-content:center;
-  font-family:"Playfair Display",serif;font-style:italic;font-size:24px;opacity:.2}
-.se-body{padding:14px}
-.se-cat{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
-.se-name{font-family:"Playfair Display",serif;font-style:italic;font-size:16px;color:var(--tx);margin-bottom:4px}
-.se-desc{font-size:11.5px;color:var(--mu);line-height:1.6}
-.se-btn{
-  display:block;width:calc(100% - 44px);margin:0 22px 22px;padding:11px;
-  background:var(--tx);color:var(--bgw);border:none;
-  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;
-}
-.se-btn:hover{background:var(--ink)}
-
-/* ── CHAT ── */
-.chat-btn{
-  position:fixed;bottom:24px;right:24px;z-index:700;
-  width:50px;height:50px;background:var(--tx);
-  border:none;cursor:pointer;transition:background .3s;
-  box-shadow:0 8px 26px rgba(44,16,8,.36);
-  display:flex;align-items:center;justify-content:center;
-}
-.chat-btn:hover{background:var(--ink)}
-.chat-btn svg{width:20px;height:20px;fill:none;stroke:rgba(217,160,172,.85);stroke-width:1.8}
-.chat-badge{
-  position:absolute;top:-4px;right:-4px;width:14px;height:14px;
-  background:var(--r);border-radius:50%;font-size:8px;font-weight:700;
-  color:var(--bgw);display:flex;align-items:center;justify-content:center;
-}
-.chat-box{
-  position:fixed;bottom:86px;right:24px;z-index:700;width:314px;
-  background:var(--bgw);box-shadow:0 16px 48px rgba(44,16,8,.22);
-  display:none;flex-direction:column;overflow:hidden;max-height:450px;
-}
-.chat-box.open{display:flex}
-.ch-head{
-  background:var(--b);padding:12px 15px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.ch-hl{display:flex;align-items:center;gap:10px}
-.ch-av{
-  width:27px;height:27px;background:rgba(196,120,138,.18);
-  border:1px solid rgba(196,120,138,.28);
-  display:flex;align-items:center;justify-content:center;
-  font-family:"Playfair Display",serif;font-style:italic;font-size:12px;color:var(--rl);
-}
-.ch-name{font-family:"Playfair Display",serif;font-style:italic;font-size:13px;color:rgba(242,232,218,.9)}
-.ch-status{font-size:9px;letter-spacing:.16em;color:rgba(196,120,138,.44)}
-.ch-x{background:none;border:none;color:rgba(196,120,138,.44);font-size:16px;cursor:pointer;transition:color .2s}
-.ch-x:hover{color:var(--rl)}
-.ch-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;max-height:250px}
-.cm{max-width:85%;padding:8px 12px;font-size:13.5px;line-height:1.65}
-.cm.bot{background:var(--bg);color:var(--tx);align-self:flex-start}
-.cm.usr{background:var(--b);color:rgba(242,232,218,.9);align-self:flex-end}
-.ch-quick{padding:6px 12px;display:flex;flex-wrap:wrap;gap:5px}
-.qb{
-  padding:4px 10px;border:1px solid rgba(90,48,32,.2);background:transparent;
-  font-size:11.5px;color:var(--tx);cursor:pointer;transition:all .3s;
-}
-.qb:hover{background:var(--tx);color:rgba(242,232,218,.92);border-color:var(--tx)}
-.ch-row{display:flex;border-top:1px solid var(--bgd);padding:8px 12px;gap:8px}
-.ch-in{
-  flex:1;border:none;background:transparent;font-size:13.5px;color:var(--ink);outline:none;
-}
-.ch-in::placeholder{color:var(--mu)}
-.ch-send{
-  background:var(--r);color:var(--bgw);border:none;padding:5px 11px;
-  font-size:9.5px;letter-spacing:.12em;cursor:pointer;transition:background .3s;
-}
-.ch-send:hover{background:var(--tx)}
-
-/* ── TOAST ── */
-#toast-area{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:7px;pointer-events:none}
-.toast{padding:10px 18px;font-size:13px;min-width:200px;text-align:center;animation:ttp .3s ease}
-.t-ok{background:var(--tx);color:var(--bgw)}
-.t-err{background:#8B2020;color:#fff}
-.t-info{background:var(--r);color:var(--bgw)}
-
-/* ── KEYFRAMES ── */
-@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-@keyframes scrollU{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-@keyframes ttp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── RESPONSIVE ── */
-@media(max-width:1100px){
-  .lk-hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}
-  .s3-inner{grid-template-columns:1fr 1fr}
-  .s3-col:last-child{display:none}
-}
-@media(max-width:900px){
-  #s2{flex-direction:column}
-  .s2-side{width:100%;padding:72px 24px 16px;border-right:none;border-bottom:1px solid var(--bgd)}
-  .s2-main{padding:16px 16px 16px}
-  .lk-hero-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr)}
-  .s3-inner{grid-template-columns:1fr}
-  .s3-col:not(:first-child){display:none}
-  .s4-inner{grid-template-columns:1fr}
-  .s4-r{display:none}
-}
-@media(max-width:600px){
-  nav{padding:0 20px}
-  .nav-links a{display:none}
-  .s1-l{padding:80px 24px 40px}
-  .s1-r{display:none}
-  .dots{right:10px}
-  .summer-grid{grid-template-columns:1fr}
-  .lk-hero-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}
+@media (max-width: 600px) {
+  .featured { padding: 56px 20px; }
+  .philosophy { padding: 56px 20px; }
+  .services-preview { padding: 56px 20px; }
+  .featured-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+  .hero-cta { flex-direction: column; align-items: center; }
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="dk" id="topNav">
-  <div class="nav-logo" onclick="gto(0)">KAGO</div>
-  <div class="nav-links">
-    <a onclick="gto(1)">Lookbook</a>
-    <a onclick="gto(2)">Atelier</a>
-    <a onclick="gto(2)">Services</a>
-    <a onclick="gto(3)">Contact</a>
-    <button class="nav-cta" onclick="openModal('bookingModal')">Book Now</button>
-  </div>
+<nav class="site-nav starts-transparent transparent" id="siteNav" data-scroll-theme="dark">
+  <a href="index.html" class="nav-brand">KAGO</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lookbook.html">Lookbook</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openBookingModal()">Book Now</button>
+  <button class="nav-burger" id="navBurger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- DOT NAV -->
-<div class="dots" id="dotNav">
-  <button class="dot on"     onclick="gto(0)" title="Arrival"></button>
-  <button class="dot off-dk" onclick="gto(1)" title="Lookbook"></button>
-  <button class="dot off-dk" onclick="gto(2)" title="Atelier &amp; Services"></button>
-  <button class="dot off-dk" onclick="gto(3)" title="Connect"></button>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="lookbook.html">Lookbook</a>
+  <a href="services.html">Services</a>
+  <a href="contact.html">Contact</a>
+  <a href="#" class="m-cta" onclick="openBookingModal(); return false;">Book a Consultation</a>
 </div>
 
-<!-- ══ SLIDES ══ -->
-<div id="reel">
+<div class="page-wrap">
 
-<!-- ─────────────────────────────────────────
-     SLIDE 1: ARRIVAL
-───────────────────────────────────────── -->
-<section class="slide" id="s1">
-  <div class="s1-l">
-    <div class="s1-eyebrow">Private Atelier &mdash; London</div>
-    <div class="s1-kago">KAGO</div>
-    <div class="s1-est">Est. 2026</div>
-    <div class="s1-rule"></div>
-    <p class="s1-tag">A private styling atelier for the discerning woman. Curated from the world&rsquo;s most revered fashion houses.</p>
-    <div class="s1-btns">
-      <button class="btn-r" onclick="gto(1)">Explore the Lookbook &rsaquo;</button>
-      <button class="btn-g" onclick="openModal('bookingModal')">Request Consultation</button>
-    </div>
-  </div>
-  <div class="s1-r">
-    <div class="house-track" id="houseTrack">
-      <div class="house-item hi">Loro Piana</div>
-      <div class="house-item">Brunello Cucinelli</div>
-      <div class="house-item hi">Alexander McQueen</div>
-      <div class="house-item">Yves Saint Laurent</div>
-      <div class="house-item hi">Ralph Lauren Collection</div>
-      <div class="house-item">Christian Louboutin</div>
-      <div class="house-item hi">Dior Archive</div>
-      <div class="house-item">Chanel Haute Couture</div>
-      <div class="house-item hi">Bottega Veneta</div>
-      <div class="house-item">The Row</div>
-      <div class="house-item hi">Cartier</div>
-      <div class="house-item">Manolo Blahnik</div>
-      <div class="house-item hi">Loro Piana</div>
-      <div class="house-item">Brunello Cucinelli</div>
-      <div class="house-item hi">Alexander McQueen</div>
-      <div class="house-item">Yves Saint Laurent</div>
-      <div class="house-item hi">Ralph Lauren Collection</div>
-      <div class="house-item">Christian Louboutin</div>
-      <div class="house-item hi">Dior Archive</div>
-      <div class="house-item">Chanel Haute Couture</div>
-      <div class="house-item hi">Bottega Veneta</div>
-      <div class="house-item">The Row</div>
-      <div class="house-item hi">Cartier</div>
-      <div class="house-item">Manolo Blahnik</div>
-    </div>
-  </div>
-  <div class="scroll-hint">Scroll &nbsp;<span class="bounce">&#x2193;</span></div>
-</section>
-
-<!-- ─────────────────────────────────────────
-     SLIDE 2: LOOKBOOK
-───────────────────────────────────────── -->
-<section class="slide" id="s2">
-  <div style="margin-top:56px;display:flex;height:calc(100vh - 56px);overflow:hidden">
-    <!-- Side panel -->
-    <div class="s2-side">
-      <div class="sec-eye">01 &mdash; The Lookbook</div>
-      <div class="sec-title">Curated <em>Looks</em></div>
-      <p class="sec-body">Six signature looks from the world&rsquo;s most revered houses. Each one a statement. Each one a strategy.</p>
-      <button class="view-all-link" onclick="openFullLookbook()" style="margin-bottom:16px">View Full Collection &rsaquo;</button>
-      <button class="view-all-link" onclick="openModal('bookingModal')">Request a Look &rsaquo;</button>
-    </div>
-    <!-- Grid -->
-    <div class="s2-main">
-      <div class="lk-hero-grid" id="lkGrid"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────────────────
-     SLIDE 3: ATELIER & SERVICES
-───────────────────────────────────────── -->
-<section class="slide" id="s3">
-  <div class="s3-inner">
-
-    <!-- COL 1: ATELIER -->
-    <div class="s3-col">
-      <div class="sec-eye">02 &mdash; The Atelier</div>
-      <div class="sec-title">The <em>Philosophy</em></div>
-      <blockquote class="phi-quote">
-        &ldquo;She does not dress to be <em>seen</em> &mdash; she dresses to <em>conquer</em>.&rdquo;
-      </blockquote>
-      <div class="phi-attr">KAGO Atelier &middot; London</div>
-      <div class="pillars-mini">
-        <div class="pill-m"><div class="pill-m-name">Archive Access</div><div class="pill-m-desc">Vintage Dior, Chanel couture, archival pieces sourced privately.</div></div>
-        <div class="pill-m"><div class="pill-m-name">Power Dressing</div><div class="pill-m-desc">Wardrobes for boardroom, gala, and negotiation.</div></div>
-        <div class="pill-m"><div class="pill-m-name">Quiet Wealth</div><div class="pill-m-desc">No logos. No noise. Pure exceptional quality.</div></div>
-        <div class="pill-m"><div class="pill-m-name">Discretion</div><div class="pill-m-desc">Private, confidential. Absolute client privacy.</div></div>
-      </div>
-      <div class="sec-eye" style="margin-top:8px">03 &mdash; Portfolio</div>
-      <div class="port-mini">
-        <div class="port-m" onclick="openModal('bookingModal')">
-          <div class="port-m-title">The Executive</div>
-          <div class="port-m-desc">Brunello Cucinelli blazer. Loro Piana trousers. Bottega. Understated. Immovable.</div>
-        </div>
-        <div class="port-m" onclick="openModal('bookingModal')">
-          <div class="port-m-title">The Femme Fatale</div>
-          <div class="port-m-desc">McQueen sculpted blazer. Louboutin Pigalle. Saint Laurent Sac de Jour in crocodile.</div>
-        </div>
-        <div class="port-m" onclick="openModal('bookingModal')">
-          <div class="port-m-title">The Archive Collector</div>
-          <div class="port-m-desc">1960s Dior Bar jacket. Chanel vintage 2.55. This is not fashion &mdash; this is inheritance.</div>
-        </div>
-        <div class="port-m" onclick="openModal('bookingModal')">
-          <div class="port-m-title">The Evening Architect</div>
-          <div class="port-m-desc">YSL Le Smoking. Cartier Tank. She arrives last. Everyone remembers only her.</div>
-        </div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-noise"></div>
+    <img class="hero-bg-img" id="heroBgImg" src="" alt="" aria-hidden="true">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Private Atelier &mdash; London</div>
+      <div class="hero-name">KAGO</div>
+      <div class="hero-est">Est. 2026</div>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline">A private styling atelier for the discerning woman.<br>Curated from the world&rsquo;s most revered fashion houses.</p>
+      <div class="hero-cta">
+        <a href="lookbook.html" class="btn-primary">Enter the Atelier &rsaquo;</a>
+        <button class="btn-ghost-light" onclick="openBookingModal()">Request Consultation</button>
       </div>
     </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
 
-    <!-- COL 2: SERVICES + WEEKLY -->
-    <div class="s3-col">
-      <div class="sec-eye">04 &mdash; Services</div>
-      <div class="sec-title">What We <em>Offer</em></div>
-      <div class="svc-mini">
-        <div class="svc-m" onclick="openModal('bookingModal')">
-          <div class="svc-m-name">Wardrobe Architecture</div>
-          <div class="svc-m-price">From &pound;1,200</div>
-        </div>
-        <div class="svc-m" onclick="openModal('bookingModal')">
-          <div class="svc-m-name">The Power Edit</div>
-          <div class="svc-m-price">From &pound;2,500</div>
-        </div>
-        <div class="svc-m" onclick="openModal('bookingModal')">
-          <div class="svc-m-name">Archive &amp; Collector</div>
-          <div class="svc-m-price">Upon Request</div>
-        </div>
+  <!-- ═══ FEATURED LOOKS ═══ -->
+  <section class="featured">
+    <div class="featured-head">
+      <div class="featured-head-text">
+        <div class="eyebrow">01 &mdash; Featured Looks</div>
+        <div class="section-title" style="font-size:clamp(32px,4vw,52px)">The <em>Lookbook</em></div>
       </div>
-      <div class="sec-eye" style="margin-top:6px">05 &mdash; Weekly Pick</div>
-      <div class="wk-mini" id="wkMini"></div>
-      <div class="wk-dots" id="wkDots"></div>
+      <a href="lookbook.html" class="btn-text">View Full Collection &rsaquo;</a>
     </div>
+    <div class="featured-grid" id="featuredGrid">
+      <div class="load-state"><div class="spinner dark"></div> Loading</div>
+    </div>
+  </section>
 
-    <!-- COL 3: SUMMER EDIT -->
-    <div class="s3-col">
-      <div class="sec-eye">06 &mdash; The Summer Edit</div>
-      <div class="sec-title">Three <em>Looks</em></div>
-      <p class="sec-body" style="margin-bottom:14px">London summer. Three distinct moments. Each one curated to perfection.</p>
-      <div class="edit-strip">
-        <div class="edit-s" onclick="openSummerEdit(1)" title="Open Summer Edit — Terrace">
-          <div class="edit-s-ph es1">BC</div>
-          <div class="edit-s-label">Terrace</div>
-        </div>
-        <div class="edit-s" onclick="openSummerEdit(3)" title="Open Summer Edit — Power">
-          <div class="edit-s-ph es2">LP</div>
-          <div class="edit-s-label">Power</div>
-        </div>
-        <div class="edit-s" onclick="openSummerEdit(5)" title="Open Summer Edit — Evening">
-          <div class="edit-s-ph es3">YSL</div>
-          <div class="edit-s-label">Evening</div>
-        </div>
+  <!-- ═══ PHILOSOPHY ═══ -->
+  <section class="philosophy">
+    <div class="eyebrow light" style="justify-content:center">The Philosophy</div>
+    <blockquote class="philosophy-quote">
+      &ldquo;She does not dress to be <em>seen</em>&thinsp;&mdash;&thinsp;she dresses to <em>conquer</em>.&rdquo;
+    </blockquote>
+    <div class="philosophy-attr">KAGO Atelier &middot; London &middot; Est. 2026</div>
+  </section>
+
+  <!-- ═══ SERVICES PREVIEW ═══ -->
+  <section class="services-preview">
+    <div>
+      <div class="eyebrow">02 &mdash; Services</div>
+      <div class="section-title" style="font-size:clamp(30px,3.8vw,48px);color:var(--tx);margin-bottom:20px">
+        What We <em>Offer</em>
       </div>
-      <button class="view-all-link" onclick="openSummerModal()" style="margin-bottom:20px">View All Summer Looks &rsaquo;</button>
-      <div class="sec-eye" style="margin-top:4px">07 &mdash; Book a Consultation</div>
-      <p style="font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:14px">Every engagement begins with a private conversation. No obligations. Complete discretion.</p>
-      <button class="view-all-link" onclick="openModal('bookingModal')">Request Your Consultation &rsaquo;</button>
+      <p class="section-body" style="max-width:360px;margin-bottom:36px">
+        Each engagement is private, considered, and utterly bespoke. No catalogues. No formulas.
+      </p>
+      <a href="services.html" class="btn-ghost-dark">Explore Services &rsaquo;</a>
     </div>
-
-  </div>
-</section>
-
-<!-- ─────────────────────────────────────────
-     SLIDE 4: CONNECT
-───────────────────────────────────────── -->
-<section class="slide" id="s4">
-  <div class="s4-inner">
-    <!-- Subscribe -->
-    <div class="s4-l">
-      <div class="dk-eye">07 &mdash; The Archive Letter</div>
-      <div class="dk-title">The Private <em>Edit</em></div>
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(217,160,172,.42);line-height:1.8;margin-bottom:4px">Archive discoveries. Investment pieces. Power dressing intelligence. Delivered weekly.</p>
-      <div class="sub-form" id="subForm">
-        <input class="sub-inp" id="subName" placeholder="Your Name" autocorrect="off" autocomplete="name">
-        <input class="sub-inp" id="subEmail" type="email" placeholder="Email Address" autocomplete="email">
-        <input class="sub-inp" id="subRole" placeholder="Role / Industry (optional)" autocorrect="off">
-        <button class="sub-btn" onclick="doSub()">Join the Private Edit &rsaquo;</button>
-        <p class="sub-note">Strictly private &middot; No third parties &middot; Unsubscribe anytime</p>
+    <div class="services-preview-list">
+      <div class="svc-row" onclick="location.href='services.html'">
+        <span class="svc-row-name">Wardrobe Architecture</span>
+        <span class="svc-row-price">From &pound;1,200</span>
+        <span class="svc-row-arrow">›</span>
       </div>
-      <div class="sub-ok" id="subOk">You are now part of the private archive.<br><em>Welcome.</em></div>
-    </div>
-    <!-- Contact -->
-    <div class="s4-r">
-      <div class="dk-eye">Contact</div>
-      <div class="dk-title">Get in <em>Touch</em></div>
-      <div class="contact-grid">
-        <div class="ct-item">
-          <span class="ct-label">General Enquiries</span>
-          <a class="ct-email" href="mailto:hello@kagosatelier.com">hello@kagosatelier.com</a>
-        </div>
-        <div class="ct-item">
-          <span class="ct-label">Booking &amp; Consultations</span>
-          <a class="ct-email" href="mailto:styling@kagosatelier.com">styling@kagosatelier.com</a>
-        </div>
-        <div class="ct-item">
-          <span class="ct-label">Archive &amp; Collector</span>
-          <a class="ct-email" href="mailto:archive@kagosatelier.com">archive@kagosatelier.com</a>
-        </div>
-        <div class="ct-item">
-          <span class="ct-label">Press &amp; Collaborations</span>
-          <a class="ct-email" href="mailto:press@kagosatelier.com">press@kagosatelier.com</a>
-        </div>
+      <div class="svc-row" onclick="location.href='services.html'">
+        <span class="svc-row-name">The Power Edit</span>
+        <span class="svc-row-price">From &pound;2,500</span>
+        <span class="svc-row-arrow">›</span>
       </div>
-      <button class="book-cta-btn" onclick="openModal('bookingModal')">Request a Private Consultation &rsaquo;</button>
+      <div class="svc-row" onclick="location.href='services.html'">
+        <span class="svc-row-name">Archive &amp; Collector</span>
+        <span class="svc-row-price">Upon Request</span>
+        <span class="svc-row-arrow">›</span>
+      </div>
+      <div class="svc-row" onclick="location.href='services.html'">
+        <span class="svc-row-name">Creative Direction</span>
+        <span class="svc-row-price">Upon Request</span>
+        <span class="svc-row-arrow">›</span>
+      </div>
     </div>
-  </div>
-  <!-- Footer -->
-  <div class="s4-footer">
-    <div class="s4-footer-brand">KAGO &middot; Est. 2026</div>
-    <div class="soc-links">
-      <span class="soc-link" onclick="window.open('https://instagram.com/kagosatelier','_blank')">Instagram</span>
-      <span class="soc-link" onclick="window.open('https://pinterest.com/kagosatelier','_blank')">Pinterest</span>
-      <span class="soc-link" onclick="window.open('https://tiktok.com/@kagosatelier','_blank')">TikTok</span>
-      <span class="soc-link" onclick="window.open('https://linkedin.com/company/kagosatelier','_blank')">LinkedIn</span>
-    </div>
-    <div class="legal-links">
-      <a onclick="showToast('Privacy Policy coming soon','info')">Privacy</a>
-      <a onclick="showToast('Terms of Service coming soon','info')">Terms</a>
-      <a onclick="showToast('Cookie settings coming soon','info')">Cookies</a>
-    </div>
-    <div class="footer-copy">&copy; 2026 KAGO &middot; All Rights Reserved &middot; London</div>
-  </div>
-</section>
+  </section>
 
-</div><!-- /reel -->
-
-<!-- ── BOOKING MODAL ── -->
-<div class="mbg" id="bookingModal" onclick="if(event.target===this)closeModal('bookingModal')">
-  <div class="mbox">
-    <div class="mhead">
-      <div class="mtitle">Request a Consultation</div>
-      <button class="mx" onclick="closeModal('bookingModal')" aria-label="Close">&times;</button>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="footer-brand">KAGO &middot; Est. 2026</div>
+    <div class="footer-links">
+      <a href="lookbook.html">Lookbook</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://instagram.com/kagosatelier" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://pinterest.com/kagosatelier" target="_blank" rel="noopener">Pinterest</a>
     </div>
-    <div id="bookingForm" class="mbody">
-      <div class="field"><label class="fl" for="bName">Name *</label><input class="fi" id="bName" placeholder="Full name" autocorrect="off" autocomplete="name"></div>
-      <div class="field"><label class="fl" for="bEmail">Email *</label><input class="fi" id="bEmail" type="email" placeholder="your@email.com" autocomplete="email"></div>
-      <div class="field"><label class="fl" for="bPhone">Phone</label><input class="fi" id="bPhone" type="tel" placeholder="+44 7700 000000" autocomplete="tel"></div>
-      <div class="field"><label class="fl" for="bService">Service *</label>
-        <select class="fs" id="bService">
+    <div class="footer-copy">&copy; 2026 KAGO Atelier &middot; All Rights Reserved &middot; London</div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-panel">
+    <div class="modal-hd">
+      <div class="modal-hd-title">Request a Consultation</div>
+      <button class="modal-close" onclick="closeModal('bookingModal')" aria-label="Close">&times;</button>
+    </div>
+    <div id="bookingFormWrap" class="modal-bd">
+      <div class="form-field">
+        <label class="form-label" for="bName">Name *</label>
+        <input class="form-input" id="bName" type="text" placeholder="Full name" autocomplete="name">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="bEmail">Email *</label>
+        <input class="form-input" id="bEmail" type="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="bPhone">Phone</label>
+        <input class="form-input" id="bPhone" type="tel" placeholder="+44 7700 000000" autocomplete="tel">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="bService">Service *</label>
+        <select class="form-select" id="bService">
           <option value="">Select a service</option>
           <option value="Wardrobe Architecture — From £1,200">Wardrobe Architecture — From £1,200</option>
           <option value="The Power Edit — From £2,500">The Power Edit — From £2,500</option>
-          <option value="Archive &amp; Collector — Upon Request">Archive &amp; Collector — Upon Request</option>
+          <option value="Archive & Collector — Upon Request">Archive &amp; Collector — Upon Request</option>
+          <option value="Creative Direction — Upon Request">Creative Direction — Upon Request</option>
         </select>
       </div>
-      <div class="field"><label class="fl" for="bDate">Preferred Date</label><input class="fi" id="bDate" type="date"></div>
-      <div class="field"><label class="fl" for="bBudget">Budget</label><input class="fi" id="bBudget" placeholder="e.g. £2,000–5,000" autocorrect="off"></div>
-      <div class="field"><label class="fl" for="bMsg">Message</label><textarea class="fta" id="bMsg" placeholder="Tell us what you are looking for…"></textarea></div>
-      <button class="msub" onclick="submitBooking()">Send Enquiry &rsaquo;</button>
+      <div class="form-field">
+        <label class="form-label" for="bDate">Preferred Date</label>
+        <input class="form-input" id="bDate" type="date">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="bMsg">Message</label>
+        <textarea class="form-textarea" id="bMsg" placeholder="Tell us what you are looking for…"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitBooking()">
+        Send Enquiry &rsaquo;
+      </button>
     </div>
-    <div class="mok" id="bookingOk">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
+    <div id="bookingFormOk">
+      Enquiry received.<br>
+      <em>We will be in touch within 24 hours.</em>
+    </div>
   </div>
 </div>
 
-<!-- ── FULL LOOKBOOK MODAL ── -->
-<div class="mbg" id="lkFullModal" onclick="if(event.target===this)closeModal('lkFullModal')">
-  <div class="mbox" style="max-width:700px">
-    <div class="mhead">
-      <div class="mtitle">The Full Lookbook</div>
-      <button class="mx" onclick="closeModal('lkFullModal')" aria-label="Close">&times;</button>
-    </div>
-    <div id="lkFullGrid" class="lk-full-grid"></div>
-  </div>
-</div>
+<div id="toastArea"></div>
 
-<!-- ── SUMMER EDIT MODAL ── -->
-<div class="mbg" id="summerModal" onclick="if(event.target===this)closeModal('summerModal')">
-  <div class="mbox" style="max-width:700px">
-    <div class="mhead">
-      <div class="mtitle">The Summer Edit 2026</div>
-      <button class="mx" onclick="closeModal('summerModal')" aria-label="Close">&times;</button>
-    </div>
-    <div class="summer-grid">
-      <div class="se-card" onclick="openSummerEdit(1)">
-        <div class="se-ph es1">BC</div>
-        <div class="se-body">
-          <div class="se-cat">Terrace</div>
-          <div class="se-name">The Terrace Look</div>
-          <div class="se-desc">Brunello Cucinelli linen, chalk-white trousers. Elevated ease for London&rsquo;s finest rooftops.</div>
-        </div>
-      </div>
-      <div class="se-card" onclick="openSummerEdit(3)">
-        <div class="se-ph es2">LP</div>
-        <div class="se-body">
-          <div class="se-cat">Power</div>
-          <div class="se-name">The Power Suit</div>
-          <div class="se-desc">Loro Piana silk-cashmere. The summer suit that walks into any room and owns it.</div>
-        </div>
-      </div>
-      <div class="se-card" onclick="openSummerEdit(5)">
-        <div class="se-ph es3">YSL</div>
-        <div class="se-body">
-          <div class="se-cat">Evening</div>
-          <div class="se-name">The Evening Edit</div>
-          <div class="se-desc">Saint Laurent Le Smoking. Designed 1966. Never wrong since. Never wrong ever.</div>
-        </div>
-      </div>
-    </div>
-    <button class="se-btn" onclick="openSummerFull()">View Full Summer Edit &rsaquo;</button>
-  </div>
-</div>
-
-<!-- ── CHAT ── -->
-<button class="chat-btn" id="chatBtn" onclick="toggleChat()" aria-label="Open chat">
-  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  <div class="chat-badge" id="chatBadge">1</div>
-</button>
-<div class="chat-box" id="chatBox" role="dialog" aria-label="KAGO Concierge">
-  <div class="ch-head">
-    <div class="ch-hl">
-      <div class="ch-av">K</div>
-      <div>
-        <div class="ch-name">KAGO Concierge</div>
-        <div class="ch-status">Private Atelier &middot; Online</div>
-      </div>
-    </div>
-    <button class="ch-x" onclick="toggleChat()" aria-label="Close chat">&times;</button>
-  </div>
-  <div class="ch-msgs" id="chMsgs" aria-live="polite"></div>
-  <div class="ch-quick" id="chQuick"></div>
-  <div class="ch-row">
-    <input class="ch-in" id="chIn" placeholder="Write your message…"
-           autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false"
-           onkeydown="if(event.key==='Enter'){event.preventDefault();sendChat()}">
-    <button class="ch-send" onclick="sendChat()">Send</button>
-  </div>
-</div>
-
-<div id="toast-area" aria-live="assertive"></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/nav.js"></script>
 <script>
-(function(){
-'use strict';
+(function () {
+  'use strict';
 
-/* ── DATA ─────────────────────────────────────── */
-var SK = 'kago_outfits_v1';
-var DEFAULTS = [
-  {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',piece:'Cashmere Tailored Suit',price:'From £8,400',season:'AW 2026',image_url:null,featured:true,ph:'ph-a',init:'LP'},
-  {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',piece:'Linen Blazer & Trousers',price:'From £5,200',season:'SS 2026',image_url:null,featured:true,ph:'ph-b',init:'BC'},
-  {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',piece:'Fitted Blazer & Sheath Dress',price:'From £4,800',season:'Archive',image_url:null,featured:true,ph:'ph-c',init:'AMQ'},
-  {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',piece:'Le Smoking Tuxedo',price:'From £6,000',season:'AW 2026',image_url:null,featured:true,ph:'ph-d',init:'YSL'},
-  {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',piece:'Purple Label Equestrian Tweed',price:'From £3,800',season:'2026',image_url:null,featured:true,ph:'ph-e',init:'RL'},
-  {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',piece:'Bar Jacket & Pencil Skirt',price:'Upon Request',season:'Archive',image_url:null,featured:true,ph:'ph-f',init:'CD'}
-];
-var WEEKLY = [
-  {cat:'Investment Piece',name:'The Linen Suit',house:'Loro Piana',body:'Linen so refined it drapes like silk. The Spagna jacket with matching trouser in chalk white — the summer suit that means business.'},
-  {cat:'Bag of the Moment',name:'Andiamo',house:'Bottega Veneta',body:'The bag carried by women who know. Zero branding. Laptop-capable. Absolute authority. Available in black, tan, and powder pink.'},
-  {cat:'Shoe of the Season',name:'Just Nothing Mule',house:'Christian Louboutin',body:'The barely-there heel that says everything. TPU and patent in blush. At 55mm — the mule for moving through the city with composure.'},
-  {cat:'The Fabric Moment',name:'Silk Charmeuse',house:'The Row',body:'Nothing moves like it. Nothing photographs like it. The Guinevere slip dress — the quiet revolution in summer dressing.'},
-  {cat:'The Evening Essential',name:'Le Smoking Jacket',house:'Saint Laurent',body:'Designed 1966. Never wrong since. The clearest statement that you do not need a dress to own a room.'},
-  {cat:'Archive Investment',name:'Bar Jacket, Vintage Dior',house:'Dior Archive',body:'The 1947 Bar Jacket. This is not fashion — this is the acquisition of history.'},
-  {cat:'The Accessory Edit',name:'Straw Wide-Brim Hat',house:'Loro Piana',body:'For London summer — shade, structure, and a signal all at once. Sealed the entire Loro Piana SS2025 lookbook.'},
-  {cat:'The Power Heel',name:'So Kate Pump 120mm',house:'Christian Louboutin',body:'The most precisely calibrated power heel ever designed. It makes walking into a meeting a statement of intent.'}
-];
+  var PH = ['ph-a','ph-b','ph-c','ph-d','ph-e','ph-f'];
+  var INIT = ['LP','BC','AMQ','YSL','RL','CD'];
+  var FALLBACK = [
+    {id:'d1',brand:'Loro Piana',name:'The Cashmere Power Suit',image_url:null,featured:true,ph:'ph-a',init:'LP'},
+    {id:'d2',brand:'Brunello Cucinelli',name:'The Refined Neutral',image_url:null,featured:true,ph:'ph-b',init:'BC'},
+    {id:'d3',brand:'Alexander McQueen',name:'The Sculpted Femme',image_url:null,featured:true,ph:'ph-c',init:'AMQ'},
+    {id:'d4',brand:'Saint Laurent',name:'The Power Silhouette',image_url:null,featured:true,ph:'ph-d',init:'YSL'},
+    {id:'d5',brand:'Ralph Lauren',name:'Understated Heritage',image_url:null,featured:true,ph:'ph-e',init:'RL'},
+    {id:'d6',brand:'Dior Vintage',name:'The New Look Reborn',image_url:null,featured:true,ph:'ph-f',init:'CD'}
+  ];
 
-function getOutfits(){
-  try{var s=localStorage.getItem(SK);return s?JSON.parse(s):DEFAULTS;}catch(e){return DEFAULTS;}
-}
+  /* ── Load featured looks ── */
+  async function loadFeatured() {
+    var grid = document.getElementById('featuredGrid');
+    var items = [];
 
-/* ── LIVE SYNC ────────────────────────────────── */
-if(window.BroadcastChannel){
-  var bc = new BroadcastChannel('kago_sync');
-  bc.onmessage = function(e){
-    if(e.data && e.data.type === 'outfits_updated'){
-      renderLkGrid();
-      showToast('Lookbook updated','info');
+    if (USE_SUPABASE) {
+      try {
+        var { data, error } = await sb
+          .from('lookbook_images')
+          .select('id,title,brand,image_url,category,ph_class')
+          .eq('featured', true)
+          .eq('published', true)
+          .order('display_order', { ascending: true })
+          .limit(6);
+        if (!error && data && data.length) items = data;
+        else items = FALLBACK;
+      } catch (e) { items = FALLBACK; }
+    } else {
+      try {
+        var stored = localStorage.getItem('kago_outfits_v1');
+        var local = stored ? JSON.parse(stored) : FALLBACK;
+        items = local.filter(function(o){return o.featured;}).slice(0,6);
+        if (!items.length) items = FALLBACK;
+      } catch (e) { items = FALLBACK; }
     }
-  };
-}
-window.addEventListener('storage', function(e){
-  if(e.key === SK){ renderLkGrid(); }
-});
 
-/* ── SLIDE NAV ────────────────────────────────── */
-var reel   = document.getElementById('reel');
-var sEls   = document.querySelectorAll('.slide');
-var dotEls = document.querySelectorAll('.dot');
-var nav    = document.getElementById('topNav');
-var DARK   = [0, 3];
-var curS   = 0;
-
-function gto(i){
-  if(sEls[i]) sEls[i].scrollIntoView({behavior:'smooth',block:'start'});
-}
-window.gto = gto;
-
-function setSlide(i){
-  curS = i;
-  var dk = DARK.indexOf(i) > -1;
-  nav.className = dk ? 'dk' : 'lt';
-  dotEls.forEach(function(d,j){
-    d.className = 'dot';
-    if(j===i) d.className += ' on';
-    else d.className += dk ? ' off-dk' : ' off-lt';
-  });
-}
-
-var obs = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){
-    if(en.isIntersecting && en.intersectionRatio >= 0.5){
-      var i = Array.prototype.indexOf.call(sEls, en.target);
-      if(i > -1) setSlide(i);
+    /* Set hero background from first featured image */
+    if (items[0] && items[0].image_url) {
+      var heroImg = document.getElementById('heroBgImg');
+      heroImg.src = items[0].image_url;
     }
-  });
-},{root:reel, threshold:0.5});
-sEls.forEach(function(el){obs.observe(el);});
 
-/* ── LOOKBOOK GRID ────────────────────────────── */
-var PH_CLASSES = {
-  'ph-a':'ph-a','ph-b':'ph-b','ph-c':'ph-c',
-  'ph-d':'ph-d','ph-e':'ph-e','ph-f':'ph-f'
-};
-
-function renderLkGrid(){
-  var grid = document.getElementById('lkGrid');
-  if(!grid) return;
-  var list = getOutfits().filter(function(o){return o.featured;}).slice(0,6);
-  grid.innerHTML = list.map(function(o){
-    var src = o.image_url || o.image;
-    var phClass = PH_CLASSES[o.ph] || 'ph-b';
-    return '<div class="lk-c" onclick="openLkDetail(\''+o.id+'\')" role="button" tabindex="0" aria-label="'+o.name+'">'+
-      '<div class="lk-ph '+phClass+'">'+
-        (src ? '<img src="'+src+'" alt="'+o.name+'" loading="lazy">' :
-        '<span>'+o.init+'</span>')+
-      '</div>'+
-      '<div class="lk-ov">'+
-        '<div class="lk-ov-name">'+o.name+'</div>'+
-        '<div class="lk-ov-brand">'+o.brand+'</div>'+
-        '<button class="lk-ov-btn">View Look</button>'+
-      '</div>'+
-    '</div>';
-  }).join('');
-}
-
-function openFullLookbook(){
-  var grid = document.getElementById('lkFullGrid');
-  if(!grid) return;
-  var list = getOutfits();
-  grid.innerHTML = list.map(function(o){
-    var src = o.image_url || o.image;
-    var phClass = PH_CLASSES[o.ph] || 'ph-b';
-    return '<div class="lk-full-card" onclick="openLkDetail(\''+o.id+'\')" role="button" tabindex="0" aria-label="'+o.name+'">'+
-      '<div class="lk-full-ph '+phClass+'" style="width:100%;aspect-ratio:3/4;position:relative;display:flex;align-items:center;justify-content:center">'+
-        (src ? '<img src="'+src+'" alt="'+o.name+'" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' :
-        '<span style="font-size:28px;opacity:.2">'+o.init+'</span>')+
-      '</div>'+
-      '<div class="lk-ov"><div class="lk-ov-name">'+o.name+'</div><div class="lk-ov-brand">'+o.brand+' &middot; '+o.price+'</div></div>'+
-    '</div>';
-  }).join('');
-  openModal('lkFullModal');
-}
-window.openFullLookbook = openFullLookbook;
-
-function openLkDetail(id){
-  closeModal('lkFullModal');
-  var list = getOutfits();
-  var outfit = list.find(function(o){return o.id===id;});
-  if(outfit){
-    var sel = document.getElementById('bService');
-    if(sel) sel.value = '';
-    var msg = document.getElementById('bMsg');
-    if(msg) msg.value = 'I am interested in the look: '+outfit.name+' by '+outfit.brand+'.';
+    grid.innerHTML = items.map(function (item, i) {
+      var src  = item.image_url || (item.image_url === undefined ? null : item.image_url);
+      var ph   = item.ph_class || item.ph || PH[i % PH.length];
+      var init = item.init || INIT[i % INIT.length];
+      var brand = item.brand || '';
+      var name  = item.title || item.name || '';
+      return [
+        '<div class="featured-item" onclick="location.href=\'lookbook.html\'" role="button" tabindex="0" aria-label="'+name+'">',
+        '  <div class="featured-item-inner">',
+        src ? '<img src="'+src+'" alt="'+name+'" loading="lazy">'
+            : '<div class="featured-item-ph '+ph+'">'+init+'</div>',
+        '    <div class="featured-item-caption">',
+        '      <div class="featured-caption-brand">'+brand+'</div>',
+        '      <div class="featured-caption-name">'+name+'</div>',
+        '    </div>',
+        '  </div>',
+        '</div>'
+      ].join('');
+    }).join('');
   }
-  setTimeout(function(){openModal('bookingModal');}, 150);
-}
-window.openLkDetail = openLkDetail;
 
-/* ── WEEKLY ───────────────────────────────────── */
-var wkIdx = 0;
-function getWeekNum(){
-  var n=new Date(), s=new Date(n.getFullYear(),0,1);
-  return Math.ceil(((n-s)/86400000 + s.getDay()+1)/7);
-}
-function renderWeekly(i){
-  wkIdx = i;
-  var item = WEEKLY[i];
-  var m = document.getElementById('wkMini');
-  var d = document.getElementById('wkDots');
-  if(!m||!d) return;
-  m.innerHTML =
-    '<div class="wk-cat">'+item.cat+'</div>'+
-    '<div class="wk-name">'+item.name+'</div>'+
-    '<div class="wk-house">'+item.house+'</div>'+
-    '<div class="wk-body">'+item.body+'</div>';
-  d.innerHTML = WEEKLY.slice(0,6).map(function(_,j){
-    return '<button class="wd '+(j===i?'on':'off')+'" onclick="renderWeekly('+j+')" aria-label="Weekly pick '+(j+1)+'"></button>';
-  }).join('');
-}
-setTimeout(function(){
-  renderWeekly((getWeekNum()-1) % WEEKLY.length);
-  renderLkGrid();
-}, 80);
-setInterval(function(){renderWeekly((wkIdx+1) % WEEKLY.length);}, 8000);
+  /* ── Booking form ── */
+  window.submitBooking = async function () {
+    var nm = document.getElementById('bName').value.trim();
+    var em = document.getElementById('bEmail').value.trim();
+    var sv = document.getElementById('bService').value;
+    if (!nm || !em || !sv) { showToast('Please fill in name, email and service', 'err'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { showToast('Please enter a valid email address', 'err'); return; }
 
-/* ── SUMMER EDIT ──────────────────────────────── */
-function openSummerEdit(n){
-  window.open('kago_summer_edit_2026.html#look-'+n, '_blank');
-}
-window.openSummerEdit = openSummerEdit;
-
-function openSummerModal(){
-  openModal('summerModal');
-}
-window.openSummerModal = openSummerModal;
-
-function openSummerFull(){
-  closeModal('summerModal');
-  window.open('kago_summer_edit_2026.html', '_blank');
-}
-window.openSummerFull = openSummerFull;
-
-/* ── BOOKING ──────────────────────────────────── */
-function submitBooking(){
-  var nm = document.getElementById('bName').value.trim();
-  var em = document.getElementById('bEmail').value.trim();
-  var sv = document.getElementById('bService').value;
-  if(!nm || !em || !sv){
-    showToast('Please fill in name, email and service','err');
-    return;
-  }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){
-    showToast('Please enter a valid email address','err');
-    return;
-  }
-  var bks = [];
-  try{bks = JSON.parse(localStorage.getItem('kago_bookings') || '[]');}catch(e){}
-  bks.push({
-    id:'b_'+Date.now(),
-    client_name:nm,
-    client_email:em,
-    client_phone:document.getElementById('bPhone').value,
-    service:sv,
-    preferred_date:document.getElementById('bDate').value,
-    budget:document.getElementById('bBudget').value,
-    message:document.getElementById('bMsg').value,
-    status:'new',
-    created_at:new Date().toISOString()
-  });
-  localStorage.setItem('kago_bookings', JSON.stringify(bks));
-  if(window.BroadcastChannel){
-    var bc2 = new BroadcastChannel('kago_sync');
-    bc2.postMessage({type:'new_booking', client:nm});
-  }
-  document.getElementById('bookingForm').style.display = 'none';
-  document.getElementById('bookingOk').style.display = 'block';
-  showToast('Enquiry received — we will be in touch within 24 hours','ok');
-}
-window.submitBooking = submitBooking;
-
-/* ── SUBSCRIBE ────────────────────────────────── */
-function doSub(){
-  var nm = document.getElementById('subName').value.trim();
-  var em = document.getElementById('subEmail').value.trim();
-  if(!nm || !em){showToast('Please enter your name and email','err');return;}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){
-    showToast('Please enter a valid email address','err');return;
-  }
-  var subs = [];
-  try{subs = JSON.parse(localStorage.getItem('kago_subscribers') || '[]');}catch(e){}
-  if(subs.find(function(s){return s.email===em;})){
-    showToast('You are already subscribed','ok');return;
-  }
-  subs.push({
-    id:'s_'+Date.now(),
-    email:em,
-    name:nm,
-    role_industry:document.getElementById('subRole').value,
-    subscribed_at:new Date().toISOString()
-  });
-  localStorage.setItem('kago_subscribers', JSON.stringify(subs));
-  document.getElementById('subForm').style.display = 'none';
-  document.getElementById('subOk').style.display = 'block';
-  showToast('Welcome to the private archive','ok');
-}
-window.doSub = doSub;
-
-/* ── MODALS ───────────────────────────────────── */
-function openModal(id){
-  var el = document.getElementById(id);
-  if(el) el.classList.add('open');
-}
-function closeModal(id){
-  var el = document.getElementById(id);
-  if(el) el.classList.remove('open');
-}
-window.openModal = openModal;
-window.closeModal = closeModal;
-
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape'){
-    ['bookingModal','lkFullModal','summerModal'].forEach(closeModal);
-  }
-});
-
-/* ── CHAT ─────────────────────────────────────── */
-var cPhase = 0, cName = '';
-var cR = {
-  book:'For consultations: <strong>styling@kagosatelier.com</strong> — or I can open the booking form right now.',
-  archive:'Archive enquiries: <strong>archive@kagosatelier.com</strong> — handled personally.',
-  press:'Press &amp; collaborations: <strong>press@kagosatelier.com</strong>',
-  general:'General enquiries: <strong>hello@kagosatelier.com</strong> — we respond within 4 hours.'
-};
-function addMsg(t, tp){
-  var m = document.getElementById('chMsgs');
-  var d = document.createElement('div');
-  d.className = 'cm '+tp;
-  d.innerHTML = t;
-  m.appendChild(d);
-  m.scrollTop = m.scrollHeight;
-}
-function setQuick(opts){
-  var q = document.getElementById('chQuick');
-  q.innerHTML = '';
-  opts.forEach(function(o){
-    var b = document.createElement('button');
-    b.className = 'qb';
-    b.textContent = o.label;
-    b.onclick = function(){
-      q.innerHTML = '';
-      if(o.key === 'book_form'){
-        addMsg('Opening the consultation form for you now.','bot');
-        setTimeout(function(){openModal('bookingModal');}, 500);
-      } else if(cR[o.key]){
-        addMsg(cR[o.key],'bot');
-        setTimeout(function(){
-          addMsg('Is there anything else I can help with today?','bot');
-          setQuick([
-            {label:'Book consultation',key:'book_form'},
-            {label:'Archive enquiry',key:'archive'}
-          ]);
-        }, 700);
-      }
+    var booking = {
+      client_name:   nm,
+      client_email:  em,
+      client_phone:  document.getElementById('bPhone').value,
+      service:       sv,
+      preferred_date:document.getElementById('bDate').value || null,
+      message:       document.getElementById('bMsg').value,
+      status:        'new',
+      created_at:    new Date().toISOString()
     };
-    q.appendChild(b);
+
+    if (USE_SUPABASE) {
+      try {
+        var { error } = await sb.from('bookings').insert([booking]);
+        if (error) throw error;
+      } catch (e) { console.warn('Supabase booking save failed, using localStorage'); fallbackSaveBooking(booking); }
+    } else { fallbackSaveBooking(booking); }
+
+    document.getElementById('bookingFormWrap').style.display = 'none';
+    document.getElementById('bookingFormOk').style.display = 'block';
+    showToast('Enquiry received — we will be in touch within 24 hours', 'ok');
+  };
+
+  function fallbackSaveBooking(b) {
+    var bks = [];
+    try { bks = JSON.parse(localStorage.getItem('kago_bookings') || '[]'); } catch(e) {}
+    b.id = 'b_' + Date.now();
+    bks.push(b);
+    localStorage.setItem('kago_bookings', JSON.stringify(bks));
+  }
+
+  loadFeatured();
+
+  /* Live sync */
+  if (window.BroadcastChannel) {
+    var bc = new BroadcastChannel('kago_sync');
+    bc.onmessage = function (e) {
+      if (e.data && e.data.type === 'outfits_updated') loadFeatured();
+    };
+  }
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'kago_outfits_v1') loadFeatured();
   });
-}
-function sendChat(){
-  var inp = document.getElementById('chIn');
-  var v = inp.value.trim();
-  if(!v) return;
-  if(v === 'studio' || v === 'Thumbmaster@47'){
-    inp.value = '';
-    document.getElementById('chatBox').classList.remove('open');
-    document.getElementById('chatBadge').style.display = 'flex';
-    window.location.href = 'admin.html';
-    return;
-  }
-  addMsg(v,'usr');
-  inp.value = '';
-  if(cPhase === 0){
-    cName = v.split(' ')[0];
-    cPhase = 1;
-    setTimeout(function(){
-      addMsg('How lovely to meet you, '+cName+'. How may I assist you today?','bot');
-      setQuick([
-        {label:'Book a consultation',key:'book_form'},
-        {label:'Archive &amp; collector',key:'archive'},
-        {label:'Press &amp; media',key:'press'},
-        {label:'General enquiry',key:'general'}
-      ]);
-    }, 600);
-  } else {
-    setTimeout(function(){
-      addMsg('Please select an option below or email <strong>hello@kagosatelier.com</strong> directly.','bot');
-      setQuick([
-        {label:'Book consultation',key:'book_form'},
-        {label:'Archive enquiry',key:'archive'}
-      ]);
-    }, 600);
-  }
-}
-window.sendChat = sendChat;
-
-function toggleChat(){
-  var box = document.getElementById('chatBox');
-  var open = box.classList.toggle('open');
-  document.getElementById('chatBadge').style.display = open ? 'none' : 'flex';
-  if(open && !document.getElementById('chMsgs').children.length){
-    setTimeout(function(){addMsg('Welcome to KAGO. You are speaking with our private concierge.','bot');}, 300);
-    setTimeout(function(){addMsg('May I ask your name?','bot');}, 1000);
-  }
-}
-window.toggleChat = toggleChat;
-
-/* ── TOAST ────────────────────────────────────── */
-function showToast(msg, type){
-  var a = document.getElementById('toast-area');
-  var t = document.createElement('div');
-  t.className = 'toast t-'+(type||'info');
-  t.textContent = msg;
-  a.appendChild(t);
-  setTimeout(function(){if(t.parentNode) t.parentNode.removeChild(t);}, 3800);
-}
-window.showToast = showToast;
 
 })();
 </script>
