@@ -27,7 +27,7 @@ var KAGO_CONFIG = {
 /* Initialise client if credentials are present */
 var sb = null;
 var USE_SUPABASE = (
-  KAGO_CONFIG.supabaseUrl  !== 'https://lqrvpucwsldxmftatauu.supabase.co/rest/v1/' &&
+  KAGO_CONFIG.supabaseUrl  !== 'https://lqrvpucwsldxmftatauu.supabase.co/' &&
   KAGO_CONFIG.supabaseKey  !== 'sb_publishable_7_p_qAT4N5mLS0RtMj7bOQ_T26v-Vbp'
 );
 
