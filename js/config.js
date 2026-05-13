@@ -15,8 +15,8 @@
 
 var KAGO_CONFIG = {
   /* ── Paste your values here ─────────────────── */
-  supabaseUrl: 'https://lqrvpucwsldxmftatauu.supabase.co/rest/v1/',
-  supabaseKey: 'sb_publishable_7_p_qAT4N5mLS0RtMj7bOQ_T26v-Vbp',
+  supabaseUrl: 'https://goxkyolhvcyjjghfyazp.supabase.co/rest/v1/',
+  supabaseKey: 'sb_publishable_SvLwq_XqPUuK1BuWeRJp5w_LV24WXbC',
   /* ─────────────────────────────────────────── */
 
   storageBucket: 'kago-gallery',
@@ -28,7 +28,7 @@ var KAGO_CONFIG = {
 var sb = null;
 var USE_SUPABASE = (
   KAGO_CONFIG.supabaseUrl  !== 'https://goxkyolhvcyjjghfyazp.supabase.co/rest/v1/' &&
-  KAGO_CONFIG.supabaseKey  !== 'sb_publishable_7_p_qAT4N5mLS0RtMj7bOQ_T26v-Vbp'
+  KAGO_CONFIG.supabaseKey  !== 'sb_publishable_SvLwq_XqPUuK1BuWeRJp5w_LV24WXbC'
 );
 
 if (USE_SUPABASE && window.supabase) {
