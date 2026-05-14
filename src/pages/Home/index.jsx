@@ -4,7 +4,9 @@ import Footer from '../../components/layout/Footer'
 import PageTransition from '../../components/layout/PageTransition'
 import Hero from './Hero'
 import FeaturedGrid from './FeaturedGrid'
+import SummerPreview from './SummerPreview'
 import Philosophy from './Philosophy'
+import WeeklyEditPreview from './WeeklyEditPreview'
 import ServicesPreview from './ServicesPreview'
 
 export default function Home() {
@@ -15,7 +17,9 @@ export default function Home() {
       <main>
         <Hero heroImage={heroImage} />
         <FeaturedGrid onHeroImage={setHeroImage} />
+        <SummerPreview />
         <Philosophy />
+        <WeeklyEditPreview />
         <ServicesPreview />
       </main>
       <Footer />

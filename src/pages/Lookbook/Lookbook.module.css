@@ -133,6 +133,15 @@
   letter-spacing: 0.18em;
   color: rgba(196, 120, 138, 0.65);
 }
+.overlayZoom {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: rgba(242, 232, 218, 0.45);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover .overlayZoom { opacity: 1; }
 .cardMeta {
   padding: 16px 18px;
   background: var(--b);
