@@ -18,12 +18,25 @@ const PH = ['ph-a', 'ph-b', 'ph-c', 'ph-d', 'ph-e', 'ph-f']
 const INIT = ['LP', 'BC', 'AMQ', 'YSL', 'RL', 'CD']
 
 const FALLBACK = [
-  { id: 'd1', brand: 'Loro Piana',        title: 'The Cashmere Power Suit', piece: 'Cashmere Tailored Suit',    price: 'From £8,400',   image_url: '', category: 'power',     ph_class: 'ph-a' },
-  { id: 'd2', brand: 'Brunello Cucinelli', title: 'The Refined Neutral',    piece: 'Linen Blazer & Trousers',  price: 'From £5,200',   image_url: '', category: 'editorial', ph_class: 'ph-b' },
-  { id: 'd3', brand: 'Alexander McQueen', title: 'The Sculpted Femme',      piece: 'Fitted Blazer & Sheath',   price: 'From £4,800',   image_url: '', category: 'editorial', ph_class: 'ph-c' },
-  { id: 'd4', brand: 'Saint Laurent',     title: 'The Power Silhouette',    piece: 'Le Smoking Tuxedo',        price: 'From £6,000',   image_url: '', category: 'evening',   ph_class: 'ph-d' },
-  { id: 'd5', brand: 'Ralph Lauren',      title: 'Understated Heritage',    piece: 'Purple Label Tweed',       price: 'From £3,800',   image_url: '', category: 'power',     ph_class: 'ph-e' },
-  { id: 'd6', brand: 'Dior Vintage',      title: 'The New Look Reborn',     piece: 'Bar Jacket & Pencil Skirt', price: 'Upon Request', image_url: '', category: 'archive',   ph_class: 'ph-f' },
+  // Editorial (3)
+  { id: 'd2',  brand: 'Brunello Cucinelli', title: 'The Refined Neutral',      piece: 'Linen Blazer & Trousers',          price: 'From £5,200',   image_url: '', category: 'editorial', ph_class: 'ph-b' },
+  { id: 'd3',  brand: 'Alexander McQueen',  title: 'The Sculpted Femme',       piece: 'Fitted Blazer & Sheath Dress',     price: 'From £4,800',   image_url: '', category: 'editorial', ph_class: 'ph-c' },
+  { id: 'd7',  brand: 'Chanel',             title: 'The Atelier Classic',      piece: 'Bouclé Jacket & Wide-Leg Trouser', price: 'From £9,200',   image_url: '', category: 'editorial', ph_class: 'ph-e' },
+
+  // Power (3)
+  { id: 'd1',  brand: 'Loro Piana',         title: 'The Cashmere Power Suit',  piece: 'Cashmere Tailored Suit',           price: 'From £8,400',   image_url: '', category: 'power',     ph_class: 'ph-a' },
+  { id: 'd5',  brand: 'Ralph Lauren',       title: 'Understated Heritage',     piece: 'Purple Label Tweed Blazer',        price: 'From £3,800',   image_url: '', category: 'power',     ph_class: 'ph-e' },
+  { id: 'd8',  brand: 'Hermès',             title: 'The Boardroom Standard',   piece: 'Cashmere-Silk Coat & Tailoring',   price: 'From £12,000',  image_url: '', category: 'power',     ph_class: 'ph-f' },
+
+  // Evening (3)
+  { id: 'd4',  brand: 'Saint Laurent',      title: 'The Power Silhouette',     piece: 'Le Smoking Tuxedo',                price: 'From £6,000',   image_url: '', category: 'evening',   ph_class: 'ph-d' },
+  { id: 'd9',  brand: 'Valentino',          title: 'The Couture Evening',      piece: 'Cape-Back Silk Gown',              price: 'From £8,800',   image_url: '', category: 'evening',   ph_class: 'ph-a' },
+  { id: 'd10', brand: 'Givenchy',           title: 'The Midnight Edit',        piece: 'Structured Velvet Column Dress',   price: 'From £5,600',   image_url: '', category: 'evening',   ph_class: 'ph-c' },
+
+  // Archive (3)
+  { id: 'd6',  brand: 'Dior Vintage',       title: 'The New Look Reborn',      piece: 'Bar Jacket & Pencil Skirt',        price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-f' },
+  { id: 'd11', brand: 'Chanel Vintage',     title: 'The Maison Original',      piece: 'Numbered Couture Bouclé Suit',     price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-b' },
+  { id: 'd12', brand: 'Balenciaga Archive', title: 'The Cristóbal Silhouette', piece: 'Sculptural Wool Evening Coat',     price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-d' },
 ]
 
 function LookCard({ item, index, onOpen }) {
