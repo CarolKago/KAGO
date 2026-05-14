@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════
+   KAGO ATELIER — Global Styles
+═══════════════════════════════════════════════════════ */
+
+@import './tokens.css';
+
+/* ── Reset ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+body {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--bgw);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ── Typography utilities ── */
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  color: var(--r);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.eyebrow::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: var(--rl);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.eyebrow.light {
+  color: rgba(196, 120, 138, 0.55);
+}
+.eyebrow.light::before {
+  background: rgba(196, 120, 138, 0.3);
+  opacity: 1;
+}
+.eyebrow.center {
+  justify-content: center;
+}
+.eyebrow.center::before,
+.eyebrow.center::after {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.0;
+  color: var(--bm);
+}
+.section-title em {
+  color: var(--r);
+  font-style: normal;
+}
+
+.section-body {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--mu);
+}
+
+/* ── Spinner ── */
+.spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(196, 120, 138, 0.2);
+  border-top-color: var(--r);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.spinner.dark {
+  border-color: rgba(90, 48, 32, 0.12);
+  border-top-color: var(--tx);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.load-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 80px 40px;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--mu);
+}
+
+/* ── Form ── */
+.form-field { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mu);
+  margin-bottom: 6px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--bgd);
+  background: var(--bg);
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  transition: border-color 0.25s;
+  font-family: "EB Garamond", Georgia, serif;
+}
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus { border-color: var(--r); }
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--mu); opacity: 0.6; }
+.form-textarea { min-height: 100px; resize: vertical; }
+
+.form-input.on-dark,
+.form-select.on-dark,
+.form-textarea.on-dark {
+  background: rgba(242, 232, 218, 0.07);
+  border-color: rgba(196, 120, 138, 0.18);
+  color: rgba(242, 232, 218, 0.9);
+}
+.form-input.on-dark::placeholder,
+.form-textarea.on-dark::placeholder { color: rgba(242, 232, 218, 0.3); }
+.form-input.on-dark:focus,
+.form-select.on-dark:focus,
+.form-textarea.on-dark:focus { border-color: rgba(196, 120, 138, 0.5); }
+
+/* ── Toast ── */
+#toastArea {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  min-width: 240px;
+}
+.toast {
+  padding: 12px 22px;
+  font-size: 13px;
+  text-align: center;
+}
+.toast-ok   { background: var(--tx);  color: var(--bgw); }
+.toast-err  { background: #8B2020;    color: #fff; }
+.toast-info { background: var(--r);   color: var(--bgw); }

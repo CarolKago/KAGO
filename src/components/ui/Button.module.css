@@ -1,0 +1,75 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  transition: all 0.35s var(--ease);
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.primary {
+  padding: 14px 36px;
+  background: var(--r);
+  color: var(--bgw);
+  border-color: var(--r);
+}
+.primary:hover {
+  background: var(--rl);
+  border-color: var(--rl);
+  color: var(--b);
+}
+
+.ghostLight {
+  padding: 14px 36px;
+  background: transparent;
+  color: rgba(242, 232, 218, 0.75);
+  border-color: rgba(196, 120, 138, 0.28);
+}
+.ghostLight:hover {
+  background: rgba(196, 120, 138, 0.1);
+  border-color: rgba(196, 120, 138, 0.5);
+  color: rgba(217, 160, 172, 0.92);
+}
+
+.ghostDark {
+  padding: 14px 36px;
+  background: transparent;
+  color: var(--tx);
+  border-color: var(--bgd);
+}
+.ghostDark:hover {
+  background: var(--tx);
+  border-color: var(--tx);
+  color: var(--bgw);
+}
+
+.text {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--tx);
+  font-size: 9.5px;
+  gap: 8px;
+}
+.text:hover {
+  gap: 14px;
+  color: var(--r);
+}
+
+.textLight {
+  padding: 0;
+  background: none;
+  border: none;
+  color: rgba(217, 160, 172, 0.7);
+  font-size: 9.5px;
+  gap: 8px;
+}
+.textLight:hover {
+  gap: 14px;
+  color: var(--rl);
+}
