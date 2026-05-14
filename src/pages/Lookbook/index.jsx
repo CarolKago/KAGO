@@ -40,16 +40,17 @@ const FALLBACK = [
 ]
 
 function LookCard({ item, index, onOpen }) {
-  const ph   = item.ph_class || PH[index % PH.length]
-  const init = INIT[index % INIT.length]
+  const ph      = item.ph_class || PH[index % PH.length]
+  const init    = INIT[index % INIT.length]
+  const hasImg  = !!item.image_url
 
   const handleClick = () => {
-    if (item.image_url && onOpen) onOpen()
+    if (hasImg && onOpen) onOpen()
   }
 
   return (
     <motion.article
-      className={styles.card}
+      className={`${styles.card} ${!hasImg ? styles.cardPlaceholder : ''}`}
       layout
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
@@ -59,9 +60,9 @@ function LookCard({ item, index, onOpen }) {
       <div
         className={styles.cardMedia}
         onClick={handleClick}
-        style={{ cursor: item.image_url ? 'zoom-in' : 'default' }}
+        style={{ cursor: hasImg ? 'zoom-in' : 'default' }}
       >
-        {item.image_url ? (
+        {hasImg ? (
           <img src={item.image_url} alt={item.title} loading="lazy" className={styles.cardImg} />
         ) : (
           <div className={`${styles.cardPh} ${styles[ph]}`}>{init}</div>
@@ -70,7 +71,7 @@ function LookCard({ item, index, onOpen }) {
           <div className={styles.overlayBrand}>{item.brand}</div>
           <div className={styles.overlayPiece}>{item.piece}</div>
           <div className={styles.overlayPrice}>{item.price}</div>
-          {item.image_url && (
+          {hasImg && (
             <div className={styles.overlayZoom}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <circle cx="11" cy="11" r="8"/>
