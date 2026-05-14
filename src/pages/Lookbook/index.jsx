@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Nav from '../../components/layout/Nav'
 import Footer from '../../components/layout/Footer'
 import PageTransition from '../../components/layout/PageTransition'
+import { useLightbox } from '../../components/Lightbox'
 import { fetchLooks } from '../../lib/supabase'
 import styles from './Lookbook.module.css'
 
@@ -17,17 +18,22 @@ const PH = ['ph-a', 'ph-b', 'ph-c', 'ph-d', 'ph-e', 'ph-f']
 const INIT = ['LP', 'BC', 'AMQ', 'YSL', 'RL', 'CD']
 
 const FALLBACK = [
-  { id: 'd1', brand: 'Loro Piana',        title: 'The Cashmere Power Suit', piece: 'Cashmere Tailored Suit', price: 'From £8,400', image_url: '', category: 'power',    ph_class: 'ph-a' },
-  { id: 'd2', brand: 'Brunello Cucinelli', title: 'The Refined Neutral',    piece: 'Linen Blazer & Trousers', price: 'From £5,200', image_url: '', category: 'editorial', ph_class: 'ph-b' },
-  { id: 'd3', brand: 'Alexander McQueen', title: 'The Sculpted Femme',      piece: 'Fitted Blazer & Sheath', price: 'From £4,800', image_url: '', category: 'editorial', ph_class: 'ph-c' },
-  { id: 'd4', brand: 'Saint Laurent',     title: 'The Power Silhouette',    piece: 'Le Smoking Tuxedo', price: 'From £6,000', image_url: '', category: 'evening',   ph_class: 'ph-d' },
-  { id: 'd5', brand: 'Ralph Lauren',      title: 'Understated Heritage',    piece: 'Purple Label Tweed', price: 'From £3,800', image_url: '', category: 'power',    ph_class: 'ph-e' },
-  { id: 'd6', brand: 'Dior Vintage',      title: 'The New Look Reborn',     piece: 'Bar Jacket & Pencil Skirt', price: 'Upon Request', image_url: '', category: 'archive',  ph_class: 'ph-f' },
+  { id: 'd1', brand: 'Loro Piana',        title: 'The Cashmere Power Suit', piece: 'Cashmere Tailored Suit',    price: 'From £8,400',   image_url: '', category: 'power',     ph_class: 'ph-a' },
+  { id: 'd2', brand: 'Brunello Cucinelli', title: 'The Refined Neutral',    piece: 'Linen Blazer & Trousers',  price: 'From £5,200',   image_url: '', category: 'editorial', ph_class: 'ph-b' },
+  { id: 'd3', brand: 'Alexander McQueen', title: 'The Sculpted Femme',      piece: 'Fitted Blazer & Sheath',   price: 'From £4,800',   image_url: '', category: 'editorial', ph_class: 'ph-c' },
+  { id: 'd4', brand: 'Saint Laurent',     title: 'The Power Silhouette',    piece: 'Le Smoking Tuxedo',        price: 'From £6,000',   image_url: '', category: 'evening',   ph_class: 'ph-d' },
+  { id: 'd5', brand: 'Ralph Lauren',      title: 'Understated Heritage',    piece: 'Purple Label Tweed',       price: 'From £3,800',   image_url: '', category: 'power',     ph_class: 'ph-e' },
+  { id: 'd6', brand: 'Dior Vintage',      title: 'The New Look Reborn',     piece: 'Bar Jacket & Pencil Skirt', price: 'Upon Request', image_url: '', category: 'archive',   ph_class: 'ph-f' },
 ]
 
-function LookCard({ item, index }) {
+function LookCard({ item, index, onOpen }) {
   const ph   = item.ph_class || PH[index % PH.length]
   const init = INIT[index % INIT.length]
+
+  const handleClick = () => {
+    if (item.image_url && onOpen) onOpen()
+  }
+
   return (
     <motion.article
       className={styles.card}
@@ -37,7 +43,11 @@ function LookCard({ item, index }) {
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.45, delay: index * 0.04 }}
     >
-      <div className={styles.cardMedia}>
+      <div
+        className={styles.cardMedia}
+        onClick={handleClick}
+        style={{ cursor: item.image_url ? 'zoom-in' : 'default' }}
+      >
         {item.image_url ? (
           <img src={item.image_url} alt={item.title} loading="lazy" className={styles.cardImg} />
         ) : (
@@ -47,6 +57,16 @@ function LookCard({ item, index }) {
           <div className={styles.overlayBrand}>{item.brand}</div>
           <div className={styles.overlayPiece}>{item.piece}</div>
           <div className={styles.overlayPrice}>{item.price}</div>
+          {item.image_url && (
+            <div className={styles.overlayZoom}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/>
+                <line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.cardMeta}>
@@ -77,6 +97,20 @@ export default function Lookbook() {
   }, [])
 
   useEffect(() => { load(filter) }, [filter, load])
+
+  const lightboxImages = (items || [])
+    .filter(i => i.image_url)
+    .map(i => ({ url: i.image_url, alt: i.title, title: i.title, brand: i.brand }))
+
+  const { openAt, LightboxComponent } = useLightbox(lightboxImages)
+
+  const imageIndexMap = (items || []).reduce((acc, item, i) => {
+    if (item.image_url) {
+      const lightboxIdx = lightboxImages.findIndex(l => l.url === item.image_url)
+      acc[i] = lightboxIdx
+    }
+    return acc
+  }, {})
 
   return (
     <PageTransition>
@@ -113,13 +147,19 @@ export default function Lookbook() {
           <motion.div className={styles.grid} layout>
             <AnimatePresence mode="popLayout">
               {(items || []).map((item, i) => (
-                <LookCard key={item.id} item={item} index={i} />
+                <LookCard
+                  key={item.id}
+                  item={item}
+                  index={i}
+                  onOpen={imageIndexMap[i] != null ? () => openAt(imageIndexMap[i]) : null}
+                />
               ))}
             </AnimatePresence>
           </motion.div>
         )}
       </main>
       <Footer />
+      <AnimatePresence>{LightboxComponent}</AnimatePresence>
     </PageTransition>
   )
 }

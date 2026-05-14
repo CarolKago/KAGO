@@ -1,0 +1,120 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(20, 6, 4, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  padding: 48px 80px;
+}
+
+.frame {
+  position: relative;
+  max-width: min(85vw, 900px);
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+}
+.frame:active { cursor: grabbing; }
+
+.img {
+  max-width: 100%;
+  max-height: calc(100vh - 180px);
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.caption {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.captionBrand {
+  font-size: 8.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(196, 120, 138, 0.5);
+}
+.captionTitle {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(242, 232, 218, 0.6);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  font-size: 52px;
+  line-height: 1;
+  color: rgba(196, 120, 138, 0.35);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s;
+  padding: 16px;
+  user-select: none;
+}
+.arrow:hover { color: rgba(217, 160, 172, 0.85); }
+.prev { left: 12px; }
+.next { right: 12px; }
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 32px;
+  line-height: 1;
+  color: rgba(196, 120, 138, 0.35);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s;
+  z-index: 10;
+  padding: 8px;
+}
+.close:hover { color: rgba(217, 160, 172, 0.85); }
+
+.dots {
+  position: absolute;
+  bottom: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(196, 120, 138, 0.25);
+  transition: background 0.3s;
+}
+.dotActive { background: var(--r); }
+
+.counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(196, 120, 138, 0.3);
+}
+
+@media (max-width: 700px) {
+  .overlay { padding: 48px 16px 72px; }
+  .arrow   { display: none; }
+  .frame   { cursor: default; }
+  .frame:active { cursor: default; }
+}
