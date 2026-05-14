@@ -1,0 +1,189 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 800;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  transition: background 0.4s var(--ease), border-color 0.4s var(--ease), backdrop-filter 0.4s;
+}
+
+/* Themes */
+.transparent {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+.dark {
+  background: rgba(74, 18, 32, 0.96);
+  border-bottom: 1px solid rgba(196, 120, 138, 0.1);
+  backdrop-filter: blur(14px);
+}
+.light {
+  background: rgba(247, 240, 230, 0.97);
+  border-bottom: 1px solid rgba(224, 206, 188, 0.6);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 18px rgba(44, 16, 8, 0.05);
+}
+
+/* Brand */
+.brand {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0.18em;
+  transition: color 0.3s;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.transparent .brand,
+.dark .brand { color: rgba(242, 232, 218, 0.92); }
+.light .brand { color: var(--bm); }
+
+/* Desktop links */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+.link {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 100%;
+  height: 1px;
+  transition: right 0.35s var(--ease);
+}
+.link:hover::after,
+.active::after { right: 0; }
+
+.transparent .link,
+.dark .link { color: rgba(196, 120, 138, 0.55); }
+.transparent .link::after,
+.dark .link::after { background: var(--r); }
+.transparent .link:hover,
+.dark .link:hover,
+.transparent .active,
+.dark .active { color: rgba(217, 160, 172, 0.9); }
+
+.light .link { color: var(--mu); }
+.light .link::after { background: var(--tx); }
+.light .link:hover,
+.light .active { color: var(--tx); }
+
+/* CTA button */
+.cta {
+  padding: 9px 22px;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: 1px solid;
+  cursor: pointer;
+}
+.transparent .cta,
+.dark .cta {
+  background: rgba(196, 120, 138, 0.14);
+  color: rgba(217, 160, 172, 0.82);
+  border-color: rgba(196, 120, 138, 0.28);
+}
+.transparent .cta:hover,
+.dark .cta:hover {
+  background: var(--r);
+  color: var(--bgw);
+  border-color: var(--r);
+}
+.light .cta {
+  background: var(--bm);
+  color: var(--bgw);
+  border-color: var(--bm);
+}
+.light .cta:hover {
+  background: var(--b);
+  border-color: var(--b);
+}
+
+/* Burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  width: 36px;
+  cursor: pointer;
+  z-index: 1;
+}
+.burger span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.35s var(--ease), opacity 0.25s;
+}
+.transparent .burger,
+.dark .burger { color: rgba(196, 120, 138, 0.7); }
+.light .burger { color: var(--tx); }
+
+.burgerOpen span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burgerOpen span:nth-child(2) { opacity: 0; }
+.burgerOpen span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile overlay */
+.mobile {
+  position: fixed;
+  inset: 0;
+  z-index: 799;
+  background: var(--b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 40px;
+}
+.mobileLink {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(28px, 5vw, 44px);
+  letter-spacing: 0.06em;
+  color: rgba(242, 232, 218, 0.65);
+  transition: color 0.3s;
+}
+.mobileLink:hover,
+.mobileLinkActive { color: rgba(242, 232, 218, 0.95); }
+.mobileCta {
+  margin-top: 16px;
+  padding: 12px 36px;
+  border: 1px solid rgba(196, 120, 138, 0.38);
+  color: rgba(196, 120, 138, 0.75);
+  font-family: "EB Garamond", serif;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.mobileCta:hover {
+  background: var(--r);
+  color: var(--bgw);
+  border-color: var(--r);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav { padding: 0 28px; }
+}
+@media (max-width: 700px) {
+  .links, .cta { display: none; }
+  .burger { display: flex; }
+  .nav { padding: 0 20px; }
+}
