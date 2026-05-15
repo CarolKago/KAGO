@@ -33,11 +33,22 @@
 .home-hero-inner { position: relative; z-index: 2; max-width: 760px; }
 .home-hero-eye { font-size: 13px; letter-spacing: .52em; text-transform: uppercase; color: rgba(217,160,172,.55); margin-bottom: 24px; }
 .home-hero-title {
-  font-family: "Playfair Display", serif; font-weight: 900; font-style: italic;
-  font-size: clamp(56px, 9vw, 124px); line-height: .9;
-  color: rgba(242,232,218,.92); margin-bottom: 16px; letter-spacing: .03em;
+  font-family: "Playfair Display", serif; font-weight: 900; font-style: normal;
+  font-size: clamp(48px, 8vw, 112px); line-height: 1;
+  color: rgba(242,232,218,.96); margin-bottom: 16px; letter-spacing: .1em;
+  text-transform: uppercase;
 }
-.home-hero-title em { color: var(--r); font-style: normal; display: block; font-size: .55em; letter-spacing: .38em; margin-top: 8px; }
+.home-hero-est {
+  display: block;
+  font-family: "EB Garamond", Georgia, serif;
+  font-weight: 400; font-style: normal;
+  font-size: .21em;
+  letter-spacing: .62em;
+  text-transform: uppercase;
+  color: rgba(196,120,138,.65);
+  margin-top: 20px;
+  text-indent: .62em;
+}
 .home-hero-sub {
   font-family: "Cormorant Garamond", serif; font-style: italic;
   font-size: clamp(20px, 2.2vw, 27px); color: rgba(242,232,218,.55);
@@ -188,8 +199,8 @@
     <div class="home-hero-inner">
       <div class="home-hero-eye">Private Atelier &mdash; London</div>
       <h1 class="home-hero-title">
-        KAGO
-        <em>EST 2026</em>
+        KAGO ATELIER
+        <span class="home-hero-est">Est. 2026</span>
       </h1>
       <div class="home-hero-rule"></div>
       <p class="home-hero-sub">A private styling atelier for the discerning woman. Curated from the world&rsquo;s most revered fashion houses.</p>
@@ -397,6 +408,6 @@ window.submitBooking = async function () {
   showToast('Enquiry received — we will be in touch within 24 hours','ok');
 };
 </script>
-<script src="https://kagoatelier-admin.netlify.app/chat-widget.js" defer></script>
+<script src="js/chat.js" defer></script>
 </body>
 </html>
