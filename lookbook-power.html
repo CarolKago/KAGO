@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Lookbook — KAGO Atelier</title>
+<meta name="description" content="KAGO Atelier Power Lookbook — structured authority, clothes that enter the room before you do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://kagoatelier-admin.netlify.app/kago-website.js" defer></script>
+<style>
+.lbd-hero { background: linear-gradient(160deg, #2C1A30, #4A1220); padding: calc(var(--nav-h) + 96px) 48px 96px; color: var(--bgw); }
+.lbd-back { font-size: 10px; letter-spacing: .36em; text-transform: uppercase; color: var(--rl); margin-bottom: 36px; display: inline-block; text-decoration: none; }
+.lbd-back:hover { color: var(--bgw); }
+.lbd-eye { font-size: 10px; letter-spacing: .48em; text-transform: uppercase; color: rgba(217,160,172,.55); margin-bottom: 16px; }
+.lbd-title { font-family: "Playfair Display", serif; font-weight: 900; font-style: italic; font-size: clamp(52px, 8vw, 110px); line-height: .9; color: var(--bgw); }
+.lbd-subtitle { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: clamp(18px, 2.5vw, 24px); color: rgba(242,232,218,.6); margin-top: 20px; max-width: 560px; line-height: 1.8; }
+
+.lbd-gallery { padding: 80px 48px; background: var(--bgw); }
+#kago-lookbook-detail { max-width: 1200px; margin: 0 auto; }
+.lbd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.lbd-item { position: relative; overflow: hidden; background: var(--bg); aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; }
+.lbd-item-ph { font-family: "Playfair Display", serif; font-size: 40px; font-weight: 900; font-style: italic; color: rgba(255,255,255,.3); }
+.lbd-item:nth-child(1) { background: linear-gradient(160deg, #2C1A30, #4A2040); }
+.lbd-item:nth-child(2) { background: linear-gradient(145deg, #1A1428, #2C1A40); }
+.lbd-item:nth-child(3) { background: linear-gradient(135deg, #3A1830, #5A2848); }
+.lbd-item-meta { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(20,8,24,.75)); color: var(--bgw); }
+.lbd-item-brand { font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: var(--rl); margin-bottom: 4px; }
+.lbd-item-piece { font-family: "Playfair Display", serif; font-size: 16px; font-style: italic; }
+
+.lbd-cta { background: var(--bg); padding: 80px 48px; text-align: center; border-top: 1px solid var(--bgd); }
+
+@media (max-width: 768px) {
+  .lbd-grid { grid-template-columns: 1fr 1fr; }
+  .lbd-hero { padding: calc(var(--nav-h) + 56px) 24px 64px; }
+  .lbd-gallery, .lbd-cta { padding: 56px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav dark" id="siteNav">
+  <a href="index.html" class="nav-brand">KAGO</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="lookbooks.html" class="active">Lookbooks</a></li>
+    <li><a href="edits.html">Edits</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openBookingModal()">Book Now</button>
+  <button class="nav-burger" id="navBurger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="lookbooks.html">Lookbooks</a>
+  <a href="edits.html">Edits</a>
+  <a href="services.html">Services</a>
+  <a href="contact.html">Contact</a>
+  <a href="#" class="m-cta" onclick="openBookingModal(); return false;">Book a Consultation</a>
+</div>
+
+<div class="page-wrap">
+
+  <header class="lbd-hero">
+    <a href="lookbooks.html" class="lbd-back">&larr; All Lookbooks</a>
+    <div class="lbd-eye">Collection 02</div>
+    <h1 class="lbd-title">Power</h1>
+    <p class="lbd-subtitle">Structured authority. Clothes that enter the room before you do.</p>
+  </header>
+
+  <section class="lbd-gallery">
+    <div id="kago-lookbook-detail" data-lookbook="power">
+      <div class="lbd-grid">
+        <div class="lbd-item">
+          <div class="lbd-item-ph">01</div>
+          <div class="lbd-item-meta">
+            <div class="lbd-item-brand">Max Mara</div>
+            <div class="lbd-item-piece">The Camel Authority</div>
+          </div>
+        </div>
+        <div class="lbd-item">
+          <div class="lbd-item-ph">02</div>
+          <div class="lbd-item-meta">
+            <div class="lbd-item-brand">Toteme</div>
+            <div class="lbd-item-piece">Sharp Meridian</div>
+          </div>
+        </div>
+        <div class="lbd-item">
+          <div class="lbd-item-ph">03</div>
+          <div class="lbd-item-meta">
+            <div class="lbd-item-brand">Valentino</div>
+            <div class="lbd-item-piece">The Command Suit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lbd-cta">
+    <div class="eyebrow" style="margin-bottom:20px">Private Inquiry</div>
+    <p class="section-body" style="max-width:480px;margin:0 auto 32px">For private access to full look details and styling availability, request your rate card.</p>
+    <button class="btn-primary" onclick="openBookingModal()">Request Rate Card &rsaquo;</button>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-brand">KAGO &middot; Est. 2026</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="lookbooks.html">Lookbooks</a>
+      <a href="edits.html">Edits</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://instagram.com/kagoatelier" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 KAGO Atelier &middot; All Rights Reserved &middot; London</div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-panel">
+    <div class="modal-hd">
+      <div class="modal-hd-title">Request a Consultation</div>
+      <button class="modal-close" onclick="closeModal('bookingModal')" aria-label="Close">&times;</button>
+    </div>
+    <div id="bookingFormWrap" class="modal-bd">
+      <div class="form-field"><label class="form-label" for="bName">Name *</label><input class="form-input" id="bName" type="text" placeholder="Full name" autocomplete="name"></div>
+      <div class="form-field"><label class="form-label" for="bEmail">Email *</label><input class="form-input" id="bEmail" type="email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="form-field"><label class="form-label" for="bPhone">Phone</label><input class="form-input" id="bPhone" type="tel" placeholder="+44 7700 000000" autocomplete="tel"></div>
+      <div class="form-field"><label class="form-label" for="bService">Service *</label>
+        <select class="form-select" id="bService">
+          <option value="">Select a service</option>
+          <option value="Wardrobe Architecture">Wardrobe Architecture</option>
+          <option value="The Power Edit">The Power Edit</option>
+          <option value="Archive &amp; Collector">Archive &amp; Collector</option>
+          <option value="Creative Direction">Creative Direction</option>
+          <option value="Not sure yet">Not sure yet &mdash; I&rsquo;d like guidance</option>
+        </select>
+      </div>
+      <div class="form-field"><label class="form-label" for="bDate">Preferred Date</label><input class="form-input" id="bDate" type="date"></div>
+      <div class="form-field"><label class="form-label" for="bMsg">Message</label><textarea class="form-textarea" id="bMsg" placeholder="Tell us what you are looking for&hellip;"></textarea></div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitBooking()">Send Enquiry &rsaquo;</button>
+    </div>
+    <div id="bookingFormOk" style="display:none;text-align:center;padding:32px;font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--tx);line-height:1.7">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
+  </div>
+</div>
+<div id="toastArea"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/nav.js"></script>
+<script>
+window.submitBooking = async function () {
+  var nm = document.getElementById('bName').value.trim();
+  var em = document.getElementById('bEmail').value.trim();
+  var sv = document.getElementById('bService').value;
+  if (!nm || !em || !sv) { showToast('Please fill in name, email and service', 'err'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { showToast('Please enter a valid email address','err'); return; }
+  var booking = { client_name:nm, client_email:em, client_phone:document.getElementById('bPhone').value, service:sv, preferred_date:document.getElementById('bDate').value||null, message:document.getElementById('bMsg').value, status:'new', created_at:new Date().toISOString() };
+  if (typeof USE_SUPABASE !== 'undefined' && USE_SUPABASE) { try { await sb.from('bookings').insert([booking]); } catch(e){} }
+  var bks=[]; try{bks=JSON.parse(localStorage.getItem('kago_bookings')||'[]');}catch(e){}
+  bks.push(Object.assign({id:'b_'+Date.now()},booking)); localStorage.setItem('kago_bookings',JSON.stringify(bks));
+  document.getElementById('bookingFormWrap').style.display='none';
+  document.getElementById('bookingFormOk').style.display='block';
+  showToast('Enquiry received — we will be in touch within 24 hours','ok');
+};
+</script>
+<script src="https://kagoatelier-admin.netlify.app/chat-widget.js" defer></script>
+</body>
+</html>

@@ -6,9 +6,10 @@
 <title>Services — KAGO Atelier</title>
 <meta name="description" content="Bespoke personal styling, wardrobe consulting, and creative direction. KAGO Atelier, London.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/style.css">
-<script src="/js.config.js" defer></script>
+<script src="https://kagoatelier-admin.netlify.app/kago-website.js" defer></script>
 <style>
 /* ── SERVICES PAGE ── */
 
@@ -90,14 +91,8 @@
   font-weight: 700; font-style: italic;
   font-size: clamp(28px, 3.5vw, 44px);
   color: var(--tx); line-height: 1.1;
-  margin-bottom: 12px;
+  margin-bottom: 28px;
 }
-.svc-price {
-  font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase;
-  color: var(--r); margin-bottom: 28px;
-  display: flex; align-items: center; gap: 12px;
-}
-.svc-price::before { content: ""; width: 20px; height: 1px; background: var(--rl); opacity: 0.5; }
 .svc-desc {
   font-family: "Cormorant Garamond", serif; font-style: italic;
   font-size: clamp(15px, 1.6vw, 18px); color: var(--mu);
@@ -192,13 +187,13 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="site-nav light" id="siteNav">
   <a href="index.html" class="nav-brand">KAGO</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="lookbook.html">Lookbook</a></li>
-    <li><a href="services.html">Services</a></li>
+    <li><a href="lookbooks.html">Lookbooks</a></li>
+    <li><a href="edits.html">Edits</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <button class="nav-cta" onclick="openBookingModal()">Book Now</button>
@@ -206,10 +201,10 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
-  <a href="lookbook.html">Lookbook</a>
+  <a href="lookbooks.html">Lookbooks</a>
+  <a href="edits.html">Edits</a>
   <a href="services.html">Services</a>
   <a href="contact.html">Contact</a>
   <a href="#" class="m-cta" onclick="openBookingModal(); return false;">Book a Consultation</a>
@@ -239,7 +234,6 @@
     <div class="svc-content">
       <div class="svc-number">01</div>
       <div class="svc-name">Wardrobe Architecture</div>
-      <div class="svc-price">From &pound;1,200</div>
       <p class="svc-desc">A complete structural audit of your wardrobe. What remains, what departs, what is acquired. The result is a wardrobe that functions like a well-designed interior — every piece earns its place.</p>
       <div class="svc-includes">
         <div class="svc-includes-title">Includes</div>
@@ -264,7 +258,6 @@
     <div class="svc-content">
       <div class="svc-number">02</div>
       <div class="svc-name">The Power Edit</div>
-      <div class="svc-price">From &pound;2,500</div>
       <p class="svc-desc">For the woman who commands rooms. A curated selection of power pieces sourced directly from the houses — each one chosen for its capacity to shift how you are perceived before you speak.</p>
       <div class="svc-includes">
         <div class="svc-includes-title">Includes</div>
@@ -289,7 +282,6 @@
     <div class="svc-content">
       <div class="svc-number">03</div>
       <div class="svc-name">Archive &amp; Collector</div>
-      <div class="svc-price">Upon Request</div>
       <p class="svc-desc">Access to privately-held archive pieces from Dior, Chanel, Saint Laurent, and beyond. We do not deal in replica or reproduction — only authenticated vintage and archival originals. This is not fashion. This is inheritance.</p>
       <div class="svc-includes">
         <div class="svc-includes-title">Includes</div>
@@ -314,7 +306,6 @@
     <div class="svc-content">
       <div class="svc-number">04</div>
       <div class="svc-name">Creative Direction</div>
-      <div class="svc-price">Upon Request</div>
       <p class="svc-desc">For editorial shoots, brand campaigns, public appearances, and press. A full creative direction service covering concept, styling, casting direction, and mood. The aesthetic coherence of KAGO applied to your project.</p>
       <div class="svc-includes">
         <div class="svc-includes-title">Includes</div>
@@ -373,21 +364,21 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-brand">KAGO &middot; Est. 2026</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
-      <a href="lookbook.html">Lookbook</a>
+      <a href="lookbooks.html">Lookbooks</a>
+      <a href="edits.html">Edits</a>
+      <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
-      <a href="https://instagram.com/kagosatelier" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://instagram.com/kagoatelier" target="_blank" rel="noopener">Instagram</a>
     </div>
     <div class="footer-copy">&copy; 2026 KAGO Atelier &middot; All Rights Reserved &middot; London</div>
   </footer>
 
 </div><!-- /page-wrap -->
 
-<!-- BOOKING MODAL -->
 <div class="modal-overlay" id="bookingModal">
   <div class="modal-panel">
     <div class="modal-hd">
@@ -401,20 +392,20 @@
       <div class="form-field"><label class="form-label" for="bService">Service *</label>
         <select class="form-select" id="bService">
           <option value="">Select a service</option>
-          <option value="Wardrobe Architecture — From £1,200">Wardrobe Architecture — From £1,200</option>
-          <option value="The Power Edit — From £2,500">The Power Edit — From £2,500</option>
-          <option value="Archive & Collector — Upon Request">Archive &amp; Collector — Upon Request</option>
-          <option value="Creative Direction — Upon Request">Creative Direction — Upon Request</option>
+          <option value="Wardrobe Architecture">Wardrobe Architecture</option>
+          <option value="The Power Edit">The Power Edit</option>
+          <option value="Archive &amp; Collector">Archive &amp; Collector</option>
+          <option value="Creative Direction">Creative Direction</option>
+          <option value="Not sure yet">Not sure yet &mdash; I&rsquo;d like guidance</option>
         </select>
       </div>
       <div class="form-field"><label class="form-label" for="bDate">Preferred Date</label><input class="form-input" id="bDate" type="date"></div>
-      <div class="form-field"><label class="form-label" for="bMsg">Message</label><textarea class="form-textarea" id="bMsg" placeholder="Tell us what you are looking for…"></textarea></div>
+      <div class="form-field"><label class="form-label" for="bMsg">Message</label><textarea class="form-textarea" id="bMsg" placeholder="Tell us what you are looking for&hellip;"></textarea></div>
       <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitBooking()">Send Enquiry &rsaquo;</button>
     </div>
-    <div id="bookingFormOk">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
+    <div id="bookingFormOk" style="display:none;text-align:center;padding:32px;font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--tx);line-height:1.7">Enquiry received.<br><em>We will be in touch within 24 hours.</em></div>
   </div>
 </div>
-
 <div id="toastArea"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -428,7 +419,7 @@ window.submitBooking = async function () {
   if (!nm || !em || !sv) { showToast('Please fill in name, email and service', 'err'); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { showToast('Please enter a valid email address','err'); return; }
   var booking = { client_name:nm, client_email:em, client_phone:document.getElementById('bPhone').value, service:sv, preferred_date:document.getElementById('bDate').value||null, message:document.getElementById('bMsg').value, status:'new', created_at:new Date().toISOString() };
-  if (USE_SUPABASE) { try { await sb.from('bookings').insert([booking]); } catch(e){} }
+  if (typeof USE_SUPABASE !== 'undefined' && USE_SUPABASE) { try { await sb.from('bookings').insert([booking]); } catch(e){} }
   var bks=[]; try{bks=JSON.parse(localStorage.getItem('kago_bookings')||'[]');}catch(e){}
   bks.push(Object.assign({id:'b_'+Date.now()},booking)); localStorage.setItem('kago_bookings',JSON.stringify(bks));
   document.getElementById('bookingFormWrap').style.display='none';
@@ -436,5 +427,6 @@ window.submitBooking = async function () {
   showToast('Enquiry received — we will be in touch within 24 hours','ok');
 };
 </script>
+<script src="https://kagoatelier-admin.netlify.app/chat-widget.js" defer></script>
 </body>
 </html>
