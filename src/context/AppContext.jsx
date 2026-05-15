@@ -3,11 +3,15 @@ import { createContext, useContext, useState, useCallback } from 'react'
 const AppContext = createContext(null)
 
 export function AppProvider({ children }) {
-  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingOpen,  setBookingOpen]  = useState(false)
+  const [rateCardOpen, setRateCardOpen] = useState(false)
   const [toasts, setToasts] = useState([])
 
-  const openBooking  = useCallback(() => setBookingOpen(true), [])
-  const closeBooking = useCallback(() => setBookingOpen(false), [])
+  const openBooking   = useCallback(() => setBookingOpen(true),  [])
+  const closeBooking  = useCallback(() => setBookingOpen(false), [])
+
+  const openRateCard  = useCallback(() => setRateCardOpen(true),  [])
+  const closeRateCard = useCallback(() => setRateCardOpen(false), [])
 
   const addToast = useCallback((msg, type = 'info') => {
     const id = Date.now()
@@ -16,7 +20,11 @@ export function AppProvider({ children }) {
   }, [])
 
   return (
-    <AppContext.Provider value={{ bookingOpen, openBooking, closeBooking, toasts, addToast }}>
+    <AppContext.Provider value={{
+      bookingOpen,  openBooking,  closeBooking,
+      rateCardOpen, openRateCard, closeRateCard,
+      toasts, addToast,
+    }}>
       {children}
     </AppContext.Provider>
   )

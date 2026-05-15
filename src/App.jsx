@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { AppProvider } from './context/AppContext'
-import BookingModal from './components/BookingModal'
+import BookingModal  from './components/BookingModal'
+import RateCardModal from './components/RateCardModal'
 import ChatWidget from './components/ChatWidget'
 import ToastArea from './components/Toast'
 import Home          from './pages/Home'
@@ -37,6 +38,7 @@ function AppShell() {
         </Routes>
       </AnimatePresence>
       <BookingModal />
+      <RateCardModal />
       <ChatWidget />
       <ToastArea />
     </>

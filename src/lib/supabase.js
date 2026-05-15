@@ -149,3 +149,8 @@ export async function insertContact(contact) {
   if (!supabase) return { data: null, error: new Error('Supabase not configured') }
   return supabase.from('contacts').insert([contact])
 }
+
+export async function insertRateCardRequest(req) {
+  if (!supabase) return { data: null, error: new Error('Supabase not configured') }
+  return supabase.from('rate_card_requests').insert([req])
+}

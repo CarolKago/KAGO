@@ -19,10 +19,10 @@ const FALLBACK_LOOKS = [
     story: "She arrives at Annabel's at 12:45 for a lunch that was “casual” only in the calendar description. The sand linen blazer catches the light coming through the garden doors. Nothing matches exactly. Everything coordinates precisely. This is the difference between dressing and styling. She orders sparkling water. She is the most powerful woman at the table. Nobody needed to be told.",
     image_url: '', ph_class: 'ph-b',
     pieces: [
-      { house: 'Brunello Cucinelli', piece: 'Double-breasted linen blazer in sand', price: '~£2,800', href: 'https://shop.brunellocucinelli.com/en-gb/women/ready-to-wear/blazers/' },
-      { house: 'Loro Piana', piece: 'Goldie linen wide-leg trousers, natural undyed', price: '~£1,750', href: 'https://uk.loropiana.com/en/c/woman/trousers-and-shorts' },
-      { house: 'Christian Louboutin', piece: 'Just Nothing mule 55mm, blush', price: '~£595', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/mules/' },
-      { house: 'Bottega Veneta', piece: 'Andiamo bag, natural tan intrecciato', price: '~£4,200', href: 'https://www.bottegaveneta.com/en-gb/bags/andiamo' },
+      { house: 'Brunello Cucinelli', piece: 'Double-breasted linen blazer in sand', href: 'https://shop.brunellocucinelli.com/en-gb/women/ready-to-wear/blazers/' },
+      { house: 'Loro Piana', piece: 'Goldie linen wide-leg trousers, natural undyed', href: 'https://uk.loropiana.com/en/c/woman/trousers-and-shorts' },
+      { house: 'Christian Louboutin', piece: 'Just Nothing mule 55mm, blush', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/mules/' },
+      { house: 'Bottega Veneta', piece: 'Andiamo bag, natural tan intrecciato', href: 'https://www.bottegaveneta.com/en-gb/bags/andiamo' },
     ],
   },
   {
@@ -31,10 +31,10 @@ const FALLBACK_LOOKS = [
     story: "The silk catches the last light of a London July evening at 8:47pm. She is holding a glass of Ruinart Blanc de Blancs and saying very little. The art on the walls is interesting. She is more interesting. Three people ask who she is. One of them is the artist.",
     image_url: '', ph_class: 'ph-f',
     pieces: [
-      { house: 'The Row', piece: 'Guinevere silk charmeuse slip dress in ivory', price: '~£2,100', href: 'https://www.therow.com/collections/women-dresses' },
-      { house: 'The Row', piece: 'Cashmere-silk wrap in cognac', price: '~£980', href: 'https://www.therow.com/collections/women-accessories' },
-      { house: 'Christian Louboutin', piece: 'Miss Z strappy sandal 100mm, Vintage Rose', price: '~£875', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/' },
-      { house: 'Cartier', piece: 'Tank Must watch, yellow gold', price: 'From £2,800', href: 'https://www.cartier.com/en-gb/collections/watches/women-watches/' },
+      { house: 'The Row', piece: 'Guinevere silk charmeuse slip dress in ivory', href: 'https://www.therow.com/collections/women-dresses' },
+      { house: 'The Row', piece: 'Cashmere-silk wrap in cognac', href: 'https://www.therow.com/collections/women-accessories' },
+      { house: 'Christian Louboutin', piece: 'Miss Z strappy sandal 100mm, Vintage Rose', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/' },
+      { house: 'Cartier', piece: 'Tank Must watch, yellow gold', href: 'https://www.cartier.com/en-gb/collections/watches/women-watches/' },
     ],
   },
   {
@@ -43,10 +43,10 @@ const FALLBACK_LOOKS = [
     story: "The chalk-white suit walks into the room before she does. Nobody calls the meeting to order. She does. There are fourteen people at the table. She is the only one in linen-silk. The rest are in polyester they are pretending is wool. She notices. She says nothing. She does not need to.",
     image_url: '', ph_class: 'ph-e',
     pieces: [
-      { house: 'Loro Piana', piece: 'Spagna linen-silk jacket in chalk white', price: '~£3,200', href: 'https://uk.loropiana.com/en/lp-spring-summer/woman' },
-      { house: 'Loro Piana', piece: 'Hector silk-linen trousers in chalk white', price: '~£1,930', href: 'https://uk.loropiana.com/en/c/woman/trousers-and-shorts' },
-      { house: 'Christian Louboutin', piece: 'So Kate pump 120mm, black patent', price: '~£695', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/' },
-      { house: 'Bottega Veneta', piece: 'Andiamo large, black intrecciato', price: '~£6,800', href: 'https://www.bottegaveneta.com/en-gb/bags/andiamo' },
+      { house: 'Loro Piana', piece: 'Spagna linen-silk jacket in chalk white', href: 'https://uk.loropiana.com/en/lp-spring-summer/woman' },
+      { house: 'Loro Piana', piece: 'Hector silk-linen trousers in chalk white', href: 'https://uk.loropiana.com/en/c/woman/trousers-and-shorts' },
+      { house: 'Christian Louboutin', piece: 'So Kate pump 120mm, black patent', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/' },
+      { house: 'Bottega Veneta', piece: 'Andiamo large, black intrecciato', href: 'https://www.bottegaveneta.com/en-gb/bags/andiamo' },
     ],
   },
   {
@@ -55,10 +55,10 @@ const FALLBACK_LOOKS = [
     story: "She is not at Portobello to browse. She is there to acquire. The dealers know her. They bring things out from the back. The cream trouser hems skim the cobblestones without touching. She finds a 1968 Chanel chain belt in a velvet tray. She negotiates quietly. She wins. She was going to win before she arrived.",
     image_url: '', ph_class: 'ph-a',
     pieces: [
-      { house: 'The Row', piece: 'Nori wide-leg trouser in cream cotton', price: '~£940', href: 'https://www.therow.com/collections/women-trousers' },
-      { house: 'Loro Piana', piece: 'Linen-silk blouse in natural ecru', price: '~£1,100', href: 'https://uk.loropiana.com/en/c/woman/shirts-and-blouses' },
-      { house: 'Christian Louboutin', piece: 'Her In Roma flat sandal, Saharienne nubuck', price: '~£595', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/' },
-      { house: 'Bottega Veneta', piece: 'Cabat tote in natural intrecciato', price: '~£5,200', href: 'https://www.bottegaveneta.com/en-gb/bags/totes' },
+      { house: 'The Row', piece: 'Nori wide-leg trouser in cream cotton', href: 'https://www.therow.com/collections/women-trousers' },
+      { house: 'Loro Piana', piece: 'Linen-silk blouse in natural ecru', href: 'https://uk.loropiana.com/en/c/woman/shirts-and-blouses' },
+      { house: 'Christian Louboutin', piece: 'Her In Roma flat sandal, Saharienne nubuck', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/sandals-slides/' },
+      { house: 'Bottega Veneta', piece: 'Cabat tote in natural intrecciato', href: 'https://www.bottegaveneta.com/en-gb/bags/totes' },
     ],
   },
   {
@@ -67,10 +67,10 @@ const FALLBACK_LOOKS = [
     story: "She does not enter the restaurant. The restaurant becomes the place she is in. The maître d' escorts her to the table before she asks. The man she is dining with stands up when she arrives. They all do. The tuxedo is summer because she made it summer. That is what dressing with intention means.",
     image_url: '', ph_class: 'ph-d',
     pieces: [
-      { house: 'Saint Laurent', piece: 'Le Smoking tuxedo jacket in black crepe', price: '~£3,800', href: 'https://www.ysl.com/en-gb/clothing/women-jackets-and-coats' },
-      { house: 'Saint Laurent', piece: 'High-waisted cigarette trouser, black satin-crepe', price: '~£1,200', href: 'https://www.ysl.com/en-gb/clothing/women-trousers' },
-      { house: 'Christian Louboutin', piece: 'Pigalle Follies pump 100mm, black patent', price: '~£745', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/' },
-      { house: 'Cartier', piece: 'Tank Must watch, yellow gold', price: 'From £2,800', href: 'https://www.cartier.com/en-gb/collections/watches/women-watches/' },
+      { house: 'Saint Laurent', piece: 'Le Smoking tuxedo jacket in black crepe', href: 'https://www.ysl.com/en-gb/clothing/women-jackets-and-coats' },
+      { house: 'Saint Laurent', piece: 'High-waisted cigarette trouser, black satin-crepe', href: 'https://www.ysl.com/en-gb/clothing/women-trousers' },
+      { house: 'Christian Louboutin', piece: 'Pigalle Follies pump 100mm, black patent', href: 'https://uk.christianlouboutin.com/uk_en/ladies/shoes/pumps/' },
+      { house: 'Cartier', piece: 'Tank Must watch, yellow gold', href: 'https://www.cartier.com/en-gb/collections/watches/women-watches/' },
     ],
   },
 ]
@@ -156,7 +156,7 @@ function Intro() {
 // ── Single Look Section ─────────────────────────────────────────
 function LookSection({ look, extraImages = [], index }) {
   const isEven = index % 2 === 0
-  const { openBooking } = useApp()
+  const { openRateCard } = useApp()
 
   const allImages = look.image_url
     ? [{ url: look.image_url, view_type: 'front' }, ...extraImages]
@@ -232,7 +232,6 @@ function LookSection({ look, extraImages = [], index }) {
               <div key={i} className={styles.piece}>
                 <div className={styles.pieceHouse}>{p.house}</div>
                 <div className={styles.pieceName}>{p.piece}</div>
-                <div className={styles.piecePrice}>{p.price}</div>
                 {p.href && (
                   <a href={p.href} target="_blank" rel="noopener noreferrer" className={styles.pieceLink}>
                     Shop {p.house.split(' ')[0]} &rsaquo;
@@ -249,8 +248,8 @@ function LookSection({ look, extraImages = [], index }) {
           </blockquote>
         )}
 
-        <Button onClick={openBooking} variant="ghostDark">
-          Request This Look &rsaquo;
+        <Button onClick={openRateCard} variant="ghostDark">
+          Private Inquiry &rsaquo;
         </Button>
       </div>
 
@@ -276,7 +275,7 @@ function Divider({ label }) {
 const LOOK_LABELS = ['Look One', 'Look Two', 'Look Three', 'Look Four', 'Look Five']
 
 export default function SummerLookbook() {
-  const { openBooking } = useApp()
+  const { openRateCard } = useApp()
   const [looks, setLooks]       = useState(null)
   const [lookImages, setImages] = useState({})
 
@@ -326,8 +325,8 @@ export default function SummerLookbook() {
           <motion.div
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}>
-            <Button onClick={openBooking} variant="ghostLight">
-              Request a Private Consultation &rsaquo;
+            <Button onClick={openRateCard} variant="ghostLight">
+              Request Rate Card &rsaquo;
             </Button>
           </motion.div>
         </section>

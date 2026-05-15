@@ -19,37 +19,38 @@ const INIT = ['LP', 'BC', 'AMQ', 'YSL', 'RL', 'CD']
 
 const FALLBACK = [
   // Editorial (3)
-  { id: 'd2',  brand: 'Brunello Cucinelli', title: 'The Refined Neutral',      piece: 'Linen Blazer & Trousers',          price: 'From £5,200',   image_url: '', category: 'editorial', ph_class: 'ph-b' },
-  { id: 'd3',  brand: 'Alexander McQueen',  title: 'The Sculpted Femme',       piece: 'Fitted Blazer & Sheath Dress',     price: 'From £4,800',   image_url: '', category: 'editorial', ph_class: 'ph-c' },
-  { id: 'd7',  brand: 'Chanel',             title: 'The Atelier Classic',      piece: 'Bouclé Jacket & Wide-Leg Trouser', price: 'From £9,200',   image_url: '', category: 'editorial', ph_class: 'ph-e' },
+  { id: 'd2',  brand: 'Brunello Cucinelli', title: 'The Refined Neutral',      piece: 'Linen Blazer & Trousers',          image_url: '', category: 'editorial', ph_class: 'ph-b' },
+  { id: 'd3',  brand: 'Alexander McQueen',  title: 'The Sculpted Femme',       piece: 'Fitted Blazer & Sheath Dress',     image_url: '', category: 'editorial', ph_class: 'ph-c' },
+  { id: 'd7',  brand: 'Chanel',             title: 'The Atelier Classic',      piece: 'Bouclé Jacket & Wide-Leg Trouser', image_url: '', category: 'editorial', ph_class: 'ph-e' },
 
   // Power (3)
-  { id: 'd1',  brand: 'Loro Piana',         title: 'The Cashmere Power Suit',  piece: 'Cashmere Tailored Suit',           price: 'From £8,400',   image_url: '', category: 'power',     ph_class: 'ph-a' },
-  { id: 'd5',  brand: 'Ralph Lauren',       title: 'Understated Heritage',     piece: 'Purple Label Tweed Blazer',        price: 'From £3,800',   image_url: '', category: 'power',     ph_class: 'ph-e' },
-  { id: 'd8',  brand: 'Hermès',             title: 'The Boardroom Standard',   piece: 'Cashmere-Silk Coat & Tailoring',   price: 'From £12,000',  image_url: '', category: 'power',     ph_class: 'ph-f' },
+  { id: 'd1',  brand: 'Loro Piana',         title: 'The Cashmere Power Suit',  piece: 'Cashmere Tailored Suit',           image_url: '', category: 'power',     ph_class: 'ph-a' },
+  { id: 'd5',  brand: 'Ralph Lauren',       title: 'Understated Heritage',     piece: 'Purple Label Tweed Blazer',        image_url: '', category: 'power',     ph_class: 'ph-e' },
+  { id: 'd8',  brand: 'Hermès',             title: 'The Boardroom Standard',   piece: 'Cashmere-Silk Coat & Tailoring',   image_url: '', category: 'power',     ph_class: 'ph-f' },
 
   // Evening (3)
-  { id: 'd4',  brand: 'Saint Laurent',      title: 'The Power Silhouette',     piece: 'Le Smoking Tuxedo',                price: 'From £6,000',   image_url: '', category: 'evening',   ph_class: 'ph-d' },
-  { id: 'd9',  brand: 'Valentino',          title: 'The Couture Evening',      piece: 'Cape-Back Silk Gown',              price: 'From £8,800',   image_url: '', category: 'evening',   ph_class: 'ph-a' },
-  { id: 'd10', brand: 'Givenchy',           title: 'The Midnight Edit',        piece: 'Structured Velvet Column Dress',   price: 'From £5,600',   image_url: '', category: 'evening',   ph_class: 'ph-c' },
+  { id: 'd4',  brand: 'Saint Laurent',      title: 'The Power Silhouette',     piece: 'Le Smoking Tuxedo',                image_url: '', category: 'evening',   ph_class: 'ph-d' },
+  { id: 'd9',  brand: 'Valentino',          title: 'The Couture Evening',      piece: 'Cape-Back Silk Gown',              image_url: '', category: 'evening',   ph_class: 'ph-a' },
+  { id: 'd10', brand: 'Givenchy',           title: 'The Midnight Edit',        piece: 'Structured Velvet Column Dress',   image_url: '', category: 'evening',   ph_class: 'ph-c' },
 
   // Archive (3)
-  { id: 'd6',  brand: 'Dior Vintage',       title: 'The New Look Reborn',      piece: 'Bar Jacket & Pencil Skirt',        price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-f' },
-  { id: 'd11', brand: 'Chanel Vintage',     title: 'The Maison Original',      piece: 'Numbered Couture Bouclé Suit',     price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-b' },
-  { id: 'd12', brand: 'Balenciaga Archive', title: 'The Cristóbal Silhouette', piece: 'Sculptural Wool Evening Coat',     price: 'Upon Request',  image_url: '', category: 'archive',   ph_class: 'ph-d' },
+  { id: 'd6',  brand: 'Dior Vintage',       title: 'The New Look Reborn',      piece: 'Bar Jacket & Pencil Skirt',        image_url: '', category: 'archive',   ph_class: 'ph-f' },
+  { id: 'd11', brand: 'Chanel Vintage',     title: 'The Maison Original',      piece: 'Numbered Couture Bouclé Suit',     image_url: '', category: 'archive',   ph_class: 'ph-b' },
+  { id: 'd12', brand: 'Balenciaga Archive', title: 'The Cristóbal Silhouette', piece: 'Sculptural Wool Evening Coat',     image_url: '', category: 'archive',   ph_class: 'ph-d' },
 ]
 
 function LookCard({ item, index, onOpen }) {
-  const ph   = item.ph_class || PH[index % PH.length]
-  const init = INIT[index % INIT.length]
+  const ph      = item.ph_class || PH[index % PH.length]
+  const init    = INIT[index % INIT.length]
+  const hasImg  = !!item.image_url
 
   const handleClick = () => {
-    if (item.image_url && onOpen) onOpen()
+    if (hasImg && onOpen) onOpen()
   }
 
   return (
     <motion.article
-      className={styles.card}
+      className={`${styles.card} ${!hasImg ? styles.cardPlaceholder : ''}`}
       layout
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
@@ -59,9 +60,9 @@ function LookCard({ item, index, onOpen }) {
       <div
         className={styles.cardMedia}
         onClick={handleClick}
-        style={{ cursor: item.image_url ? 'zoom-in' : 'default' }}
+        style={{ cursor: hasImg ? 'zoom-in' : 'default' }}
       >
-        {item.image_url ? (
+        {hasImg ? (
           <img src={item.image_url} alt={item.title} loading="lazy" className={styles.cardImg} />
         ) : (
           <div className={`${styles.cardPh} ${styles[ph]}`}>{init}</div>
@@ -69,8 +70,7 @@ function LookCard({ item, index, onOpen }) {
         <div className={styles.cardOverlay}>
           <div className={styles.overlayBrand}>{item.brand}</div>
           <div className={styles.overlayPiece}>{item.piece}</div>
-          <div className={styles.overlayPrice}>{item.price}</div>
-          {item.image_url && (
+          {hasImg && (
             <div className={styles.overlayZoom}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <circle cx="11" cy="11" r="8"/>

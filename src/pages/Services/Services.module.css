@@ -22,7 +22,7 @@
 .heroBody {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(17px, 2vw, 22px);
+  font-size: clamp(20px, 2vw, 25px);
   color: var(--mu);
   line-height: 1.85;
   margin-bottom: 36px;
@@ -82,22 +82,15 @@
   font-family: "Playfair Display", serif;
   font-weight: 900;
   font-style: italic;
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-size: clamp(31px, 3.5vw, 47px);
   color: var(--tx);
   line-height: 1.05;
-  margin-bottom: 8px;
-}
-.price {
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--r);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 .desc {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(16px, 1.8vw, 19px);
+  font-size: clamp(19px, 1.8vw, 22px);
   color: var(--mu);
   line-height: 1.85;
   margin-bottom: 28px;
@@ -113,7 +106,7 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-size: 13.5px;
+  font-size: 16px;
   color: var(--mu);
   letter-spacing: 0.01em;
 }

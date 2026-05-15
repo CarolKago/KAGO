@@ -39,7 +39,7 @@
   z-index: 1;
 }
 .transparent .brand,
-.dark .brand { color: rgba(242, 232, 218, 0.92); }
+.dark .brand { color: var(--cream); }
 .light .brand { color: var(--bm); }
 
 /* Desktop links */
@@ -50,7 +50,7 @@
   list-style: none;
 }
 .link {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   transition: color 0.3s;
@@ -68,13 +68,13 @@
 .active::after { right: 0; }
 
 .transparent .link,
-.dark .link { color: rgba(196, 120, 138, 0.55); }
+.dark .link { color: var(--cream); }
 .transparent .link::after,
-.dark .link::after { background: var(--r); }
+.dark .link::after { background: var(--gold); }
 .transparent .link:hover,
 .dark .link:hover,
 .transparent .active,
-.dark .active { color: rgba(217, 160, 172, 0.9); }
+.dark .active { color: var(--gold); }
 
 .light .link { color: var(--mu); }
 .light .link::after { background: var(--tx); }
@@ -84,7 +84,7 @@
 /* CTA button */
 .cta {
   padding: 9px 22px;
-  font-size: 9.5px;
+  font-size: 13px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   transition: all 0.3s;
@@ -93,19 +93,19 @@
 }
 .transparent .cta,
 .dark .cta {
-  background: rgba(196, 120, 138, 0.14);
-  color: rgba(217, 160, 172, 0.82);
-  border-color: rgba(196, 120, 138, 0.28);
+  background: var(--bm);
+  color: var(--cream);
+  border-color: var(--bm);
 }
 .transparent .cta:hover,
 .dark .cta:hover {
-  background: var(--r);
-  color: var(--bgw);
-  border-color: var(--r);
+  background: var(--b);
+  color: var(--cream);
+  border-color: var(--b);
 }
 .light .cta {
   background: var(--bm);
-  color: var(--bgw);
+  color: var(--cream);
   border-color: var(--bm);
 }
 .light .cta:hover {
@@ -130,7 +130,7 @@
   transition: transform 0.35s var(--ease), opacity 0.25s;
 }
 .transparent .burger,
-.dark .burger { color: rgba(196, 120, 138, 0.7); }
+.dark .burger { color: var(--cream); }
 .light .burger { color: var(--tx); }
 
 .burgerOpen span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -153,29 +153,30 @@
 .mobileLink {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: clamp(28px, 5vw, 44px);
+  font-size: clamp(31px, 5vw, 47px);
   letter-spacing: 0.06em;
-  color: rgba(242, 232, 218, 0.65);
+  color: rgba(245, 238, 224, 0.7);
   transition: color 0.3s;
 }
 .mobileLink:hover,
-.mobileLinkActive { color: rgba(242, 232, 218, 0.95); }
+.mobileLinkActive { color: var(--cream); }
 .mobileCta {
   margin-top: 16px;
-  padding: 12px 36px;
-  border: 1px solid rgba(196, 120, 138, 0.38);
-  color: rgba(196, 120, 138, 0.75);
+  padding: 14px 40px;
+  border: 1px solid rgba(201, 169, 110, 0.45);
+  color: var(--gold);
+  background: transparent;
   font-family: "EB Garamond", serif;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s;
 }
 .mobileCta:hover {
-  background: var(--r);
-  color: var(--bgw);
-  border-color: var(--r);
+  background: var(--bm);
+  color: var(--cream);
+  border-color: var(--bm);
 }
 
 /* Responsive */

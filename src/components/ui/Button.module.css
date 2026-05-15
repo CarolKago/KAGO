@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   transition: all 0.35s var(--ease);
@@ -15,7 +15,7 @@
 .primary {
   padding: 14px 36px;
   background: var(--r);
-  color: var(--bgw);
+  color: var(--cream);
   border-color: var(--r);
 }
 .primary:hover {
@@ -27,13 +27,13 @@
 .ghostLight {
   padding: 14px 36px;
   background: transparent;
-  color: rgba(242, 232, 218, 0.75);
-  border-color: rgba(196, 120, 138, 0.28);
+  color: var(--cream);
+  border-color: rgba(201, 169, 110, 0.35);
 }
 .ghostLight:hover {
-  background: rgba(196, 120, 138, 0.1);
-  border-color: rgba(196, 120, 138, 0.5);
-  color: rgba(217, 160, 172, 0.92);
+  background: rgba(201, 169, 110, 0.12);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 .ghostDark {
@@ -45,7 +45,7 @@
 .ghostDark:hover {
   background: var(--tx);
   border-color: var(--tx);
-  color: var(--bgw);
+  color: var(--cream);
 }
 
 .text {
@@ -53,7 +53,7 @@
   background: none;
   border: none;
   color: var(--tx);
-  font-size: 9.5px;
+  font-size: 12px;
   gap: 8px;
 }
 .text:hover {
@@ -65,11 +65,11 @@
   padding: 0;
   background: none;
   border: none;
-  color: rgba(217, 160, 172, 0.7);
-  font-size: 9.5px;
+  color: var(--gold);
+  font-size: 12px;
   gap: 8px;
 }
 .textLight:hover {
   gap: 14px;
-  color: var(--rl);
+  color: var(--cream);
 }

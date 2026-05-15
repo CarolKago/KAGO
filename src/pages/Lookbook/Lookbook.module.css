@@ -105,8 +105,8 @@
 .cardOverlay {
   position: absolute;
   inset: 0;
-  padding: 24px 20px;
-  background: linear-gradient(transparent 35%, rgba(44, 16, 8, 0.86));
+  padding: 28px 22px;
+  background: linear-gradient(transparent 25%, rgba(28, 8, 4, 0.82));
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -114,24 +114,31 @@
   transition: opacity 0.4s;
 }
 .card:hover .cardOverlay { opacity: 1; }
+
+/* Placeholder cards: overlay always visible — no image to reveal */
+.cardPlaceholder .cardOverlay { opacity: 1; }
+
 .overlayBrand {
-  font-size: 8.5px;
-  letter-spacing: 0.22em;
+  font-size: 11px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--rl);
-  margin-bottom: 4px;
+  color: rgba(237, 213, 217, 0.85);   /* soft pink-white */
+  margin-bottom: 8px;
 }
 .overlayPiece {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: clamp(14px, 1.5vw, 17px);
-  color: rgba(242, 232, 218, 0.9);
-  margin-bottom: 6px;
+  font-size: clamp(20px, 2.2vw, 26px);
+  color: rgba(242, 232, 218, 1);       /* bright off-white */
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
 .overlayPrice {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: rgba(196, 120, 138, 0.65);
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: rgba(212, 184, 120, 0.92);   /* golden */
 }
 .overlayZoom {
   position: absolute;
@@ -150,15 +157,15 @@
 .cardTitle {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: 15px;
-  color: rgba(242, 232, 218, 0.78);
-  margin-bottom: 3px;
+  font-size: 18px;
+  color: rgba(242, 232, 218, 0.92);
+  margin-bottom: 5px;
 }
 .cardBrand {
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(196, 120, 138, 0.35);
+  color: rgba(196, 120, 138, 0.65);
 }
 
 @media (max-width: 900px) {
