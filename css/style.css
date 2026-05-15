@@ -27,7 +27,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: "EB Garamond", Georgia, serif;
-  font-size: 16px;
+  font-size: 19px;
   color: var(--ink);
   background: var(--bgw);
   overflow-x: hidden;
@@ -250,13 +250,13 @@ button { cursor: pointer; border: none; background: none; }
 }
 .footer-links a:hover { color: var(--rl); }
 .footer-copy {
-  font-size: 9.5px;
+  font-size: 12px;
   letter-spacing: 0.14em;
-  color: rgba(196, 120, 138, 0.2);
+  color: rgba(242, 232, 218, 0.55);
   width: 100%;
   text-align: center;
   padding-top: 16px;
-  border-top: 1px solid rgba(196, 120, 138, 0.06);
+  border-top: 1px solid rgba(196, 120, 138, 0.12);
   margin-top: 8px;
 }
 
@@ -297,7 +297,7 @@ button { cursor: pointer; border: none; background: none; }
 .section-body {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.85;
   color: var(--mu);
 }
@@ -421,7 +421,7 @@ button { cursor: pointer; border: none; background: none; }
 }
 .toast {
   padding: 12px 22px;
-  font-size: 13px;
+  font-size: 16px;
   text-align: center;
   animation: toastIn 0.3s var(--ease);
 }
@@ -466,11 +466,11 @@ button { cursor: pointer; border: none; background: none; }
 .modal-hd-title {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: 20px;
+  font-size: 23px;
   color: var(--tx);
 }
 .modal-close {
-  font-size: 22px;
+  font-size: 25px;
   color: var(--mu);
   line-height: 1;
   transition: color 0.2s;
@@ -503,7 +503,7 @@ button { cursor: pointer; border: none; background: none; }
   padding: 12px 14px;
   border: 1px solid var(--bgd);
   background: var(--bg);
-  font-size: 15px;
+  font-size: 18px;
   color: var(--ink);
   outline: none;
   border-radius: 0;
