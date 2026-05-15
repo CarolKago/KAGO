@@ -24,6 +24,11 @@
   --tx:  #5A3020;
   --mu:  #9C7860;
 
+  /* Editorial palette — dark backgrounds */
+  --cream: #F5EEE0;
+  --gold:  #C9A96E;
+  --petal: #D9A0AC;
+
   /* Nav height */
   --nav-h: 64px;
 

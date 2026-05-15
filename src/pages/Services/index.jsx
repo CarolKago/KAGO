@@ -12,7 +12,6 @@ const SERVICES = [
     id: 's1',
     number: '01',
     name: 'Wardrobe Architecture',
-    price: 'From £1,200',
     duration: 'Half or full day',
     description:
       'A complete audit and reconstruction of your wardrobe. We identify what serves you, remove what does not, and curate a precise capsule that speaks to your identity and ambitions. Every item earns its place.',
@@ -28,7 +27,6 @@ const SERVICES = [
     id: 's2',
     number: '02',
     name: 'The Power Edit',
-    price: 'From £2,500',
     duration: 'Full day experience',
     description:
       'For the woman who commands every room she enters. We build a wardrobe of extraordinary pieces — sourced personally from the finest fashion houses — designed to project authority, femininity, and unforgettable presence.',
@@ -44,7 +42,6 @@ const SERVICES = [
     id: 's3',
     number: '03',
     name: 'Archive & Collector',
-    price: 'Upon Request',
     duration: 'By arrangement',
     description:
       'Access to our private network of archive dealers, auction houses, and estate collections. We source singular vintage and heritage pieces — Chanel, Balenciaga, Dior, Halston — for the discerning collector.',
@@ -60,7 +57,6 @@ const SERVICES = [
     id: 's4',
     number: '04',
     name: 'Creative Direction',
-    price: 'Upon Request',
     duration: 'By arrangement',
     description:
       'For campaigns, editorial shoots, and brand presentations requiring an elevated visual intelligence. We bring the full language of luxury fashion to your creative vision.',
@@ -95,7 +91,6 @@ function ServiceSection({ svc, index }) {
       <div className={styles.content}>
         <div className="eyebrow">{svc.number} &mdash; {svc.name}</div>
         <h2 className={styles.name}>{svc.name}</h2>
-        <div className={styles.price}>{svc.price}</div>
         <p className={styles.desc}>{svc.description}</p>
         <ul className={styles.includes}>
           {svc.includes.map(item => (

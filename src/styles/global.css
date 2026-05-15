@@ -14,7 +14,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 body {
@@ -50,10 +50,10 @@ button {
 
 /* ── Typography utilities ── */
 .eyebrow {
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.44em;
   text-transform: uppercase;
-  color: var(--r);
+  color: var(--gold);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -63,15 +63,15 @@ button {
   content: "";
   width: 16px;
   height: 1px;
-  background: var(--rl);
-  opacity: 0.6;
+  background: var(--gold);
+  opacity: 0.5;
   flex-shrink: 0;
 }
 .eyebrow.light {
-  color: rgba(196, 120, 138, 0.55);
+  color: rgba(201, 169, 110, 0.65);
 }
 .eyebrow.light::before {
-  background: rgba(196, 120, 138, 0.3);
+  background: rgba(201, 169, 110, 0.4);
   opacity: 1;
 }
 .eyebrow.center {
@@ -102,7 +102,7 @@ button {
 .section-body {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.9;
   color: var(--mu);
 }
@@ -131,7 +131,7 @@ button {
   padding: 80px 40px;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: 16px;
+  font-size: 19px;
   color: var(--mu);
 }
 
@@ -139,7 +139,7 @@ button {
 .form-field { margin-bottom: 16px; }
 .form-label {
   display: block;
-  font-size: 9.5px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--mu);
@@ -150,7 +150,7 @@ button {
   padding: 12px 14px;
   border: 1px solid var(--bgd);
   background: var(--bg);
-  font-size: 15px;
+  font-size: 18px;
   color: var(--ink);
   outline: none;
   border-radius: 0;
@@ -193,7 +193,7 @@ button {
 }
 .toast {
   padding: 12px 22px;
-  font-size: 13px;
+  font-size: 16px;
   text-align: center;
 }
 .toast-ok   { background: var(--tx);  color: var(--bgw); }

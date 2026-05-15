@@ -20,9 +20,9 @@ const FALLBACK_EDIT = {
   editorial_note: "This week's edit is built around the principle that summer's most powerful palette is the absence of colour. White, ivory, ecru — chosen with absolute precision for the woman who chairs the meeting and attends the opening on the same day.",
   week_of: '2026-05-11',
   looks: [
-    { id: 'w1', brand: 'Loro Piana', title: 'The Ivory Column', price: 'From £3,200', image_url: '', ph_class: 'ph-a' },
-    { id: 'w2', brand: 'The Row', title: 'Continental Ease', price: 'From £4,800', image_url: '', ph_class: 'ph-b' },
-    { id: 'w3', brand: 'Brunello Cucinelli', title: 'The Refined Neutral', price: 'From £5,200', image_url: '', ph_class: 'ph-e' },
+    { id: 'w1', brand: 'Loro Piana', title: 'The Ivory Column', image_url: '', ph_class: 'ph-a' },
+    { id: 'w2', brand: 'The Row', title: 'Continental Ease', image_url: '', ph_class: 'ph-b' },
+    { id: 'w3', brand: 'Brunello Cucinelli', title: 'The Refined Neutral', image_url: '', ph_class: 'ph-e' },
   ],
 }
 
@@ -54,7 +54,6 @@ function LookCard({ look, index }) {
       <div className={styles.lookCardMeta}>
         <div className={styles.lookCardBrand}>{look.brand}</div>
         <div className={styles.lookCardTitle}>{look.title}</div>
-        {look.price && <div className={styles.lookCardPrice}>{look.price}</div>}
       </div>
     </motion.div>
   )

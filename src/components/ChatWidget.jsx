@@ -4,20 +4,27 @@ import { useApp } from '../context/AppContext'
 import styles from './ChatWidget.module.css'
 
 const RESPONSES = {
-  book_form: null, // handled specially
-  archive:   'Archive enquiries: <strong>archive@kagoatelier.com</strong> — handled personally.',
-  press:     'Press and collaborations: <strong>press@kagoatelier.com</strong>',
-  general:   'General enquiries: <strong>hello@kagoatelier.com</strong> — we respond within 4 hours.',
+  archive: 'Archive enquiries: <strong>archive@kagoatelier.com</strong> — handled personally.',
+  press:   'Press and collaborations: <strong>press@kagoatelier.com</strong>',
+  general: 'General enquiries: <strong>hello@kagoatelier.com</strong> — we respond within 4 hours.',
 }
+
 const QUICK_MAIN = [
-  { label: 'Book a consultation', key: 'book_form' },
-  { label: 'Archive & collector',  key: 'archive' },
-  { label: 'Press & media',        key: 'press' },
-  { label: 'General enquiry',      key: 'general' },
+  { label: 'Book a consultation', key: 'book_form'  },
+  { label: 'Pricing & rate card', key: 'rate_card'  },
+  { label: 'Archive & collector', key: 'archive'    },
+  { label: 'Press & media',       key: 'press'      },
+  { label: 'General enquiry',     key: 'general'    },
 ]
+
+const QUICK_RATE = [
+  { label: 'Yes — book consultation', key: 'rate_yes' },
+  { label: 'No — I\'ll email instead', key: 'rate_no' },
+]
+
 const QUICK_FOLLOW = [
   { label: 'Book consultation', key: 'book_form' },
-  { label: 'Archive enquiry',   key: 'archive' },
+  { label: 'Archive enquiry',   key: 'archive'   },
 ]
 
 function Message({ text, from }) {
@@ -31,13 +38,13 @@ function Message({ text, from }) {
 
 export default function ChatWidget() {
   const { openBooking } = useApp()
-  const [open, setOpen]     = useState(false)
-  const [badge, setBadge]   = useState(true)
-  const [phase, setPhase]   = useState(0)
-  const [name, setName]     = useState('')
-  const [input, setInput]   = useState('')
-  const [msgs, setMsgs]     = useState([])
-  const [quick, setQuick]   = useState([])
+  const [open,  setOpen]  = useState(false)
+  const [badge, setBadge] = useState(true)
+  const [phase, setPhase] = useState(0)
+  const [name,  setName]  = useState('')
+  const [input, setInput] = useState('')
+  const [msgs,  setMsgs]  = useState([])
+  const [quick, setQuick] = useState([])
   const msgsRef = useRef(null)
 
   useEffect(() => {
@@ -59,16 +66,47 @@ export default function ChatWidget() {
 
   function handleQuick(key) {
     setQuick([])
+
     if (key === 'book_form') {
-      addMsg('Opening the consultation form for you now.', 'bot')
+      addMsg('Opening the consultation booking for you now.', 'bot')
       setTimeout(() => { openBooking(); setOpen(false) }, 500)
-    } else {
-      addMsg(RESPONSES[key], 'bot')
+      return
+    }
+
+    if (key === 'rate_card') {
+      addMsg(
+        `Our services are entirely bespoke${name ? ', ' + name : ''}. We don't publish a standard price list — every engagement is scoped to your needs.<br><br>` +
+        'Would you like to book a private consultation? You will receive our <strong>exclusive rate card</strong> directly following your booking.',
+        'bot'
+      )
+      setTimeout(() => setQuick(QUICK_RATE), 600)
+      return
+    }
+
+    if (key === 'rate_yes') {
+      addMsg('Wonderful. Let me open the consultation form — your rate card will follow by return.', 'bot')
+      setTimeout(() => { openBooking(); setOpen(false) }, 600)
+      return
+    }
+
+    if (key === 'rate_no') {
+      addMsg(
+        'Of course. Please reach out directly at <strong>hello@kagoatelier.com</strong> and we will be happy to assist you.',
+        'bot'
+      )
       setTimeout(() => {
         addMsg('Is there anything else I can help with?', 'bot')
         setQuick(QUICK_FOLLOW)
-      }, 700)
+      }, 800)
+      return
     }
+
+    // General responses
+    addMsg(RESPONSES[key], 'bot')
+    setTimeout(() => {
+      addMsg('Is there anything else I can help with?', 'bot')
+      setQuick(QUICK_FOLLOW)
+    }, 700)
   }
 
   function send() {
@@ -87,7 +125,7 @@ export default function ChatWidget() {
       }, 600)
     } else {
       setTimeout(() => {
-        addMsg('Please select an option or email <strong>hello@kagoatelier.com</strong> directly.', 'bot')
+        addMsg('Please select an option below, or email <strong>hello@kagoatelier.com</strong> directly.', 'bot')
         setQuick(QUICK_FOLLOW)
       }, 600)
     }
