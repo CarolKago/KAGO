@@ -5,10 +5,11 @@ import { insertBooking } from '../lib/supabase'
 import styles from './BookingModal.module.css'
 
 const SERVICES = [
-  'Wardrobe Architecture — From £1,200',
-  'The Power Edit — From £2,500',
-  'Archive & Collector — Upon Request',
-  'Creative Direction — Upon Request',
+  'Wardrobe Architecture',
+  'The Power Edit',
+  'Archive & Collector',
+  'Creative Direction',
+  'Not sure yet — I\'d like guidance',
 ]
 
 const overlay = {

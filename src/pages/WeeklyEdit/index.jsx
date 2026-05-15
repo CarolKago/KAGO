@@ -60,7 +60,7 @@ function LookCard({ look, index }) {
 }
 
 export default function WeeklyEdit() {
-  const { openBooking } = useApp()
+  const { openRateCard } = useApp()
   const [edit, setEdit] = useState(null)
   const [all,  setAll]  = useState([])
   const [loading, setLoading] = useState(true)
@@ -146,8 +146,8 @@ export default function WeeklyEdit() {
           <motion.div className={styles.looksCta}
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <Button onClick={openBooking} variant="primary">
-              Request This Edit &rsaquo;
+            <Button onClick={openRateCard} variant="primary">
+              Request Rate Card &rsaquo;
             </Button>
             <Button as={Link} to="/lookbook" variant="ghostDark">
               View Full Lookbook &rsaquo;

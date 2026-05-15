@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useApp } from '../context/AppContext'
+
 import styles from './ChatWidget.module.css'
 
 const RESPONSES = {
@@ -37,7 +38,7 @@ function Message({ text, from }) {
 }
 
 export default function ChatWidget() {
-  const { openBooking } = useApp()
+  const { openBooking, openRateCard } = useApp()
   const [open,  setOpen]  = useState(false)
   const [badge, setBadge] = useState(true)
   const [phase, setPhase] = useState(0)
@@ -84,8 +85,8 @@ export default function ChatWidget() {
     }
 
     if (key === 'rate_yes') {
-      addMsg('Wonderful. Let me open the consultation form — your rate card will follow by return.', 'bot')
-      setTimeout(() => { openBooking(); setOpen(false) }, 600)
+      addMsg('Wonderful. Please share your email and your rate card will arrive within 24 hours.', 'bot')
+      setTimeout(() => { openRateCard(); setOpen(false) }, 600)
       return
     }
 

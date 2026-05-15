@@ -156,7 +156,7 @@ function Intro() {
 // ── Single Look Section ─────────────────────────────────────────
 function LookSection({ look, extraImages = [], index }) {
   const isEven = index % 2 === 0
-  const { openBooking } = useApp()
+  const { openRateCard } = useApp()
 
   const allImages = look.image_url
     ? [{ url: look.image_url, view_type: 'front' }, ...extraImages]
@@ -248,8 +248,8 @@ function LookSection({ look, extraImages = [], index }) {
           </blockquote>
         )}
 
-        <Button onClick={openBooking} variant="ghostDark">
-          Request This Look &rsaquo;
+        <Button onClick={openRateCard} variant="ghostDark">
+          Private Inquiry &rsaquo;
         </Button>
       </div>
 
@@ -275,7 +275,7 @@ function Divider({ label }) {
 const LOOK_LABELS = ['Look One', 'Look Two', 'Look Three', 'Look Four', 'Look Five']
 
 export default function SummerLookbook() {
-  const { openBooking } = useApp()
+  const { openRateCard } = useApp()
   const [looks, setLooks]       = useState(null)
   const [lookImages, setImages] = useState({})
 
@@ -325,8 +325,8 @@ export default function SummerLookbook() {
           <motion.div
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }}>
-            <Button onClick={openBooking} variant="ghostLight">
-              Request a Private Consultation &rsaquo;
+            <Button onClick={openRateCard} variant="ghostLight">
+              Request Rate Card &rsaquo;
             </Button>
           </motion.div>
         </section>

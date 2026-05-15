@@ -111,3 +111,28 @@ INSERT INTO public.weekly_edits (title, subtitle, editorial_note, week_of, publi
     1
   )
 ON CONFLICT DO NOTHING;
+
+-- ── NEW: rate_card_requests ─────────────────────────────────────
+-- Stores website rate card requests for admin follow-up.
+CREATE TABLE IF NOT EXISTS public.rate_card_requests (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name         TEXT,
+  email        TEXT NOT NULL,
+  source       TEXT DEFAULT 'website',
+  notes        TEXT,
+  sent         BOOLEAN DEFAULT FALSE,
+  requested_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE public.rate_card_requests ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE tablename = 'rate_card_requests' AND policyname = 'anon_insert_rate_card_requests'
+  ) THEN
+    CREATE POLICY anon_insert_rate_card_requests ON public.rate_card_requests
+      FOR INSERT TO anon WITH CHECK (true);
+  END IF;
+END $$;
